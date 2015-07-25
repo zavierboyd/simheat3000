@@ -15,10 +15,12 @@
 # limitations under the License.
 #
 import webapp2
+import heat_simulation
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        self.response.write('Hello worl!')
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
