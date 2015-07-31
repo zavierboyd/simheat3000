@@ -1,5 +1,5 @@
+from __future__ import division
 
-# from unittest import assertAlmostEqual
 
 class MatrixImpN(object):
     """Creates a matrix ([[1,0],[0,1]])"""

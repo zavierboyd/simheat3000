@@ -14,14 +14,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+from __future__ import division
 import webapp2
-import heat_simulation
-import matplotlib.pyplot as plt
+from heat_simulation import *
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello worl!')
+        self.response.write('Hello world!')
+
+
+class TestHandler(webapp2.RequestHandler):
+    def get(self):
+        a = House([[0, 43.0], [43.0, 0]], [[1/120000], [1/200000]]).matrix_simulation([[200], [0]], 3)
+        for i in range(len(a)):
+            self.response.write("<p>Part {num}: {list} </p>".format(num=i, list=a[i]))
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/test', TestHandler)
 ], debug=True)
