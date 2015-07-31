@@ -16,7 +16,7 @@
 #
 import webapp2
 import heat_simulation
-
+import matplotlib.pyplot as plt
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):

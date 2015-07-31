@@ -28,7 +28,8 @@ def setup():
     # init time
     time = 0.0
     dt = 60
-
+#####################################################################################
+    # class1
     # matrices
     wam = MatrixImpN([[0.0, wall_inside_conduction, 0.0],
                       [wall_inside_conduction, 0.0, inside_window_conduction],
@@ -41,11 +42,13 @@ def setup():
     neg_c = (wam * MatrixImpN([[-1], [-1], [-1]])).diagonal()
 
     a2 = mass * (neg_c + wam) * dt + I
-
+#####################################################################################
+    # class 2
     a = MatrixImpN([[1 - wall_inside_conduction * dt * (1 / wall_mass), wall_inside_conduction * dt * (1 / wall_mass), 0.0],
                     [wall_inside_conduction * dt * (1 / inside_mass), 1 - wall_inside_conduction * dt * (1 / inside_mass) - inside_window_conduction * dt * (1 / inside_mass), inside_window_conduction * dt * (1 / inside_mass)],
                     [0.0, inside_window_conduction * dt * (1 / window_mass), 1 - inside_window_conduction * dt * (1 / window_mass)]])
-
+#####################################################################################
+    # class 3
     print a2 == a
 
     b = MatrixImpN([[wall_Temp], [inside_Temp], [window_Temp]])
@@ -110,10 +113,35 @@ class House():
     def __init__(self, wam, thermal_mass):
         self.thermal_mass = MatrixImpN(thermal_mass).diagonal()  # J/Kg*K --> J/K
         self.wam = MatrixImpN(wam)  # W/m^2*K --> W/K
+        self.year_seconds = 1
+        print MatrixImpN([[-1]]*self.wam.width)
 
     def matrix_simulation(self, temp, dt):
-        I = self.wam.identityMatrix(self.wam.width)
-        neg_c = self.wam * MatrixImpN([[-1]*self.wam.width]).diagonal()
+        size = self.wam.width
+        time = 0
+        I = MatrixImpN.identityMatrix(size)
+        neg_c = (self.wam * MatrixImpN([[-1]]*size)).diagonal()
         coefficient = self.thermal_mass * (self.wam + neg_c) * dt + I
-        temp = MatrixImpN(temp)  # K
+        print self.thermal_mass
+        print self.wam
+        print neg_c
+        print dt
+        print I
+        print coefficient
 
+        dt = dt
+        temp = MatrixImpN(temp)  # K
+        #temps = [x for x in temp.matrix]
+        temps = list(temp.matrix)
+        # finish matrix simulation
+        while time < self.year_seconds:
+            temp = coefficient * temp
+            #print temp
+            #for i in range(temp.height):
+                #temps[i].append(temp.matrix[i][0])
+
+            time += dt
+
+        return temp
+
+print House([[0, 43.0], [43.0, 0]], [[1/120000], [1/200000]]).matrix_simulation([[200], [0]], 1)

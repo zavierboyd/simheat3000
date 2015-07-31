@@ -33,6 +33,13 @@ class MatrixImpN(object):
             raise Exception("Object type not currently compatible for multiplication with matrices")
         return result
 
+    def __getitem__(self, across, down):
+        across = across - 1
+        down = down - 1
+        matrix = self.matrix
+        item = matrix[down][across]
+        return item
+
     def __eq__(self, other):
         t_f = True
         if (self.height == other.height) and (self.width == other.width):
@@ -136,8 +143,13 @@ class MatrixImpN(object):
         return self.__class__(matrix)
 
 
-a = MatrixImpN.identityMatrix(3)
-b = MatrixImpN([[1, 2, 3]])
-b = b.diagonal()
-print b*2
-print a
+# a = MatrixImpN.identityMatrix(3)
+# b = MatrixImpN([[1, 2, 3]])# a = MatrixImpN.identityMatrix(3)
+# b = MatrixImpN([[1, 2, 3]])
+# b = b.diagonal()
+# print b*2
+# print a
+
+# b = b.diagonal()
+# print b*2
+# print a
