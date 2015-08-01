@@ -41,7 +41,7 @@ class TestHandler(webapp2.RequestHandler):
         Fourth calculate the temperature from the thermal energy in the thermal mass divided by the thermal capacity.<br>
         Fifth repeat until equilibrium reached.<br>
         This method became complicated fast when I added more thermal masses, so to make it simpler I created a matrix formula to do it.
-        My big project is so that people can design heat efficient and  housing and renovations using this simulator.""")
+        My big project is so that people can design heat efficient housing and renovations using this simulator.""")
         for i in range(len(a)):
             self.response.write("<p>Part {num}: {list} </p>".format(num=i, list=a[i]))
 
