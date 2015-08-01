@@ -21,7 +21,7 @@ from heat_simulation import *
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        self.response.write('Testing deployment!')
 
 
 class TestHandler(webapp2.RequestHandler):
