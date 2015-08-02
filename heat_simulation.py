@@ -6,8 +6,8 @@ def setup():
     # init material temperatures K
     wall_Temp = 18.0
     inside_Temp = 20.0
-    window_Temp = 10.0
-    outside_Temp = 7.0
+    window_Temp = 13.0
+    outside_Temp = 12.0
 
     # init thermal masses J/K
     wall_mass = 278666.0 + (2 / 3)
@@ -113,10 +113,9 @@ class House():
     def __init__(self, wam, thermal_mass):
         self.thermal_mass = MatrixImpN(thermal_mass).diagonal()  # J/Kg*K --> J/K
         self.wam = MatrixImpN(wam)  # W/m^2*K --> W/K
-        self.year_seconds = 300
         print MatrixImpN([[-1]]*self.wam.width)
 
-    def matrix_simulation(self, temp, dt):
+    def matrix_simulation(self, temp, dt, t):
         size = self.wam.width
         time = 0
         I = MatrixImpN.identityMatrix(size)
@@ -134,7 +133,7 @@ class House():
         #temps = [x for x in temp.matrix]
         temps = list(temp.matrix)
         # finish matrix simulation
-        while time < self.year_seconds:
+        while time < t:
             tempn = coefficient * temp
             temp = tempn
             for i in range(tempn.height):
@@ -144,4 +143,4 @@ class House():
 
         return temps
 
-print House([[0, 269.2656], [269.2656, 0]], [[1/278666.667], [1/45600.0]]).matrix_simulation([[17.0], [20.0]], 1)
+print House([[0, 269.2656], [269.2656, 0]], [[1/278666.667], [1/45600.0]]).matrix_simulation([[17.0], [20.0]], 1, 1)
