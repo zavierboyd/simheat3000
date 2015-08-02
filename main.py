@@ -15,7 +15,13 @@
 # limitations under the License.
 #
 from __future__ import division
-import webapp2
+try:
+    import webapp2
+    import matplotlib.pyplot as plt
+except:
+    pass
+
+import StringIO
 from heat_simulation import *
 
 
@@ -26,7 +32,8 @@ class MainHandler(webapp2.RequestHandler):
 
 class TestHandler(webapp2.RequestHandler):
     def get(self):
-        a = House([[0, 269.2656], [269.2656, 0]], [[1/278666.667], [1/45600.0]]).matrix_simulation([[17.0], [20.0]], 1)
+        y = House([[0, 269.2656], [269.2656, 0]], [[1/278666.667], [1/45600.0]]).matrix_simulation([[17.0], [20.0]], 1)
+        x = range(len(y[0]))
         self.response.write("""This shows a simulation of heat flow between the surrounding walls and the air inside.<br>
         The numbers shown below are the temperatures over each second for the walls and the air.<br>
         Part 0 shows the temperatures of the walls, Part 1 shows the temperatures of the air.<br>
@@ -42,8 +49,37 @@ class TestHandler(webapp2.RequestHandler):
         Fifth repeat until equilibrium reached.<br>
         This method became complicated fast when I added more thermal masses, so to make it simpler I created a matrix formula to do it.
         My big project is so that people can design heat efficient housing and renovations using this simulator.""")
-        for i in range(len(a)):
-            self.response.write("<p>Part {num}: {list} </p>".format(num=i, list=a[i]))
+        for i in range(len(y)):
+            self.response.write("<p>Part {num}: {list} </p>".format(num=i, list=y[i]))
+
+        image = StringIO.StringIO()
+        try:
+            plt.clf()
+            walls = plt.plot(x, y[0], label="walls")
+            air = plt.plot(x, y[1], label="air")
+            plt.legend()
+            plt.title("The change in temperature")
+            plt.xlabel("Seconds (s)")
+            plt.ylabel("Temperature (C)")
+            plt.savefig(image, format="svg")
+        except:
+            pass
+        self.response.write(image.getvalue())
+
+def test():
+    y = House([[0, 269.2656], [269.2656, 0]], [[1/278666.667], [1/45600.0]]).matrix_simulation([[17.0], [20.0]], 1)
+    x = range(len(y[0]))
+
+    image = StringIO.StringIO()
+    try:
+        walls = plt.plot(x, y[0], label="walls")
+        air = plt.plot(x, y[1], label="air")
+        plt.legend()
+        plt.savefig(image, format="svg")
+    except:
+        pass
+
+test()
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
