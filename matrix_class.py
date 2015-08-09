@@ -148,7 +148,6 @@ class MatrixImpN(object):
 # b = MatrixImpN([[1, 2, 3]])
 # b = b.diagonal()
 # print b*2
-# print a
 
 # b = b.diagonal()
 # print b*2
