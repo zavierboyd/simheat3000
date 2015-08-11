@@ -16,18 +16,46 @@
 #
 from __future__ import division
 try:
-    import webapp2
     import matplotlib.pyplot as plt
 except:
     pass
-
+import webapp2
+import cgi
+import urllib
+from google.appengine.ext import ndb
+from google.appengine.api import users
+import html
 import StringIO
 from heat_simulation import *
 
+class DBHouse(ndb.Model):
+    username = ndb.StringProperty()
+    house = ndb.TextProperty()
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Testing deployment!')
+        user = users.get_current_user()
+
+        if user:
+            self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
+            self.response.write('Hello, ' + user.nickname())
+        else:
+            self.redirect(users.create_login_url(self.request.uri))
+
+        self.response.write(html.main)
+
+    def post(self):
+        user = users.get_current_user()
+        nickname=user.nickname()
+        plan = DBHouse(username=user.nickname(), house=self.request.get("data"))
+        plan.put()
+        housequery = DBHouse.query(DBHouse.username == nickname)
+#        housequery.filter('username', nickname())
+#        houseplan = self.request.get("data")
+        houseplan = housequery.get().house
+        houseplan = houseplan.split(" ")
+        houseplan = [[int(x) for x in x.split(",")] for x in houseplan]
+        self.response.write(houseplan)
 
 
 class TestHandler(webapp2.RequestHandler):

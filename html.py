@@ -1,7 +1,9 @@
+__author__ = 'zavidan'
+main = """
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="css.css">
-    <script type="text/javascript" src="draw.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script type="text/javascript" src="/js/draw.js"></script>
 </head>
 <body onload="house()">
     <table id="tab" cellspacing="0"></table>
@@ -12,3 +14,4 @@
     </form>
 </body>
 </html>
+"""
