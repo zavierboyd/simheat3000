@@ -135,6 +135,7 @@ class TestHandler(webapp2.RequestHandler):
             pass
         self.response.write("<p>{image}</p>".format(image=image1.getvalue()))
         self.response.write("<p>{image}</p>".format(image=image2.getvalue()))
+        self.response.write("""<a href="http://heat-simulation.appspot.com/">Back to main page</a>""")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),

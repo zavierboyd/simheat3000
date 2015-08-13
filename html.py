@@ -38,6 +38,7 @@ housemade = """
         <input type="submit" id="submit" value="Save House">
     </form>
     <input type="button" onclick="toggle()" value"Toggle draw">
+    <a href="http://heat-simulation.appspot.com">Back to main page</a>
 </body>
 </html>
 """
