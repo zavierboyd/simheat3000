@@ -1,29 +1,21 @@
 house = function() {
 table=document.getElementById("tab")
+var plan=[]
 
 room = function(elem){
     elem.setAttribute("class", "clicked")
     /*fix to use rowIndex*/ console.log([elem.cellIndex,parseInt(elem.parentNode.id)])
-    bob[parseInt(elem.parentNode.id)][elem.cellIndex] = 1
+    plan[parseInt(elem.parentNode.id)][elem.cellIndex] = 1
+    var elem=document.getElementById("data")
+    elem.setAttribute("value",plan.join(" "))
 }
 
-sendData = function() {
-    var elem=document.getElementById("data")
-    elem.setAttribute("value",bob.join(" "))
-    if(submit_button) {
-        var sub=document.getElementById("submit")
-        sub.setAttribute("type","submit")
-        submit_button=false
-    }
-}
-var submit_button=true
-var bob=[]
-console.log(bob)
-for(i=0;i<50;i++){
+console.log(plan)
+for(i=0;i<5;i++){
     var row=[]
     var element = document.createElement('tr')
     element.setAttribute("id",i.toString()+" ")
-    for(b=0;b<50;b++){
+    for(b=0;b<5;b++){
         var cell=0
         row.push(cell)
         var element2 = document.createElement('td')
@@ -31,7 +23,7 @@ for(i=0;i<50;i++){
          element2.setAttribute("id",b.toString()+","+i.toString())
         element.appendChild(element2)
 }
-    bob.push(row)
+    plan.push(row)
     table.appendChild(element)
 }
 }

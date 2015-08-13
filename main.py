@@ -35,28 +35,56 @@ class DBHouse(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-
         if user:
-            self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
-            self.response.write('Hello, ' + user.nickname())
+            edit=""
+            housequery = DBHouse.query(DBHouse.username == user.nickname())
+            userhouse = housequery.get()
+
+            self.response.write(html.startpage)
+
+
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
-        self.response.write(html.main)
+    def post(self):
+        pass
+
+
+class EditHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        nickname=user.nickname()
+        edit="""
+        <p>Hello {user}!</p>
+        <p>Make A House!</p>
+        """.format(user=nickname)
+        housequery = DBHouse.query(DBHouse.username == user.nickname())
+        userhouse = housequery.get()
+        if userhouse == None:
+            self.response.write(html.makinghouse.format(edit=edit))
+        else:
+            self.response.write(html.housemade.format(house="{house}".format(house=userhouse.house)))
+
+
 
     def post(self):
         user = users.get_current_user()
         nickname=user.nickname()
-        plan = DBHouse(username=user.nickname(), house=self.request.get("data"))
-        plan.put()
         housequery = DBHouse.query(DBHouse.username == nickname)
-#        housequery.filter('username', nickname())
-#        houseplan = self.request.get("data")
-        houseplan = housequery.get().house
+        userhouse = housequery.get()
+        if userhouse == None:
+            plan = DBHouse(username=nickname, house=self.request.get("data"))
+            plan.put()
+            userhouse = plan
+        else:
+            userhouse.house = self.request.get("data")
+            userhouse.put()
+        houseplan = userhouse.house
         houseplan = houseplan.split(" ")
-        houseplan = [[int(x) for x in x.split(",")] for x in houseplan]
-        self.response.write(houseplan)
-
+        print houseplan
+        houseplan = [[int(a) for a in x.split(",")] for x in houseplan]
+        print houseplan
+        self.response.write(html.housemade.format(house=userhouse.house))
 
 class TestHandler(webapp2.RequestHandler):
     def get(self):
@@ -110,5 +138,6 @@ class TestHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
+    ('/edit', EditHandler),
     ('/test', TestHandler)
 ], debug=True)
