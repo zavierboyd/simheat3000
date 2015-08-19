@@ -41,7 +41,7 @@ def setup():
 
     neg_c = (wam * MatrixImpN([[-1], [-1], [-1]])).diagonal()
 
-    a2 = mass * (neg_c + wam) * dt + I
+    M = mass * (neg_c + wam) * dt + I
 #####################################################################################
     # class 2
     a = MatrixImpN([[1 - wall_inside_conduction * dt * (1 / wall_mass), wall_inside_conduction * dt * (1 / wall_mass), 0.0],
@@ -120,13 +120,13 @@ class House():
         time = 0
         I = MatrixImpN.identityMatrix(size)
         neg_c = (self.wam * MatrixImpN([[-1]]*size)).diagonal()
-        coefficient = self.thermal_mass * (self.wam + neg_c) * dt + I
+        M = self.thermal_mass * (self.wam + neg_c) * dt + I
         print self.thermal_mass
         print self.wam
         print neg_c
         print dt
         print I
-        print coefficient
+        print M
 
         dt = dt
         temp = MatrixImpN(temp)  # K
@@ -134,7 +134,7 @@ class House():
         temps = list(temp.matrix)
         # finish matrix simulation
         while time < t:
-            tempn = coefficient * temp
+            tempn = M * temp
             temp = tempn
             for i in range(tempn.height):
                 temps[i].append(temp.matrix[i][0])

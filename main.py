@@ -28,63 +28,84 @@ import html
 import StringIO
 from heat_simulation import *
 
+# class UserHandler(webapp2.RequestHandler):
+#
+#     def checkforuser(self):
+#         user = users.get_current_user()
+#         if user is not None:
+#             return user
+#         else:
+#             self.redirect(users.create_login_url(self.request.uri))
+
 class DBHouse(ndb.Model):
     username = ndb.StringProperty()
     house = ndb.TextProperty()
 
+
 class MainHandler(webapp2.RequestHandler):
-    def get(self):
+    def checkforuser(self):
         user = users.get_current_user()
-        if user:
-            edit=""
+        if user is None:
+            self.redirect(users.create_login_url(self.request.uri))
+        return user
+
+    def get(self):
+        user = self.checkforuser()
+        if user is not None:
             housequery = DBHouse.query(DBHouse.username == user.nickname())
             userhouse = housequery.get()
-
             self.response.write(html.startpage)
-
-
-        else:
-            self.redirect(users.create_login_url(self.request.uri))
 
     def post(self):
         pass
 
 
 class EditHandler(webapp2.RequestHandler):
-    def get(self):
+    def checkforuser(self):
         user = users.get_current_user()
-        nickname=user.nickname()
-        edit="""
-        <p>Hello {user}!</p>
-        <p>Make A House!</p>
-        """.format(user=nickname)
-        housequery = DBHouse.query(DBHouse.username == user.nickname())
-        userhouse = housequery.get()
-        if userhouse == None:
-            self.response.write(html.makinghouse.format(edit=edit))
-        else:
-            self.response.write(html.housemade.format(house="{house}".format(house=userhouse.house)))
+        if user is None:
+            self.redirect(users.create_login_url(self.request.uri))
+        return user
 
-
+    def get(self):
+        user = self.checkforuser()
+        if user is not None:
+            nickname=user.nickname()
+            edit="""
+            <p>Hello {user}!</p>
+            <p>Make A House!</p>
+            """.format(user=nickname)
+            housequery = DBHouse.query(DBHouse.username == user.nickname())
+            userhouse = housequery.get()
+            if userhouse == None:
+                self.response.write(html.makinghouse.format(edit=edit))
+            else:
+                self.response.write(html.housemade.format(house="{house}".format(house=userhouse.house)))
 
     def post(self):
-        user = users.get_current_user()
-        nickname=user.nickname()
-        housequery = DBHouse.query(DBHouse.username == nickname)
-        userhouse = housequery.get()
-        if userhouse == None:
-            plan = DBHouse(username=nickname, house=self.request.get("data"))
-            plan.put()
-            userhouse = plan
-        else:
-            userhouse.house = self.request.get("data")
-            userhouse.put()
-        houseplan = userhouse.house
-        houseplan = houseplan.split(" ")
-        print houseplan
-        houseplan = [[int(a) for a in x.split(",")] for x in houseplan]
-        print houseplan
-        self.response.write(html.housemade.format(house=userhouse.house))
+        user = self.checkforuser()
+        if user is not None:
+            nickname=user.nickname()
+            housequery = DBHouse.query(DBHouse.username == nickname)
+            userhouse = housequery.get()
+            if userhouse == None:
+                plan = DBHouse(username=nickname, house=self.request.get("data"))
+                plan.put()
+                userhouse = plan
+            else:
+                userhouse.house = self.request.get("data")
+                userhouse.put()
+
+            self.redirect("/edit")
+
+
+class ManualEntryHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write(html.dataentry)
+
+    def post(self):
+        self.response.write(html.dataentry)
+
 
 class TestHandler(webapp2.RequestHandler):
     def get(self):
@@ -140,5 +161,6 @@ class TestHandler(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/edit', EditHandler),
+    ('/dataentry', ManualEntryHandler),
     ('/test', TestHandler)
 ], debug=True)
