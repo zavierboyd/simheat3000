@@ -28,14 +28,6 @@ import html
 import StringIO
 from heat_simulation import *
 
-# class UserHandler(webapp2.RequestHandler):
-#
-#     def checkforuser(self):
-#         user = users.get_current_user()
-#         if user is not None:
-#             return user
-#         else:
-#             self.redirect(users.create_login_url(self.request.uri))
 
 class DBHouse(ndb.Model):
     username = ndb.StringProperty()
@@ -43,12 +35,6 @@ class DBHouse(ndb.Model):
 
 
 class MainHandler(webapp2.RequestHandler):
-    def checkforuser(self):
-        user = users.get_current_user()
-        if user is None:
-            self.redirect(users.create_login_url(self.request.uri))
-        return user
-
     def get(self):
         user = users.get_current_user()
         housequery = DBHouse.query(DBHouse.username == user.nickname())
@@ -60,12 +46,6 @@ class MainHandler(webapp2.RequestHandler):
 
 
 class EditHandler(webapp2.RequestHandler):
-    def checkforuser(self):
-        user = users.get_current_user()
-        if user is None:
-            self.redirect(users.create_login_url(self.request.uri))
-        return user
-
     def get(self):
         user = users.get_current_user()
         nickname=user.nickname()
