@@ -41,21 +41,96 @@
     }
 }*/
 $(document).ready(function(){
-    makeTable = function(id,width,height){
-        alert(id)
+<<<<<<< HEAD
+    setTable = function(id,list,ns){
+=======
+    makeTable = function(id,width,height,ns){
+>>>>>>> origin/master
         var elem = $(id)
-        for(i=0;i<height;i++){
+        var list = list.split(" ")
+        for(i=0;i<list.length;i++){
             var row=$("<tr></tr>")
+<<<<<<< HEAD
+            var rowl = list[i].split(",")
+            for(b=0;b<rowl.length;b++){
+                if(ns === "n"){
+                    cell=parseInt(rowl[b])
+                    input=$("<input type='number'>")
+                    input.attr("value", cell)
+                    input.attr("min",0)
+                    row.append($("<td></td>").append(input))
+                }else{
+                    cell=rowl[b]
+                    row.append($("<td></td>").append($("<input type='text'>").attr("value", cell)))
+=======
             for(b=0;b<width;b++){
-                row.append("<td></td>").append("<input type='number'>")
+                if(ns === "n"){
+                    row.append("<td><input type='number'></td>")
+                }else{
+                    row.append("<td><input type='text'></td>")
+>>>>>>> origin/master
+                }
             }
         elem.append(row)
         }
     }
+<<<<<<< HEAD
+    var area = $("#pyarea").val()
+    var temps = $("#pytemps").val()
+    var names = $("#pynames").val()
+    var capacity = $("#pycapacity").val()
+    var conductance = $("#pyconductance").val()
+    setTable("#area",area,"n")
+    setTable("#temps",temps,"n")
+    setTable("#names",names,"s")
+    setTable("#capacity",capacity,"n")
+    setTable("#conductance",conductance,"n")
+
+    $("#house").submit(function(){
+        elems=["area","temps","names","capacity","conductance"]
+        for(y=0;y<elems.length;y++){
+            var table = []
+            $("#"+elems[y]+" tr").each(function(row, tr){
+                var tablerow=[]
+                $(tr).children().each(function(cell, td){
+                    tablerow.push($(td).find("input").val())
+                })
+                table.push(tablerow)
+            })
+            $("#t"+elems[y]).attr("value",table.join(" "))
+            alert($("#tarea"))
+            }
+=======
+    area = $("#pyarea").val()
     rooms =parseInt(prompt("how many rooms are in your house"))
-    makeTable("#area",rooms,rooms)
-    makeTable("#temps",1,rooms)
-    makeTable("#name",1,rooms)
-    makeTable("#capacity",rooms,rooms)
-    makeTable("#conductance",rooms,rooms)
+    makeTable("#area",rooms,rooms,"n")
+    /*makeTable("#temps",1,rooms,"s")
+    makeTable("#name",1,rooms,"s")
+    makeTable("#capacity",rooms,rooms,"n")
+    makeTable("#conductance",rooms,rooms,"n")*/
+    $("#click").click(function(){
+        var table = []
+        $("#area tr").each(function(row, tr){
+            var tablerow=[]
+            $(tr).children().each(function(cell, td){
+                tablerow.push($(td).find("input").val())
+            })
+            table.push(tablerow)
+        })
+        $("#tarea").attr("value",table.join(" "))
+    })
+    $("#house").submit(function(){
+        var table = []
+        $("#area tr").each(function(row, tr){
+            var tablerow=[]
+            $(tr).children().each(function(cell, td){
+                tablerow.push($(td).find("input").val())
+            })
+            table.push(tablerow)
+        })
+        $("#tarea").attr("value",table.join(" "))
+        alert($("#tarea"))
+>>>>>>> origin/master
+        return true
+    })
 });

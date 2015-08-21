@@ -1,6 +1,6 @@
 makehouse = function() {
     table=document.getElementById("tab")
-    var plan=document.getElementById('data').value
+    var plan=document.getElementById('floorplan').value
 
     draw=true
 
@@ -22,7 +22,7 @@ makehouse = function() {
             /*fix to use rowIndex*/
             /*console.log([elem.cellIndex,parseInt(elem.parentNode.id)])*/
            nplan[parseInt(elem.parentNode.id)][elem.cellIndex] = 1
-            var elem=document.getElementById("data")
+            var elem=document.getElementById("floorplan")
             elem.setAttribute("value",nplan.join(" "))
         }else{
             elem.setAttribute("class", "default")
@@ -31,7 +31,7 @@ makehouse = function() {
             console.log(parseInt(elem.parentNode.id))
             nplan[parseInt(elem.parentNode.id)][elem.cellIndex] = 0
 
-            var elem=document.getElementById("data")
+            var elem=document.getElementById("floorplan")
             elem.setAttribute("value",nplan.join(" "))
         }
     }

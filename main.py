@@ -32,6 +32,11 @@ from heat_simulation import *
 class DBHouse(ndb.Model):
     username = ndb.StringProperty()
     house = ndb.TextProperty()
+    area = ndb.TextProperty()
+    capacity = ndb.TextProperty()
+    conductance = ndb.TextProperty()
+    names = ndb.TextProperty()
+    temps = ndb.TextProperty()
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -50,44 +55,136 @@ class EditHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         nickname=user.nickname()
 
-        edit="""
-        <p>Hello {user}!</p>
-        <p>Make A House!</p>
-        """.format(user=nickname)
-        housequery = DBHouse.query(DBHouse.username == user.nickname())
+        housequery = DBHouse.query(DBHouse.username == nickname)
         userhouse = housequery.get()
-        if userhouse == None:
-            self.response.write(html.makinghouse.format(edit=edit))
+        if userhouse is None:
+            print "no house for", nickname
+            self.response.write(html.housemade.format(house="0,0,0,0,0 0,0,0,0,0 0,0,0,0,0 0,0,0,0,0 0,0,0,0,0"))
+        elif userhouse.house is None:
+            print "no house for", nickname
+            self.response.write(html.housemade.format(house="0,0,0,0,0 0,0,0,0,0 0,0,0,0,0 0,0,0,0,0 0,0,0,0,0"))
         else:
+            print "house", nickname, userhouse.house
             self.response.write(html.housemade.format(house="{house}".format(house=userhouse.house)))
 
     def post(self):
         user = users.get_current_user()
         nickname=user.nickname()
 
+        newhouse = self.request.get("floorplan")
         housequery = DBHouse.query(DBHouse.username == nickname)
         userhouse = housequery.get()
-        if userhouse == None:
-            plan = DBHouse(username=nickname, house=self.request.get("data"))
-            plan.put()
-            userhouse = plan
+        if userhouse is None:
+            # if user has no house, make one
+            print "make house", newhouse
+            userhouse = DBHouse(username=nickname, house=newhouse)
         else:
-            userhouse.house = self.request.get("data")
-            userhouse.put()
+            # if user has house, change it
+            print "change house", newhouse
+            userhouse.house = newhouse
 
+        userhouse.put()
         self.redirect("/edit")
 
 
 class ManualEntryHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-
-        self.response.write(html.dataentry)
+        nickname = user.nickname()
+        housequery = DBHouse.query(DBHouse.username == nickname)
+        userhouse = housequery.get()
+        if userhouse is None:
+            self.response.write(html.dataentry.format(pyarea="0,0,1.7875,0 0,0,1.7875,14.0 1.7875,1.7875,0,0 0,14.0,0,0",
+                                                      pynames="outside living-room glass walls",
+                                                      pytemps="12 18 13 17",
+                                                      pyconductance="0,0,33.33,0 0,0,33.33,33.33 33.33,33.33,0,0 0,33.33,0,0",
+                                                      pycapacity="10000000000 62242.6896 145.0 1684.7"))
+        elif userhouse.area is None:
+            self.response.write(html.dataentry.format(pyarea="0,0,1.7875,0 0,0,1.7875,14.0 1.7875,1.7875,0,0 0,14.0,0,0",
+                                                      pynames="outside living-room glass walls",
+                                                      pytemps="12 18 13 17",
+                                                      pyconductance="0,0,33.33,0 0,0,33.33,33.33 33.33,33.33,0,0 0,33.33,0,0",
+                                                      pycapacity="10000000000 62242.6896 145.0 1684.7"))
+        else:
+            self.response.write(html.dataentry.format(pyarea=userhouse.area,
+                                                      pynames=userhouse.names,
+                                                      pytemps=userhouse.temps,
+                                                      pyconductance=userhouse.conductance,
+                                                      pycapacity=userhouse.capacity))
 
     def post(self):
         user = users.get_current_user()
+        nickname=user.nickname()
 
-        self.response.write(html.dataentry)
+        newarea = self.request.get("tarea")
+        newcapacity = self.request.get("tcapacity")
+        newnames = self.request.get("tnames")
+        newconductance = self.request.get("tconductance")
+        newtemps = self.request.get("ttemps")
+        housequery = DBHouse.query(DBHouse.username == nickname)
+        userhouse = housequery.get()
+        if userhouse is None:
+            # if user has no area, make one
+            userhouse = DBHouse(username=nickname,
+                                area=newarea,
+                                capacity=newcapacity,
+                                names=newnames,
+                                temps=newtemps,
+                                conductance=newconductance)
+        else:
+            # if user has area, change it
+            userhouse.area = newarea
+            userhouse.conductance = newconductance
+            userhouse.capacity = newarea
+            userhouse.names = newarea
+            userhouse.area = newarea
+
+        userhouse.put()
+        self.redirect("/dataentry")
+
+class AnalysisHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        nickname = user.nickname()
+
+        housequery = DBHouse.query(DBHouse.username == nickname)
+        userhouse = housequery.get()
+        area = userhouse.area.split(" ")
+        names = userhouse.names.split(" ")
+        capacity = userhouse.capacity.split(" ")
+        temps = userhouse.temps.split(" ")
+        conductance = userhouse.conductance.split(" ")
+        print area
+        area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
+        capacity = [[(1/float(cell)) for cell in row.split(",")] for row in capacity]
+        temps = [[float(cell) for cell in row.split(",")] for row in temps]
+        conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
+
+        conductance = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
+        print conductance
+        simtemps = House(conductance, capacity).matrix_simulation(temps, 1, 300)
+        x1 = range(len(simtemps[0]))
+
+        graph1 = StringIO.StringIO()
+        try:
+            plt.clf()
+            for temps, name in zip(simtemps, names):
+                plt.plot(x1, temps, label="walls")
+            plt.legend()
+            plt.title("The change in temperature")
+            plt.xlabel("Seconds (s)")
+            plt.ylabel("Temperature (C)")
+            plt.savefig(graph1, format="svg")
+            plt.clf()
+            self.response.write(html.analysis.format(graph1=graph1.getvalue()))
+        except:
+            pass
+
+        self.response.write(html.analysisnograph.format(graph1=simtemps))
+
+##
+    def post(self):
+        pass
 
 
 class TestHandler(webapp2.RequestHandler):
@@ -145,5 +242,6 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/edit', EditHandler),
     ('/dataentry', ManualEntryHandler),
+    ('/analysis', AnalysisHandler),
     ('/test', TestHandler)
 ], debug=True)
