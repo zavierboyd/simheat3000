@@ -118,6 +118,7 @@ class ManualEntryHandler(webapp2.RequestHandler):
 
         newarea = self.request.get("tarea")
         newcapacity = self.request.get("tcapacity")
+        print newcapacity,"newcapacity"
         newnames = self.request.get("tnames")
         newconductance = self.request.get("tconductance")
         newtemps = self.request.get("ttemps")
@@ -154,9 +155,10 @@ class AnalysisHandler(webapp2.RequestHandler):
         capacity = userhouse.capacity.split(" ")
         temps = userhouse.temps.split(" ")
         conductance = userhouse.conductance.split(" ")
-        print area
+        print area,"area"
+        print capacity,"capacity"
         area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
-        capacity = [[(1/float(cell)) for cell in row.split(",")] for row in capacity]
+        capacity = [[(1/float(cell)) if float(cell) > 0.01 else (1/0.01) for cell in row.split(",")] for row in capacity]
         temps = [[float(cell) for cell in row.split(",")] for row in temps]
         conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
 
@@ -178,9 +180,9 @@ class AnalysisHandler(webapp2.RequestHandler):
             plt.clf()
             self.response.write(html.analysis.format(graph1=graph1.getvalue()))
         except:
-            pass
+            self.response.write(html.analysisnograph.format(graph1=simtemps))
 
-        self.response.write(html.analysisnograph.format(graph1=simtemps))
+
 
 ##
     def post(self):
@@ -236,7 +238,7 @@ class TestHandler(webapp2.RequestHandler):
             pass
         self.response.write("<p>{image}</p>".format(image=image1.getvalue()))
         self.response.write("<p>{image}</p>".format(image=image2.getvalue()))
-        self.response.write("""<a href="http://heat-simulation.appspot.com/">Back to main page</a>""")
+        self.response.write("""<a href="/">Back to main page</a>""")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),

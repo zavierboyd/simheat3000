@@ -45,7 +45,6 @@ dataentry = """
         <a href="/">Back to main page</a>
     </div>
     <form action="/dataentry" method="post" id="house">
-<<<<<<< HEAD
         <p>Room Names</p>
         <table id="names"></table>
         <p>Initial Temperatures</p>
@@ -88,26 +87,6 @@ analysisnograph="""
 <body>
     <div>{graph1}</div>
     <div><a href="/">Back to main page</a></div>
-=======
-        <!--<p>Room Names</p>-->
-        <!--<table id="name"></table>-->
-        <!--<p>Initial Temperatures</p>-->
-        <!--<table id="temps"></table>-->
-        <!--<p>U-Values of the Walls</p>-->
-        <!--<table id="conductance"></table>-->
-        <!--<p>Width of the Walls</p>-->
-        <table id="area"></table>
-        <!--<p>Room names</p>-->
-        <!--<table id="capacity"></table>-->
-        <!--<p>Room names</p>-->
-        <input type="hidden" id="tarea" name="tarea">
-        <input type="submit">
-    </form>
-    <input type="hidden" id="pyarea" name="pyarea" value="{pyarea}">
-    <div id="click">
-    bob
-    </div>
->>>>>>> origin/master
 </body>
 </html>
 """
