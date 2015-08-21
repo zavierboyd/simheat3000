@@ -9,6 +9,7 @@ startpage = """
         <a href="/test">Demo page</a>
         <a href="/edit">Make/Edit your house</a>
         <a href="/dataentry">Manual Data entry</a>
+        <a href="/analysis">Analysis</a>
     </div>
 </body>
 </html>
