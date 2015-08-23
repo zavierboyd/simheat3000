@@ -25,7 +25,10 @@ import urllib
 from google.appengine.ext import ndb
 from google.appengine.api import users
 import html
+import outside_temps
 import StringIO
+import numpy as np
+import numpy.linalg as la
 from heat_simulation import *
 
 
@@ -78,6 +81,8 @@ class EditHandler(webapp2.RequestHandler):
             # if user has no house, make one
             print "make house", newhouse
             userhouse = DBHouse(username=nickname, house=newhouse)
+        if userhouse.house is None:
+            userhouse.house = newhouse
         else:
             # if user has house, change it
             print "change house", newhouse
@@ -94,17 +99,17 @@ class ManualEntryHandler(webapp2.RequestHandler):
         housequery = DBHouse.query(DBHouse.username == nickname)
         userhouse = housequery.get()
         if userhouse is None:
-            self.response.write(html.dataentry.format(pyarea="0,0,1.7875,0 0,0,1.7875,14.0 1.7875,1.7875,0,0 0,14.0,0,0",
-                                                      pynames="outside living-room glass walls",
-                                                      pytemps="12 18 13 17",
-                                                      pyconductance="0,0,33.33,0 0,0,33.33,33.33 33.33,33.33,0,0 0,33.33,0,0",
-                                                      pycapacity="10000000000 62242.6896 145.0 1684.7"))
+            self.response.write(html.dataentry.format(pyarea="0,14.0,0,0 14.0,0,1.7875,0 0,1.7875,0,1.7875 0,0,1.7875,0",
+                                                      pynames="walls living-room glass outside",
+                                                      pytemps="17 20 13 12",
+                                                      pyconductance="0,33.33,0,0 33.33,0,33.33,0 0,33.33,0,33.33 0,0,33.33,0",
+                                                      pycapacity="278667.0 45600.0 47040.0 10000000000"))
         elif userhouse.area is None:
-            self.response.write(html.dataentry.format(pyarea="0,0,1.7875,0 0,0,1.7875,14.0 1.7875,1.7875,0,0 0,14.0,0,0",
-                                                      pynames="outside living-room glass walls",
-                                                      pytemps="12 18 13 17",
-                                                      pyconductance="0,0,33.33,0 0,0,33.33,33.33 33.33,33.33,0,0 0,33.33,0,0",
-                                                      pycapacity="10000000000 62242.6896 145.0 1684.7"))
+            self.response.write(html.dataentry.format(pyarea="0,14.0,0,0 14.0,0,1.7875,0 0,1.7875,0,1.7875 0,0,1.7875,0",
+                                                      pynames="walls living-room glass outside",
+                                                      pytemps="17 20 13 12",
+                                                      pyconductance="0,33.33,0,0 33.33,0,33.33,0 0,33.33,0,33.33 0,0,33.33,0",
+                                                      pycapacity="278667.0 45600.0 47040.0 10000000000"))
         else:
             self.response.write(html.dataentry.format(pyarea=userhouse.area,
                                                       pynames=userhouse.names,
@@ -158,6 +163,8 @@ class AnalysisHandler(webapp2.RequestHandler):
             conductance = userhouse.conductance.split(" ")
             print area,"area"
             print capacity,"capacity"
+            outtemps=outside_temps.temps.split(" ")
+            outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
             area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
             capacity = [[(1/float(cell)) if float(cell) > 0.01 else (1/0.01) for cell in row.split(",")] for row in capacity]
             temps = [[float(cell) for cell in row.split(",")] for row in temps]
@@ -165,17 +172,113 @@ class AnalysisHandler(webapp2.RequestHandler):
 
             conductance = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
             print conductance
-            simtemps = House(conductance, capacity).matrix_simulation(temps, 1, 3600)
+            simtemps = House(conductance, capacity).matrix_simulation(temps, 1, 60*60*24*31, outtemps)
             x1 = range(len(simtemps[0]))
 
             graph1 = StringIO.StringIO()
             try:
                 plt.clf()
                 for temps, name in zip(simtemps, names):
-                    plt.plot(x1, temps, label="walls")
+                    plt.plot(x1, temps, label=name)
                 plt.legend()
                 plt.title("The change in temperature")
-                plt.xlabel("Seconds (s)")
+                plt.xlabel("1/4 hours (900s)")
+                plt.ylabel("Temperature (C)")
+                plt.savefig(graph1, format="svg")
+                plt.clf()
+                self.response.write(html.analysis.format(graph1=graph1.getvalue()))
+            except:
+                self.response.write(html.analysisnograph.format(graph1=simtemps))
+        else:
+            self.redirect("/dataentry")
+
+    def post(self):
+        pass
+
+
+class AnalysisNpHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        nickname = user.nickname()
+
+        housequery = DBHouse.query(DBHouse.username == nickname)
+        userhouse = housequery.get()
+        if userhouse.area is not None:
+            area = userhouse.area.split(" ")
+            names = userhouse.names.split(" ")
+            capacity = userhouse.capacity.split(" ")
+            temps = userhouse.temps.split(" ")
+            conductance = userhouse.conductance.split(" ")
+            print area,"area"
+            print capacity,"capacity"
+            outtemps=outside_temps.temps.split(" ")
+            outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
+            area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
+            capacity = [[(1/float(cell)) if float(cell) > 0.01 else (1/0.01) for cell in row.split(",")] for row in capacity]
+            temps = [[float(cell) for cell in row.split(",")] for row in temps]
+            conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
+
+            conductance = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
+            print conductance
+            simtemps = House(conductance, capacity).matrix_simulstionnp(temps, 1, 60*60*24*31, outtemps)
+            x1 = range(len(simtemps[0]))
+
+            graph1 = StringIO.StringIO()
+            try:
+                plt.clf()
+                for temps, name in zip(simtemps, names):
+                    plt.plot(x1, temps, label=name)
+                plt.legend()
+                plt.title("The change in temperature")
+                plt.xlabel("1/4 hours (900s)")
+                plt.ylabel("Temperature (C)")
+                plt.savefig(graph1, format="svg")
+                plt.clf()
+                self.response.write(html.analysis.format(graph1=graph1.getvalue()))
+            except:
+                self.response.write(html.analysisnograph.format(graph1=simtemps))
+        else:
+            self.redirect("/dataentry")
+
+    def post(self):
+        pass
+
+
+class AnalysisNpPowerHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        nickname = user.nickname()
+
+        housequery = DBHouse.query(DBHouse.username == nickname)
+        userhouse = housequery.get()
+        if userhouse.area is not None:
+            area = userhouse.area.split(" ")
+            names = userhouse.names.split(" ")
+            capacity = userhouse.capacity.split(" ")
+            temps = userhouse.temps.split(" ")
+            conductance = userhouse.conductance.split(" ")
+            print area,"area"
+            print capacity,"capacity"
+            outtemps=outside_temps.temps.split(" ")
+            outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
+            area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
+            capacity = [[(1/float(cell)) if float(cell) > 0.01 else (1/0.01) for cell in row.split(",")] for row in capacity]
+            temps = [[float(cell) for cell in row.split(",")] for row in temps]
+            conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
+
+            conductance = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
+            print conductance
+            simtemps = House(conductance, capacity).matrix_simulstionnppower(temps, 1, 60*60*24*31, outtemps)
+            x1 = range(len(simtemps[0]))
+
+            graph1 = StringIO.StringIO()
+            try:
+                plt.clf()
+                for temps, name in zip(simtemps, names):
+                    plt.plot(x1, temps, label=name)
+                plt.legend()
+                plt.title("The change in temperature")
+                plt.xlabel("1/4 hours (900s)")
                 plt.ylabel("Temperature (C)")
                 plt.savefig(graph1, format="svg")
                 plt.clf()
@@ -245,5 +348,7 @@ app = webapp2.WSGIApplication([
     ('/edit', EditHandler),
     ('/dataentry', ManualEntryHandler),
     ('/analysis', AnalysisHandler),
+    ('/analysisnp', AnalysisNpHandler),
+    ('/analysisnppower', AnalysisNpPowerHandler),
     ('/test', TestHandler)
 ], debug=True)

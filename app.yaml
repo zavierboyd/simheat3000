@@ -24,3 +24,5 @@ libraries:
   version: "2.5.2"
 - name: matplotlib
   version: "latest"
+- name: numpy
+  version: "latest"

@@ -7,10 +7,12 @@ $(document).ready(function(){
             var rowl = list[i].split(",")
             for(b=0;b<rowl.length;b++){
                 if(ns === "n"){
-                    cell=parseInt(rowl[b])
+                    cell=parseFloat(rowl[b])
                     input=$("<input type='number'>")
                     input.attr("value", cell)
                     input.attr("min",0)
+                    input.attr("step","any")
+                    input.attr("required")
                     row.append($("<td></td>").append(input))
                 }else{
                     cell=rowl[b]
@@ -38,11 +40,17 @@ $(document).ready(function(){
             $("#"+elems[y]+" tr").each(function(row, tr){
                 var tablerow=[]
                 $(tr).children().each(function(cell, td){
-                    tablerow.push($(td).find("input").val())
+                    cell=$(td).find("input").val()
+                    if(!(cell)){
+                        tablerow.push(0)
+                    }else{
+                        tablerow.push(cell)
+                    }
                 })
                 table.push(tablerow)
             })
             $("#t"+elems[y]).attr("value",table.join(" "))
         }
+        return true
     })
 });

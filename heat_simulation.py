@@ -1,6 +1,8 @@
 # v2.0
 from __future__ import division
 from matrix_class import *
+import numpy as np
+import numpy.linalg as la
 
 def setup():
     # init material temperatures K
@@ -113,34 +115,109 @@ class House():
     def __init__(self, wam, thermal_mass):
         self.thermal_mass = MatrixImpN(thermal_mass).diagonal()  # J/Kg*K --> J/K
         self.wam = MatrixImpN(wam)  # W/m^2*K --> W/K
-        print MatrixImpN([[-1]]*self.wam.width)
+        self.npwam = np.array(wam)
+        self.npthermal_mass = np.diagflat(np.array(thermal_mass))
+        print self.wam,"super wam"
 
-    def matrix_simulation(self, temp, dt, t):
+    def matrix_simulation(self, temp, dt, t, outtemps):
         size = self.wam.width
         time = 0
         I = MatrixImpN.identityMatrix(size)
         neg_c = (self.wam * MatrixImpN([[-1]]*size)).diagonal()
-        M = self.thermal_mass * (self.wam + neg_c) * dt + I
-        print self.thermal_mass
-        print self.wam
-        print neg_c
-        print dt
-        print I
-        print M
+        M = self.thermal_mass * (self.wam + neg_c)
+        print M, "Tdot"
+        M = M * dt + I
+        print self.thermal_mass,"thermal mass"
+        print self.wam, "wam"
+        print neg_c, "other wam"
+        print dt, "dt"
+        print I, "I"
+        print M, "M"
+        print "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
         dt = dt
         temp = MatrixImpN(temp)  # K
         #temps = [x for x in temp.matrix]
         temps = list(temp.matrix)
         # finish matrix simulation
+        hour = 60*60*3
+        idx = 0
+        qhour = 15*60
         while time < t:
+            if hour == (60*60*3):
+                temp.matrix[3][0] = outtemps[idx][0]
+                hour = 0
+                idx += 1
             tempn = M * temp
             temp = tempn
-            for i in range(tempn.height):
-                temps[i].append(temp.matrix[i][0])
-
+            if qhour >= 15*60:
+                for i in range(tempn.height):
+                    temps[i].append(temp.matrix[i][0])
+                    qhour = 0
             time += dt
+            hour += dt
+            qhour += dt
 
         return temps
 
-print House([[0, 269.2656], [269.2656, 0]], [[1/278666.667], [1/45600.0]]).matrix_simulation([[17.0], [20.0]], 1, 1)
+    def matrix_simulstionnp(self, temp, dt, t, outtemps):
+        size = len(self.npwam[0])
+        time = 0
+        dt = dt
+        I = np.diagflat(np.array([[1]*size]))
+        neg_c = np.diagflat((self.npwam.dot(np.array([[-1]]*size))))
+        M = self.npthermal_mass.dot(self.npwam + neg_c).dot(dt) + I
+        print M, "Tdot"
+        temp = np.array(temp)  # K
+        #temps = [x for x in temp.matrix]
+        temps = [[cell for cell in row] for row in temp]
+        # finish matrix simulation
+        hour = 60*60*3
+        idx = 0
+        qhour = 15*60
+        while time < t:
+            if hour == (60*60*3):
+                temp[3][0] = outtemps[idx][0]
+                hour = 0
+                idx += 1
+            tempn = M.dot(temp)
+            temp = tempn
+            if qhour >= 15*60:
+                for i in range(len(tempn)):
+                    temps[i].append(temp[i][0])
+                    qhour = 0
+            time += dt
+            hour += dt
+            qhour += dt
+
+        return temps
+
+    def matrix_simulstionnppower(self, temp, dt, t, outtemps):
+        size = len(self.npwam[0])
+        time = 0
+        dt = dt
+        I = np.diagflat(np.array([[1]*size]))
+        neg_c = np.diagflat((self.npwam.dot(np.array([[-1]]*size))))
+        M = self.npthermal_mass.dot(self.npwam + neg_c).dot(dt) + I
+        print M, "Tdot"
+        M900 = (la.matrix_power(M, 900))
+        temp = np.array(temp)  # K
+        #temps = [x for x in temp.matrix]
+        temps = [[cell for cell in row] for row in temp]
+        # finish matrix simulation
+        hour = 60*60*3
+        idx = 0
+        while time < t:
+            if hour == (60*60*3):
+                temp[3][0] = outtemps[idx][0]
+                hour = 0
+                idx += 1
+            tempn = M900.dot(temp)
+            temp = tempn
+            for i in range(len(tempn)):
+                temps[i].append(temp[i][0])
+            time += 900
+            hour += 900
+
+        return temps
+# print House([[0, 269.2656], [269.2656, 0]], [[1/278666.667], [1/45600.0]]).matrix_simulation([[17.0], [20.0]], 1, 1)
