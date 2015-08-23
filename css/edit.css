@@ -15,10 +15,54 @@ tr{
     border: 0px;
     margin: 0px;
 }
+
+#tab{
+    border:"solid" #000000 5px;
+}
+#options{
+    border:"solid" #000000 5px;
+}
 .clicked {
     background-color: #ff0000;
 }
 
 .default {
     background-color: #0000ff;
+}
+
+.room1{
+    background-color: #ffff00;
+}
+.room2{
+    background-color: #00ffff;
+}
+.room3{
+    background-color: #ff00ff;
+}
+.room4{
+    background-color: #00ff00;
+}
+.room5{
+    background-color: #ff0000;
+}
+.room6{
+    background-color: #0000ff;
+}
+.room7{
+    background-color: #ff00cc;
+}
+.room8{
+    background-color: #cc00ff;
+}
+.room9{
+    background-color: #ffcc00;
+}
+.room10{
+    background-color: #ccff00;
+}
+.outside{
+    background-color: #ffffff;
+}
+.wall{
+    background-color: #00ccff;
 }

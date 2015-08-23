@@ -62,10 +62,12 @@ class EditHandler(webapp2.RequestHandler):
         userhouse = housequery.get()
         if userhouse is None:
             print "no house for", nickname
-            self.response.write(html.housemade.format(house="0,0,0,0,0 0,0,0,0,0 0,0,0,0,0 0,0,0,0,0 0,0,0,0,0"))
+            house=" ".join(([(",".join(["outside" for i in range(100)])+" ")*50]))
+            self.response.write(html.housemade.format(house=house))
         elif userhouse.house is None:
             print "no house for", nickname
-            self.response.write(html.housemade.format(house="0,0,0,0,0 0,0,0,0,0 0,0,0,0,0 0,0,0,0,0 0,0,0,0,0"))
+            house=" ".join(([(",".join(["outside" for i in range(100)])+" ")*50]))
+            self.response.write(html.housemade.format(house=house))
         else:
             print "house", nickname, userhouse.house
             self.response.write(html.housemade.format(house="{house}".format(house=userhouse.house)))

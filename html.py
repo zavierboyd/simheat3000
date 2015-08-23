@@ -3,13 +3,14 @@ startpage = """
 <html>
 <head>
     <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
 </head>
 <body>
     <div>
         <a href="/test">Demo page</a>
         <a href="/edit">Make/Edit your house</a>
         <a href="/dataentry">Manual Data entry</a>
-        <a href="/analysis">Analysis</a>
+        <a href="/analysisnppower">Analysis</a>
     </div>
 </body>
 </html>
@@ -19,16 +20,16 @@ housemade = """
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="/css/edit.css">
-    <script type="text/javascript" src="/js/house.js"></script>
     <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/js/house.js"></script>
 </head>
-<body onload="makehouse()">
+<body>
     <table id="tab" cellspacing="0"></table>
-    <form action="/edit" method="post">
+    <form action="/edit" method="post" id="plan">
         <input type="hidden" name="floorplan" value="{house}" id="floorplan">
         <input type="submit" id="submit" value="Save House">
     </form>
-    <input type="button" onclick="toggle()" value"Toggle draw">
+    <table id="options"></table>
     <a href="/">Back to main page</a>
 </body>
 </html>
