@@ -91,38 +91,38 @@ quickenter = """
     <form action="/quick" method="post">
         <p>Room Names</p>
         <p>Name of Main Room:
-        <input type="text" name="main"></p>
+        <input type="text" name="main" value="{mainroom}"></p>
         <p>Rest of the House</p>
         <p>Outside</p>
 
         <p>R-values</p>
         <p>R-value of external walls in the Main room:
-        <input type="number" min="0" step="any" name="MRexternal"></p>
+        <input type="number" min="0" step="any" name="MRexternal" value={mainrexternal}></p>
         <p>R-value of internal walls:
-        <input type="number" min="0" step="any" name="Rinternal"></p>
+        <input type="number" min="0" step="any" name="Rinternal" value={rinternal}></p>
         <p>R-value of external walls:
-        <input type="number" min="0" step="any" name="Rexternal"></p>
+        <input type="number" min="0" step="any" name="Rexternal" value={rexternal}></p>
         <p>R-value of windows:
-        <input type="number" min="0" step="any" name="Rwindows"></p>
+        <input type="number" min="0" step="any" name="Rwindows" value={rwindows}></p>
 
         <p>Width of the Walls</p>
         <p>Internal wall width of the Main Room:
-        <input type="number" min="0" step="any" name="Minternal"></p>
+        <input type="number" min="0" step="any" name="Minternal" value={maininternal}></p>
         <p>External wall width of the Main Room:
-        <input type="number" min="0" step="any" name="Mexternal"></p>
+        <input type="number" min="0" step="any" name="Mexternal" value={mainexternal}></p>
         <p>External wall width of the Whole House:
-        <input type="number" min="0" step="any" name="Hexternal"></p>
+        <input type="number" min="0" step="any" name="Hexternal" value={fullexternal}></p>
 
         <p>Area of the Windows</p>
         <p>Area of windows in the Main Room:
-        <input type="number" min="0" step="any" name="Mwindows"></p>
+        <input type="number" min="0" step="any" name="Mwindows" value={mainwinarea}></p>
         <p>Area of windows in the Whole House:
-        <input type="number" min="0" step="any" name="Hwindows"></p>
+        <input type="number" min="0" step="any" name="Hwindows" value={fullwinarea}></p>
 
         <p>Size of Room in square meters:
-        <input type="number" min="0" step="any" name="Msize"></p>
+        <input type="number" min="0" step="any" name="Msize" value={mainsize}></p>
         <p>Size of the Whole House in square meters:
-        <input type="number" min="0" step="any" name="Hsize"></p>
+        <input type="number" min="0" step="any" name="Hsize" value={fullsize}></p>
 
         <input type="submit" value="Submit Quick Entry">
     </form>

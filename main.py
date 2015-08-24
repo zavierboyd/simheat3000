@@ -174,10 +174,35 @@ class QuickEntryHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         nickname = user.nickname()
 
-        housequery = DBQuickHouse.query(DBQuickHouse.username == nickname)
-        userhouse = housequery.get()
+        housequeryq = DBQuickHouse.query(DBQuickHouse.username == nickname)
+        userhouseq = housequeryq.get()
+        if userhouseq is None:
+            self.response.write(html.quickenter.format(mainroom="",
+                                                       mainwinarea=0,
+                                                       fullwinarea=0,
+                                                       mainexternal=0,
+                                                       maininternal=0,
+                                                       fullexternal=0,
+                                                       rwindows=0,
+                                                       rinternal=0,
+                                                       rexternal=0,
+                                                       mainrexternal=0,
+                                                       mainsize=0,
+                                                       fullsize=0))
+        else:
+            self.response.write(html.quickenter.format(mainroom=userhouseq.mainroom,
+                                                       mainwinarea=float(userhouseq.mainwinarea),
+                                                       fullwinarea=float(userhouseq.fullwinarea),
+                                                       mainexternal=float(userhouseq.mainexternal),
+                                                       maininternal=float(userhouseq.maininternal),
+                                                       fullexternal=float(userhouseq.fullexternal),
+                                                       rwindows=float(userhouseq.rwindows),
+                                                       rinternal=float(userhouseq.rinternal),
+                                                       rexternal=float(userhouseq.rexternal),
+                                                       mainrexternal=float(userhouseq.mainrexternal),
+                                                       mainsize=float(userhouseq.mainsize),
+                                                       fullsize=float(userhouseq.fullsize)))
 
-        self.response.write(html.quickenter)
 
     def post(self):
         user = users.get_current_user()
@@ -189,7 +214,7 @@ class QuickEntryHandler(webapp2.RequestHandler):
         housequery = DBHouse.query(DBHouse.username == nickname)
         userhouse = housequery.get()
 
-        mainroom = self.request.get("main")
+        mainroom = (self.request.get("main"))
         mainwinarea = (self.request.get("Mwindows"))
         fullwinarea = (self.request.get("Hwindows"))
         mainexternal = (self.request.get("Mexternal"))
