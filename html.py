@@ -9,8 +9,8 @@ startpage = """
     <div>
         <a href="/test">Demo page</a>
         <a href="/edit">Make/Edit your house</a>
-        <a href="/dataentry">Manual Data entry</a>
-        <a href="/analysisnppower">Analysis</a>
+        <a href="/quick">Manual Data entry</a>
+        <a href="/winanalysis">Analysis</a>
     </div>
 </body>
 </html>
@@ -89,6 +89,53 @@ analysisnograph="""
 <body>
     <div>{graph1}</div>
     <div><a href="/">Back to main page</a></div>
+</body>
+</html>
+"""
+
+quickenter = """
+<html>
+<head></head>
+<body>
+    <form action="/quick" method="post">
+        <p>Room Names</p>
+        <p>Name of Main Room:
+        <input type="text" name="main"></p>
+        <p>Rest of the House</p>
+        <p>Outside</p>
+
+        <p>R-values</p>
+        <p>R-value of external walls in the Main room:
+        <input type="number" min="0" step="any" name="MRexternal"></p>
+        <p>R-value of internal walls:
+        <input type="number" min="0" step="any" name="Rinternal"></p>
+        <p>R-value of external walls:
+        <input type="number" min="0" step="any" name="Rexternal"></p>
+        <p>R-value of windows:
+        <input type="number" min="0" step="any" name="Rwindows"></p>
+
+        <p>Width of the Walls</p>
+        <p>Internal wall width of the Main Room:
+        <input type="number" min="0" step="any" name="Minternal"></p>
+        <p>External wall width of the Main Room:
+        <input type="number" min="0" step="any" name="Mexternal"></p>
+        <p>External wall width of the Whole House:
+        <input type="number" min="0" step="any" name="Hexternal"></p>
+
+        <p>Area of the Windows</p>
+        <p>Area of windows in the Main Room:
+        <input type="number" min="0" step="any" name="Mwindows"></p>
+        <p>Area of windows in the Whole House:
+        <input type="number" min="0" step="any" name="Hwindows"></p>
+
+        <p>Size of Room in square meters:
+        <input type="number" min="0" step="any" name="Msize"></p>
+        <p>Size of the Whole House in square meters:
+        <input type="number" min="0" step="any" name="Hsize"></p>
+
+        <input type="submit" value="Submit Quick Entry">
+    </form>
+    <a href="/">Back to main page</a>
 </body>
 </html>
 """

@@ -209,7 +209,7 @@ class House():
         idx = 0
         while time < t:
             if hour == (60*60*3):
-                temp[3][0] = outtemps[idx][0]
+                temp[2][0] = outtemps[idx][0]
                 hour = 0
                 idx += 1
             tempn = M900.dot(temp)

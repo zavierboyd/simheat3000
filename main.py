@@ -40,6 +40,24 @@ class DBHouse(ndb.Model):
     conductance = ndb.TextProperty()
     names = ndb.TextProperty()
     temps = ndb.TextProperty()
+    winarea = ndb.TextProperty()
+    winconductance = ndb.TextProperty()
+
+
+class DBQuickHouse(ndb.Model):
+    username = ndb.StringProperty()
+    mainroom = ndb.StringProperty()
+    mainwinarea = ndb.TextProperty()
+    fullwinarea = ndb.TextProperty()
+    mainexternal = ndb.TextProperty()
+    maininternal = ndb.TextProperty()
+    fullexternal = ndb.TextProperty()
+    rwindows = ndb.TextProperty()
+    rinternal = ndb.TextProperty()
+    rexternal = ndb.TextProperty()
+    mainrexternal = ndb.TextProperty()
+    mainsize = ndb.TextProperty()
+    fullsize = ndb.TextProperty()
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -150,6 +168,104 @@ class ManualEntryHandler(webapp2.RequestHandler):
         userhouse.put()
         self.redirect("/dataentry")
 
+
+class QuickEntryHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        nickname = user.nickname()
+
+        housequery = DBQuickHouse.query(DBQuickHouse.username == nickname)
+        userhouse = housequery.get()
+
+        self.response.write(html.quickenter)
+
+    def post(self):
+        user = users.get_current_user()
+        nickname = user.nickname()
+
+        housequeryq = DBQuickHouse.query(DBQuickHouse.username == nickname)
+        userhouseq = housequeryq.get()
+
+        housequery = DBHouse.query(DBHouse.username == nickname)
+        userhouse = housequery.get()
+
+        mainroom = self.request.get("main")
+        mainwinarea = (self.request.get("Mwindows"))
+        fullwinarea = (self.request.get("Hwindows"))
+        mainexternal = (self.request.get("Mexternal"))
+        maininternal = (self.request.get("Minternal"))
+        fullexternal = (self.request.get("Hexternal"))
+        rwindows = (self.request.get("Rwindows"))
+        rinternal = (self.request.get("Rinternal"))
+        rexternal = (self.request.get("Rexternal"))
+        mainrexternal = (self.request.get("MRexternal"))
+        mainsize = (self.request.get("Msize"))
+        fullsize = (self.request.get("Hsize"))
+        area = """0,{Minwall},{Mexwall} {Minwall},0,{Hexwall} {Mexwall},{Hexwall},0""".format(Minwall=float(maininternal),
+                                                                                              Mexwall=float(mainexternal),
+                                                                                              Hexwall=float(fullexternal)-float(mainexternal))
+        winarea = """0,0,{Mwin} 0,0,{Hwin} {Mwin},{Hwin},0""".format(Mwin=float(mainwinarea),
+                                                                     Hwin=float(fullwinarea)-float(mainwinarea))
+        names = """{M} Rest-of-the-House Outside""".format(M=mainroom)
+        winconductance = "{uwindows}".format(uwindows=1/(float(rwindows)))
+        conductance = """0,{uin},{Muex} {uin},0,{uex} {Muex},{uex},0""".format(uin=1/(float(rinternal)),
+                                                                             uex=1/(float(rexternal)),
+                                                                             Muex=1/(float(mainrexternal)))
+        capacity = """{Mcapa} {Hcapa} 100000000000000000000""".format(Mcapa=((float(mainsize))*2.4*0.00121)+((200*1000)*4.2),
+                                                                      Hcapa=((float(fullsize)-float(mainsize))*2.4*0.00121)+((10*(float(fullsize)-float(mainsize))*1000)*4.2))
+        temps = """15 15 15"""
+        if userhouse is None:
+            userhouse = DBHouse(username=nickname,
+                                area=area,
+                                capacity=capacity,
+                                names=names,
+                                temps=temps,
+                                conductance=conductance,
+                                winconductance=winconductance,
+                                winarea=winarea)
+        else:
+            userhouse.area = area
+            userhouse.conductance = conductance
+            userhouse.capacity = capacity
+            userhouse.names = names
+            userhouse.temps = temps
+            userhouse.winconductance = winconductance
+            userhouse.winarea = winarea
+
+        if userhouseq is None:
+            userhouseq = DBQuickHouse(
+                username=nickname,
+                mainroom=mainroom,
+                mainwinarea=mainwinarea,
+                fullwinarea=fullwinarea,
+                mainexternal=mainexternal,
+                maininternal=maininternal,
+                fullexternal=fullexternal,
+                rwindows=rwindows,
+                rinternal=rinternal,
+                rexternal=rexternal,
+                mainrexternal=mainrexternal,
+                mainsize=mainsize,
+                fullsize=fullsize)
+        else:
+            userhouseq.username = nickname
+            userhouseq.mainroom = mainroom
+            userhouseq.mainwinarea = mainwinarea
+            userhouseq.fullwinarea = fullwinarea
+            userhouseq.mainexternal = mainexternal
+            userhouseq.maininternal = maininternal
+            userhouseq.fullexternal = fullexternal
+            userhouseq.rwindows = rwindows
+            userhouseq.rinternal = rinternal
+            userhouseq.rexternal = rexternal
+            userhouseq.mainrexternal = mainrexternal
+            userhouseq.mainsize = mainsize
+            userhouseq.fullsize = fullsize
+        userhouseq.put()
+        userhouse.put()
+        self.redirect("/quick")
+
+
 class AnalysisHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
@@ -259,8 +375,6 @@ class AnalysisNpPowerHandler(webapp2.RequestHandler):
             capacity = userhouse.capacity.split(" ")
             temps = userhouse.temps.split(" ")
             conductance = userhouse.conductance.split(" ")
-            print area,"area"
-            print capacity,"capacity"
             outtemps=outside_temps.temps.split(" ")
             outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
             area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
@@ -271,6 +385,57 @@ class AnalysisNpPowerHandler(webapp2.RequestHandler):
             conductance = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
             print conductance
             simtemps = House(conductance, capacity).matrix_simulstionnppower(temps, 1, 60*60*24*31, outtemps)
+            x1 = range(len(simtemps[0]))
+
+            graph1 = StringIO.StringIO()
+            try:
+                plt.clf()
+                for temps, name in zip(simtemps, names):
+                    plt.plot(x1, temps, label=name)
+                plt.legend()
+                plt.title("The change in temperature")
+                plt.xlabel("1/4 hours (900s)")
+                plt.ylabel("Temperature (C)")
+                plt.savefig(graph1, format="svg")
+                plt.clf()
+                self.response.write(html.analysis.format(graph1=graph1.getvalue()))
+            except:
+                self.response.write(html.analysisnograph.format(graph1=simtemps))
+        else:
+            self.redirect("/dataentry")
+
+    def post(self):
+        pass
+
+
+class AnalysisNpPowerWinHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        nickname = user.nickname()
+
+        housequery = DBHouse.query(DBHouse.username == nickname)
+        userhouse = housequery.get()
+        if userhouse.area is not None:
+            area = userhouse.area.split(" ")
+            names = userhouse.names.split(" ")
+            capacity = userhouse.capacity.split(" ")
+            temps = userhouse.temps.split(" ")
+            conductance = userhouse.conductance.split(" ")
+            winarea = userhouse.winarea.split(" ")
+            winconductance = float(userhouse.winconductance)
+            outtemps=outside_temps.temps.split(" ")
+            outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
+            area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
+            winarea = [[float(cell) for cell in row.split(",")] for row in winarea]
+            capacity = [[(1/float(cell)) if float(cell) > 0.01 else (1/0.01) for cell in row.split(",")] for row in capacity]
+            temps = [[float(cell) for cell in row.split(",")] for row in temps]
+            conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
+
+            area = [[cella-cellwa for cella, cellwa in zip(rowa, rowwa)] for rowa, rowwa in zip(area, winarea)]
+            winUA = [[cell*winconductance for cell in row] for row in winarea]
+            walUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
+            UA = [[win+wal for wal, win in zip(walrow, winrow)] for walrow, winrow in zip(walUA, winUA)]
+            simtemps = House(UA, capacity).matrix_simulstionnppower(temps, 1, 60*60*24*31, outtemps)
             x1 = range(len(simtemps[0]))
 
             graph1 = StringIO.StringIO()
@@ -349,6 +514,8 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/edit', EditHandler),
     ('/dataentry', ManualEntryHandler),
+    ('/quick', QuickEntryHandler),
+    ('/winanalysis', AnalysisNpPowerWinHandler),
     ('/analysis', AnalysisHandler),
     ('/analysisnp', AnalysisNpHandler),
     ('/analysisnppower', AnalysisNpPowerHandler),
