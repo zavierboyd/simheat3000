@@ -431,11 +431,12 @@ class AnalysisNpPowerWinHandler(webapp2.RequestHandler):
             temps = [[float(cell) for cell in row.split(",")] for row in temps]
             conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
 
+            print temps
             area = [[cella-cellwa for cella, cellwa in zip(rowa, rowwa)] for rowa, rowwa in zip(area, winarea)]
             winUA = [[cell*winconductance for cell in row] for row in winarea]
             walUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
             UA = [[win+wal for wal, win in zip(walrow, winrow)] for walrow, winrow in zip(walUA, winUA)]
-            simtemps = House(UA, capacity).matrix_simulstionnppower(temps, 1, 60*60*24*31, outtemps)
+            simtemps, kWh = House(UA, capacity).matrix_simulstionnppower(temps, 1, 60*60*24*30*12, outtemps)
             x1 = range(len(simtemps[0]))
 
             graph1 = StringIO.StringIO()
@@ -449,11 +450,11 @@ class AnalysisNpPowerWinHandler(webapp2.RequestHandler):
                 plt.ylabel("Temperature (C)")
                 plt.savefig(graph1, format="svg")
                 plt.clf()
-                self.response.write(html.analysis.format(graph1=graph1.getvalue()))
+                self.response.write(html.analysis.format(graph1=graph1.getvalue(), kWh=kWh, room=names[0]))
             except:
-                self.response.write(html.analysisnograph.format(graph1=simtemps))
+                self.response.write(html.analysis.format(graph1=simtemps, kWh=kWh, room=names[0]))
         else:
-            self.redirect("/dataentry")
+            self.redirect("/quick")
 
     def post(self):
         pass

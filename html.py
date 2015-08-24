@@ -78,16 +78,7 @@ analysis = """
 <head></head>
 <body>
     <div>{graph1}</div>
-    <div><a href="/">Back to main page</a></div>
-</body>
-</html>
-"""
-
-analysisnograph="""
-<html>
-<head></head>
-<body>
-    <div>{graph1}</div>
+    <div>You use {kWh}kWhs in one year to keep the {room} warm 24/7.</div>
     <div><a href="/">Back to main page</a></div>
 </body>
 </html>

@@ -196,17 +196,22 @@ class House():
         size = len(self.npwam[0])
         time = 0
         dt = dt
+        kWhpJ = 3.6*(10**6)
         I = np.diagflat(np.array([[1]*size]))
         neg_c = np.diagflat((self.npwam.dot(np.array([[-1]]*size))))
         M = self.npthermal_mass.dot(self.npwam + neg_c).dot(dt) + I
         print M, "Tdot"
+        bomb = np.array([[((2000 * 900)*self.npthermal_mass[0][0])], [0], [0]])
+        print "energy", 2000*900
+        print "thermal capacity", self.npthermal_mass[0][0]
+        print "bomb", bomb
         M900 = (la.matrix_power(M, 900))
         temp = np.array(temp)  # K
-        #temps = [x for x in temp.matrix]
+        print temp
         temps = [[cell for cell in row] for row in temp]
-        # finish matrix simulation
         hour = 60*60*3
         idx = 0
+        bombcount = 0
         while time < t:
             if hour == (60*60*3):
                 temp[2][0] = outtemps[idx][0]
@@ -216,8 +221,14 @@ class House():
             temp = tempn
             for i in range(len(tempn)):
                 temps[i].append(temp[i][0])
+            if temp[0][0] < 18:
+                temp = temp+bomb
+                bombcount += 1
             time += 900
             hour += 900
-
-        return temps
+        print bombcount
+        J = 2000*900*bombcount
+        kWh = J/kWhpJ
+        print kWh, "kWh"
+        return temps, kWh
 # print House([[0, 269.2656], [269.2656, 0]], [[1/278666.667], [1/45600.0]]).matrix_simulation([[17.0], [20.0]], 1, 1)
