@@ -42,6 +42,8 @@ class DBHouse(ndb.Model):
     temps = ndb.TextProperty()
     winarea = ndb.TextProperty()
     winconductance = ndb.TextProperty()
+    rofarea = ndb.TextProperty()
+    rofconductance = ndb.TextProperty()
 
 
 class DBQuickHouse(ndb.Model):
@@ -55,7 +57,10 @@ class DBQuickHouse(ndb.Model):
     rwindows = ndb.TextProperty()
     rinternal = ndb.TextProperty()
     rexternal = ndb.TextProperty()
+    rroof = ndb.TextProperty()
     mainrexternal = ndb.TextProperty()
+    mainrwindows = ndb.TextProperty()
+    mainrroof = ndb.TextProperty()
     mainsize = ndb.TextProperty()
     fullsize = ndb.TextProperty()
 
@@ -186,7 +191,10 @@ class QuickEntryHandler(webapp2.RequestHandler):
                                                        rwindows=0,
                                                        rinternal=0,
                                                        rexternal=0,
+                                                       rroof=0,
                                                        mainrexternal=0,
+                                                       mainrwindows=0,
+                                                       mainrroof=0,
                                                        mainsize=0,
                                                        fullsize=0))
         else:
@@ -199,7 +207,10 @@ class QuickEntryHandler(webapp2.RequestHandler):
                                                        rwindows=float(userhouseq.rwindows),
                                                        rinternal=float(userhouseq.rinternal),
                                                        rexternal=float(userhouseq.rexternal),
+                                                       rroof=float(userhouseq.rroof),
                                                        mainrexternal=float(userhouseq.mainrexternal),
+                                                       mainrwindows=float(userhouseq.mainrwindows),
+                                                       mainrroof=float(userhouseq.mainrroof),
                                                        mainsize=float(userhouseq.mainsize),
                                                        fullsize=float(userhouseq.fullsize)))
 
@@ -223,7 +234,10 @@ class QuickEntryHandler(webapp2.RequestHandler):
         rwindows = (self.request.get("Rwindows"))
         rinternal = (self.request.get("Rinternal"))
         rexternal = (self.request.get("Rexternal"))
+        rroof = (self.request.get("Rroof"))
         mainrexternal = (self.request.get("MRexternal"))
+        mainrwindows = (self.request.get("MRwindows"))
+        mainrroof = (self.request.get("MRroof"))
         mainsize = (self.request.get("Msize"))
         fullsize = (self.request.get("Hsize"))
         area = """0,{Minwall},{Mexwall} {Minwall},0,{Hexwall} {Mexwall},{Hexwall},0""".format(Minwall=float(maininternal),
@@ -231,8 +245,13 @@ class QuickEntryHandler(webapp2.RequestHandler):
                                                                                               Hexwall=float(fullexternal)-float(mainexternal))
         winarea = """0,0,{Mwin} 0,0,{Hwin} {Mwin},{Hwin},0""".format(Mwin=float(mainwinarea),
                                                                      Hwin=float(fullwinarea)-float(mainwinarea))
+        rofarea = """0,0,{Mroof} 0,0,{Hroof} {Mroof},{Hroof},0""".format(Mroof=float(mainsize),
+                                                                         Hroof=float(fullsize))
+        rofconductance="""0,0,{Muroof} 0,0,{Huroof} {Muroof},{Huroof},0""".format(Muroof=1/(float(mainrroof)),
+                                                                                  Huroof=1/(float(rroof)))
         names = """{M} Rest-of-the-House Outside""".format(M=mainroom)
-        winconductance = "{uwindows}".format(uwindows=1/(float(rwindows)))
+        winconductance = "0,0,{Muwin} 0,0,{Huwin} {Muwin},0,{Huwin}".format(Muwin=1/(float(mainrwindows)),
+                                                                            Huwin=1/(float(rwindows)))
         conductance = """0,{uin},{Muex} {uin},0,{uex} {Muex},{uex},0""".format(uin=1/(float(rinternal)),
                                                                              uex=1/(float(rexternal)),
                                                                              Muex=1/(float(mainrexternal)))
@@ -247,7 +266,9 @@ class QuickEntryHandler(webapp2.RequestHandler):
                                 temps=temps,
                                 conductance=conductance,
                                 winconductance=winconductance,
-                                winarea=winarea)
+                                winarea=winarea,
+                                rofarea=rofarea,
+                                rofconductance=rofconductance)
         else:
             userhouse.area = area
             userhouse.conductance = conductance
@@ -256,6 +277,8 @@ class QuickEntryHandler(webapp2.RequestHandler):
             userhouse.temps = temps
             userhouse.winconductance = winconductance
             userhouse.winarea = winarea
+            userhouse.rofarea = rofarea
+            userhouse.rofconductance = rofconductance
 
         if userhouseq is None:
             userhouseq = DBQuickHouse(
@@ -269,7 +292,10 @@ class QuickEntryHandler(webapp2.RequestHandler):
                 rwindows=rwindows,
                 rinternal=rinternal,
                 rexternal=rexternal,
+                rroof=rroof,
                 mainrexternal=mainrexternal,
+                mainrwindows=mainrwindows,
+                mainrroof=mainrroof,
                 mainsize=mainsize,
                 fullsize=fullsize)
         else:
@@ -283,7 +309,10 @@ class QuickEntryHandler(webapp2.RequestHandler):
             userhouseq.rwindows = rwindows
             userhouseq.rinternal = rinternal
             userhouseq.rexternal = rexternal
+            userhouseq.rroof=rroof
             userhouseq.mainrexternal = mainrexternal
+            userhouseq.mainrwindows=mainrwindows
+            userhouseq.mainrroof=mainrroof
             userhouseq.mainsize = mainsize
             userhouseq.fullsize = fullsize
         userhouseq.put()
@@ -447,21 +476,27 @@ class AnalysisNpPowerWinHandler(webapp2.RequestHandler):
             temps = userhouse.temps.split(" ")
             conductance = userhouse.conductance.split(" ")
             winarea = userhouse.winarea.split(" ")
-            winconductance = float(userhouse.winconductance)
+            winconductance = userhouse.winconductance.split(" ")
+            rofarea = userhouse.rofarea.split(" ")
+            rofconductance = userhouse.rofconductance.split(" ")
             outtemps=outside_temps.temps.split(" ")
             outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
             area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
             winarea = [[float(cell) for cell in row.split(",")] for row in winarea]
+            winconductance = [[float(cell) for cell in row.split(",")] for row in winconductance]
             capacity = [[(1/float(cell)) if float(cell) > 0.01 else (1/0.01) for cell in row.split(",")] for row in capacity]
             temps = [[float(cell) for cell in row.split(",")] for row in temps]
             conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
+            rofarea = [[float(cell) for cell in row.split(",")] for row in rofarea]
+            rofconductance = [[float(cell) for cell in row.split(",")] for row in rofconductance]
 
             print temps
             area = [[cella-cellwa for cella, cellwa in zip(rowa, rowwa)] for rowa, rowwa in zip(area, winarea)]
-            winUA = [[cell*winconductance for cell in row] for row in winarea]
+            winUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(winarea, winconductance)]
             walUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
-            UA = [[win+wal for wal, win in zip(walrow, winrow)] for walrow, winrow in zip(walUA, winUA)]
-            simtemps, kWh = House(UA, capacity).matrix_simulstionnppower(temps, 1, 60*60*24*30*12, outtemps)
+            rofUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(rofarea, rofconductance)]
+            UA = [[win+wal+rof for wal, win, rof in zip(walrow, winrow, rofrow)] for walrow, winrow, rofrow in zip(walUA, winUA, rofUA)]
+            simtemps, kWh, money = House(UA, capacity).matrix_simulstionnppower(temps, 1, 60*60*24*30*12, outtemps)
             x1 = range(len(simtemps[0]))
 
             graph1 = StringIO.StringIO()
@@ -475,9 +510,9 @@ class AnalysisNpPowerWinHandler(webapp2.RequestHandler):
                 plt.ylabel("Temperature (C)")
                 plt.savefig(graph1, format="svg")
                 plt.clf()
-                self.response.write(html.analysis.format(graph1=graph1.getvalue(), kWh=kWh, room=names[0]))
+                self.response.write(html.analysis.format(graph1=graph1.getvalue(), kWh=kWh, room=names[0], money=money))
             except:
-                self.response.write(html.analysis.format(graph1=simtemps, kWh=kWh, room=names[0]))
+                self.response.write(html.analysis.format(graph1=simtemps, kWh=kWh, room=names[0], money=money))
         else:
             self.redirect("/quick")
 

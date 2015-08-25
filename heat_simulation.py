@@ -229,6 +229,7 @@ class House():
         print bombcount
         J = 2000*900*bombcount
         kWh = J/kWhpJ
+        money = kWh*0.27
         print kWh, "kWh"
-        return temps, kWh
+        return temps, kWh, money
 # print House([[0, 269.2656], [269.2656, 0]], [[1/278666.667], [1/45600.0]]).matrix_simulation([[17.0], [20.0]], 1, 1)

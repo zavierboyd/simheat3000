@@ -78,7 +78,7 @@ analysis = """
 <head></head>
 <body>
     <div>{graph1}</div>
-    <div>You use {kWh}kWhs in one year to keep the {room} warm 24/7.</div>
+    <div>You use {kWh}kWhs in one year to keep the {room} warm 24/7. Thats ${money} if you are with the genesis classic anytime plan</div>
     <div><a href="/">Back to main page</a></div>
 </body>
 </html>
@@ -98,12 +98,18 @@ quickenter = """
         <p>R-values</p>
         <p>R-value of external walls in the Main room:
         <input type="number" min="0" step="any" name="MRexternal" value={mainrexternal}></p>
+        <p>R-value of windows in the Main room:
+        <input type="number" min="0" step="any" name="MRwindows" value={mainrwindows}></p>
+        <p>R-value of the roof in the Main room:
+        <input type="number" min="0" step="any" name="MRroof" value={mainrroof}></p>
         <p>R-value of internal walls:
         <input type="number" min="0" step="any" name="Rinternal" value={rinternal}></p>
         <p>R-value of external walls:
         <input type="number" min="0" step="any" name="Rexternal" value={rexternal}></p>
         <p>R-value of windows:
         <input type="number" min="0" step="any" name="Rwindows" value={rwindows}></p>
+        <p>R-value of the roof:
+        <input type="number" min="0" step="any" name="Rroof" value={rroof}></p>
 
         <p>Width of the Walls</p>
         <p>Internal wall width of the Main Room:
