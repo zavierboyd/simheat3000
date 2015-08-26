@@ -15,7 +15,7 @@ $(document).ready(function(){
     "outside",
     "wall"]]
 
-    var draw="outside"
+    var draw="wall"
 
     var isdown = false
 

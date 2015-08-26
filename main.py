@@ -183,21 +183,21 @@ class QuickEntryHandler(webapp2.RequestHandler):
         housequeryq = DBQuickHouse.query(DBQuickHouse.username == nickname)
         userhouseq = housequeryq.get()
         if userhouseq is None:
-            self.response.write(html.quickenter.format(mainroom="",
-                                                       mainwinarea=0,
-                                                       fullwinarea=0,
-                                                       mainexternal=0,
-                                                       maininternal=0,
-                                                       fullexternal=0,
-                                                       rwindows=0,
-                                                       rinternal=0,
-                                                       rexternal=0,
-                                                       rroof=0,
-                                                       mainrexternal=0,
-                                                       mainrwindows=0,
-                                                       mainrroof=0,
-                                                       mainsize=0,
-                                                       fullsize=0))
+            self.response.write(html.quickenter.format(mainroom="living-room",
+                                                       mainwinarea=4.29,
+                                                       fullwinarea=26.66,
+                                                       mainexternal=4,
+                                                       maininternal=14,
+                                                       fullexternal=44,
+                                                       rwindows=0.17,
+                                                       rinternal=0.6,
+                                                       rexternal=0.54,
+                                                       rroof=0.8,
+                                                       mainrexternal=0.54,
+                                                       mainrwindows=0.17,
+                                                       mainrroof=0.8,
+                                                       mainsize=20,
+                                                       fullsize=103.548))
         else:
             self.response.write(html.quickenter.format(mainroom=userhouseq.mainroom,
                                                        mainwinarea=float(userhouseq.mainwinarea),

@@ -15,14 +15,6 @@ tr{
     border: 0px;
     margin: 0px;
 }
-#Logo {
-    height: 150px;
-    width: 579px;
-    background-image: url(/images/logo.png);
-}
-p, h3, h1 {
-    font-family: Poppins, Helvetica, sans-serif;
-}
 #tab{
     border:"solid" #000000 5px;
 }
@@ -54,6 +46,7 @@ p, h3, h1 {
 }
 .room6{
     background-color: #0000ff;
+    color: #ffffff
 }
 .room7{
     background-color: #ff00cc;
@@ -68,7 +61,8 @@ p, h3, h1 {
     background-color: #ccff00;
 }
 .outside{
-    background-color: #ffffff;
+    background-color: #555555;
+    color: #ffffff
 }
 .wall{
     background-color: #00ccff;
