@@ -71,7 +71,7 @@ class MainHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         housequery = DBHouse.query(DBHouse.username == user.nickname())
         userhouse = housequery.get()
-        self.response.write(html.startpage.format(logo=logo))
+        self.response.write(html.startpage)
 
     def post(self):
         pass

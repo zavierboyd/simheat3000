@@ -1,4 +1,4 @@
-application: heat-simulation
+application: simheat3000
 version: 1
 runtime: python27
 api_version: 1
@@ -15,8 +15,8 @@ handlers:
 - url: /js
   static_dir: js
 
-- url: /logo
-  static_dir: /Logo
+- url: /images
+  static_dir: images
 
 - url: .*
   script: main.app

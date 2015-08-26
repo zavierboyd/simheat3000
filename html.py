@@ -2,11 +2,10 @@ __author__ = 'zavidan'
 startpage = """
 <html>
 <head>
-    <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
 </head>
 <body>
-    <div><img scr="{logo}"></div>
     <div>
         <a href="/test">Demo page</a>
         <a href="/edit">Make/Edit your house</a>
@@ -20,6 +19,7 @@ startpage = """
 housemade = """
 <html>
 <head>
+    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="/css/edit.css">
     <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="/js/house.js"></script>
@@ -40,6 +40,7 @@ dataentry = """
 <html>
 <head>
     <!--<link rel="stylesheet" type="text/css" href="/css/edit.css">-->
+    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="/js/dataentry.js"></script>
 </head>
@@ -76,7 +77,9 @@ dataentry = """
 
 analysis = """
 <html>
-<head></head>
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
+</head>
 <body>
     <div>{graph1}</div>
     <div>You use {kWh}kWhs in one year to keep the {room} warm 24/7. Thats ${money} if you are with the genesis classic anytime plan</div>
@@ -87,16 +90,20 @@ analysis = """
 
 quickenter = """
 <html>
-<head></head>
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/css/quickentry.css">
+</head>
 <body>
+    <h1>House Data Entry</h1>
     <form action="/quick" method="post">
-        <p>Room Names</p>
+        <h3>Room Names</h3>
         <p>Name of Main Room:
         <input type="text" name="main" value="{mainroom}"></p>
         <p>Rest of the House</p>
         <p>Outside</p>
 
-        <p>R-values</p>
+        <h3>R-values</h3>
         <p>R-value of external walls in the Main room:
         <input type="number" min="0" step="any" name="MRexternal" value={mainrexternal}></p>
         <p>R-value of windows in the Main room:
@@ -112,7 +119,7 @@ quickenter = """
         <p>R-value of the roof:
         <input type="number" min="0" step="any" name="Rroof" value={rroof}></p>
 
-        <p>Width of the Walls</p>
+        <h3>Width of the Walls</h3>
         <p>Internal wall width of the Main Room:
         <input type="number" min="0" step="any" name="Minternal" value={maininternal}></p>
         <p>External wall width of the Main Room:
@@ -120,12 +127,13 @@ quickenter = """
         <p>External wall width of the Whole House:
         <input type="number" min="0" step="any" name="Hexternal" value={fullexternal}></p>
 
-        <p>Area of the Windows</p>
+        <h3>Area of the Windows</h3>
         <p>Area of windows in the Main Room:
         <input type="number" min="0" step="any" name="Mwindows" value={mainwinarea}></p>
         <p>Area of windows in the Whole House:
         <input type="number" min="0" step="any" name="Hwindows" value={fullwinarea}></p>
 
+        <h3>Floor Area of Rooms</h3>
         <p>Size of Room in square meters:
         <input type="number" min="0" step="any" name="Msize" value={mainsize}></p>
         <p>Size of the Whole House in square meters:
