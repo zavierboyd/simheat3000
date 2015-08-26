@@ -318,7 +318,7 @@ class QuickEntryHandler(webapp2.RequestHandler):
             userhouseq.fullsize = fullsize
         userhouseq.put()
         userhouse.put()
-        self.redirect("/quick")
+        self.redirect("/winanalysis")
 
 
 class AnalysisHandler(webapp2.RequestHandler):

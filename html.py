@@ -3,9 +3,11 @@ startpage = """
 <html>
 <head>
     <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
     <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
 </head>
 <body>
+    <div id="Logo"></div>
     <div>
         <a href="/test">Demo page</a>
         <a href="/edit">Make/Edit your house</a>
@@ -25,6 +27,7 @@ housemade = """
     <script type="text/javascript" src="/js/house.js"></script>
 </head>
 <body>
+    <div id="Logo"></div>
     <table id="tab" cellspacing="0"></table>
     <form action="/edit" method="post" id="plan">
         <input type="hidden" name="floorplan" value="{house}" id="floorplan">
@@ -45,6 +48,7 @@ dataentry = """
     <script type="text/javascript" src="/js/dataentry.js"></script>
 </head>
 <body>
+    <div id="Logo"></div>
     <div>
         <a href="/">Back to main page</a>
     </div>
@@ -79,8 +83,10 @@ analysis = """
 <html>
 <head>
     <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
+    <div id="Logo"></div>
     <div>{graph1}</div>
     <div>You use {kWh}kWhs in one year to keep the {room} warm 24/7. Thats ${money} if you are with the genesis classic anytime plan</div>
     <div><a href="/">Back to main page</a></div>
@@ -95,6 +101,7 @@ quickenter = """
     <link rel="stylesheet" type="text/css" href="/css/quickentry.css">
 </head>
 <body>
+    <div id="Logo"></div>
     <h1>House Data Entry</h1>
     <form action="/quick" method="post">
         <h3>Room Names</h3>
