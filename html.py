@@ -6,6 +6,7 @@ startpage = """
     <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
 </head>
 <body>
+    <div><img scr="{logo}"></div>
     <div>
         <a href="/test">Demo page</a>
         <a href="/edit">Make/Edit your house</a>

@@ -1,14 +1,16 @@
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="css.css">
-    <script type="text/javascript" src="draw.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/edit.css">
+    <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/js/house.js"></script>
 </head>
-<body onload="house()">
+<body>
     <table id="tab" cellspacing="0"></table>
-    <form action="/" method="post">
-        <input type="button" value="Finished House!" onclick="sendData()">
-        <input type="hidden" name="data" value="" id="data">
-        <input type="hidden" id="submit" value="Submit House">
+    <form action="/edit" method="post" id="plan">
+        <input type="hidden" name="floorplan" value="{house}" id="floorplan">
+        <input type="submit" id="submit" value="Save House">
     </form>
+    <table id="options"></table>
+    <a href="/">Back to main page</a>
 </body>
-</html>
+</html><img>

@@ -31,6 +31,7 @@ import numpy as np
 import numpy.linalg as la
 from heat_simulation import *
 
+logo = "/logo/Logo.png"
 
 class DBHouse(ndb.Model):
     username = ndb.StringProperty()
@@ -70,7 +71,7 @@ class MainHandler(webapp2.RequestHandler):
         user = users.get_current_user()
         housequery = DBHouse.query(DBHouse.username == user.nickname())
         userhouse = housequery.get()
-        self.response.write(html.startpage)
+        self.response.write(html.startpage.format(logo=logo))
 
     def post(self):
         pass
