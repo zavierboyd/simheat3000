@@ -68,13 +68,15 @@ class DBQuickHouse(ndb.Model):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        user = users.get_current_user()
-        housequery = DBHouse.query(DBHouse.username == user.nickname())
-        userhouse = housequery.get()
         self.response.write(html.startpage)
 
     def post(self):
         pass
+
+
+class PagesHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write(html.pages)
 
 
 class EditHandler(webapp2.RequestHandler):
@@ -192,10 +194,10 @@ class QuickEntryHandler(webapp2.RequestHandler):
                                                        rwindows=0.17,
                                                        rinternal=0.6,
                                                        rexternal=0.54,
-                                                       rroof=0.8,
+                                                       rroof=0.5,
                                                        mainrexternal=0.54,
                                                        mainrwindows=0.17,
-                                                       mainrroof=0.8,
+                                                       mainrroof=0.5,
                                                        mainsize=20,
                                                        fullsize=103.548))
         else:
@@ -328,7 +330,7 @@ class AnalysisHandler(webapp2.RequestHandler):
 
         housequery = DBHouse.query(DBHouse.username == nickname)
         userhouse = housequery.get()
-        if userhouse.area is not None:
+        if userhouse is not None:
             area = userhouse.area.split(" ")
             names = userhouse.names.split(" ")
             capacity = userhouse.capacity.split(" ")
@@ -523,6 +525,8 @@ class AnalysisNpPowerWinHandler(webapp2.RequestHandler):
 
 class TestHandler(webapp2.RequestHandler):
     def get(self):
+        outtemps=outside_temps.temps.split(" ")
+        outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
         y1 = House([[0, 269.0, 0, 0], [269.0, 0, 41.0, 0], [0, 41.0, 0, 91.0], [0, 0, 91.0, 0]],
                   [[1/278667.0], [1/45600.0], [1/47040.0], [1/10.0**9]]).matrix_simulation([[18.0], [20.0], [13.0], [12.0]], 1, 300)
         x1 = range(len(y1[0]))
@@ -573,7 +577,7 @@ class TestHandler(webapp2.RequestHandler):
         self.response.write("""<a href="/">Back to main page</a>""")
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler),
+    #('/', MainHandler),
     ('/edit', EditHandler),
     ('/dataentry', ManualEntryHandler),
     ('/quick', QuickEntryHandler),
@@ -581,5 +585,6 @@ app = webapp2.WSGIApplication([
     ('/analysis', AnalysisHandler),
     ('/analysisnp', AnalysisNpHandler),
     ('/analysisnppower', AnalysisNpPowerHandler),
+    ('/pages', PagesHandler),
     ('/test', TestHandler)
 ], debug=True)

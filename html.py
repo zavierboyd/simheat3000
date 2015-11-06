@@ -15,6 +15,9 @@ startpage = """
         <a href="/winanalysis" class="btn">Calculate energy used</a>
         <a href="/dataentry" class="btn">House simulation</a>
     </div>
+    <div>
+        <a href="/pages" class="btn">Information Sources</a>
+    </div>
     <h1>Home</h1>
     <p>This is a tool to simulate the amount of money and energy you save by insulating parts of your house.</p>
     <p>To make this tool work you first need to go to the "Room simulation" page and input the data it ask you for. Then hit
@@ -25,6 +28,7 @@ startpage = """
     <p>The Room simulation page is still under development and will become easier to use in the future.</p>
     <p>Making it so that in the Draw floor plan page you can draw your floor plan and you would get the amount of energy
     you might use in a year.</p>
+    <p>Making this website mobile compatible.</p>
 </body>
 </html>
 """
@@ -47,6 +51,9 @@ housemade = """
         <a href="/winanalysis" class="btn">Calculate energy used</a>
         <a href="/dataentry" class="btn">House simulation</a>
     </div>
+    <div>
+        <a href="/pages" class="btn">Information Sources</a>
+    </div>
     <h1>Draw your floor plan</h1>
     <p>The length of one blocks is 0.2 meters.</p>
     <table id="options"></table>
@@ -55,7 +62,6 @@ housemade = """
         <input type="hidden" name="floorplan" value="{house}" id="floorplan">
         <input type="submit" id="submit" value="Save House">
     </form>
-    <a href="/" class="btn">Back to main page</a>
 </body>
 </html>
 """
@@ -76,6 +82,9 @@ dataentry = """
         <a href="/quick" class="btn">Room simulation</a>
         <a href="/winanalysis" class="btn">Calculate energy used</a>
         <a href="/dataentry" class="btn">House simulation</a>
+    </div>
+    <div>
+        <a href="/pages" class="btn">Information Sources</a>
     </div>
     <h1>House Simulation</h1>
     <h3>Under Development!</h3>
@@ -104,9 +113,6 @@ dataentry = """
     <input type="hidden" id="pytemps" name="pytemps" value="{pytemps}">
     <input type="hidden" id="pyconductance" name="pyconductance" value="{pyconductance}">
     <input type="hidden" id="pycapacity" name="pycapacity" value="{pycapacity}">
-    <div>
-        <a href="/" class="btn">Back to main page</a>
-    </div>
 </body>
 </html>
 """
@@ -126,10 +132,12 @@ analysis = """
         <a href="/winanalysis" class="btn">Calculate energy used</a>
         <a href="/dataentry" class="btn">House simulation</a>
     </div>
+    <div>
+        <a href="/pages" class="btn">Information Sources</a>
+    </div>
     <h1>Calculate energy used</h1>
     <div>{graph1}</div>
     <div>You use {kWh}kWhs in one year to keep the {room} warm 24/7. Thats ${money} if you are with the genesis classic anytime plan</div>
-    <div><a href="/" class="btn">Back to main page</a></div>
 </body>
 </html>
 """
@@ -148,6 +156,9 @@ quickenter = """
         <a href="/quick" class="btn">Room simulation</a>
         <a href="/winanalysis" class="btn">Calculate energy used</a>
         <a href="/dataentry" class="btn">House simulation</a>
+    </div>
+    <div>
+        <a href="/pages" class="btn">Information Sources</a>
     </div>
     <h1>Room simulation</h1>
     <p>This page simulates the amount of energy you would use to keep this room warm for one year.</p>
@@ -179,6 +190,8 @@ quickenter = """
         <input type="number" min="0" step="any" name="Hsize" value={fullsize}></p>
 
         <h3>R-values</h3>
+        <a href="https://en.wikipedia.org/wiki/R-value_(insulation)#Example_values">Click here for common R-values</a>
+        <p>Use first column of R-value table.</p>
         <p>R-value of external walls in the Main room:
         <input type="number" min="0" step="any" name="MRexternal" value={mainrexternal}></p>
         <p>R-value of windows in the Main room:
@@ -196,6 +209,46 @@ quickenter = """
 
         <input type="submit" value="Submit Quick Entry" class="btn">
     </form>
+</body>
+</html>
+"""
+
+pages = """
+<html>
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+    <a href="/"><div id="Logo"></div></a>
+    <div>
+        <a href="/" class="btn">Home</a>
+        <a href="/edit" class="btn">Draw floor plan</a>
+        <a href="/quick" class="btn">Room simulation</a>
+        <a href="/winanalysis" class="btn">Calculate energy used</a>
+        <a href="/dataentry" class="btn">House simulation</a>
+    </div>
+    <div>
+        <a href="/pages" class="btn">Information Sources</a>
+    </div>
+    <h1>Information Sources</h1>
+    <a href="en.wikipedia.org/wiki/Heat_capacity">en.wikipedia.org/wiki/Heat_capacity</a>
+    <p>I got the heat capacity of some common materials and formulas for my program</p>
+
+    <a href="www.engineeringtoolbox.com/thermal-conductivity-d_429.html">www.engineeringtoolbox.com/thermal-conductivity-d_429.html</a>
+    <p>I got the K-value of common building materials</p>
+
+    <a href="https://en.wikipedia.org/wiki/R-value_(insulation)">https://en.wikipedia.org/wiki/R-value_(insulation)</a>
+    <p>I got the R-value of some materials and some formulas for my program</p>
+
+    <a>https://fr.wikipedia.org/wiki/Conductance_thermique</a>
+    <p>I got the name of UA</p>
+
+    <a href="https://en.wikipedia.org/wiki/Thermal_conduction">https://en.wikipedia.org/wiki/Thermal_conduction</a>
+    <p>I got Fouriers Law</p>
+
+    <a href="/test">Demo and Crest award page</a>
 </body>
 </html>
 """

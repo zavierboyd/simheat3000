@@ -119,7 +119,7 @@ class House():
         self.npthermal_mass = np.diagflat(np.array(thermal_mass))
         print self.wam,"super wam"
 
-    def matrix_simulation(self, temp, dt, t, outtemps):
+    def matrix_simulation(self, temp, dt, t):
         size = self.wam.width
         time = 0
         I = MatrixImpN.identityMatrix(size)
@@ -142,20 +142,15 @@ class House():
         # finish matrix simulation
         hour = 60*60*3
         idx = 0
-        qhour = 15*60
+        qhour = 2
         while time < t:
-            if hour == (60*60*3):
-                temp.matrix[3][0] = outtemps[idx][0]
-                hour = 0
-                idx += 1
             tempn = M * temp
             temp = tempn
-            if qhour >= 15*60:
+            if qhour >= 2:
                 for i in range(tempn.height):
                     temps[i].append(temp.matrix[i][0])
                     qhour = 0
             time += dt
-            hour += dt
             qhour += dt
 
         return temps
