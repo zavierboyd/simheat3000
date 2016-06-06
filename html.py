@@ -63,16 +63,10 @@ startpage = """
     <div class="container">
         <h3>Instructions</h3>
         <div class="row">
-            <p class="col-md-6 col-xs-12">First you need to go to House Dimentions. In House Dimentions you will need to enter information regarding your house and so will need to mesure all the windows and walls. There will be some pre-sets but ou can enter your own calculations.</p>
+            <p class="col-md-6 col-xs-12">First you need to go to House Dimentions. In House Dimentions you will need to enter information regarding your house and so will need to mesure all the windows and walls. There will be some pre-sets but you need to enter your own data.</p>
             <img class="col-md-6 col-xs-12" src="/images/housedimen.png" alt="image">
-            <p class="col-md-6 col-xs-12">After You have done that you then need to go to the Simulation page. There will again be presets in there so you will need to change these.</p>
+            <p class="col-md-6 col-xs-12">After You have done that you then need to go to the Simulation page. There will again be presets in there so you will need to change these. You can select different insulation types putting their R-values into the boxes. After that click 'Simulate' and it will simulate how much energy you use in a year and a temperature graph underneath</p>
             <img class="col-md-6 col-xs-12" src="/images/insulsim.png" alt="image">
-        </div>
-        <div class="row">
-            <p class="col-md-6 col-xs-12"></p>
-            <img class="col-md-6 col-xs-12" src="/images/dummy.png" alt="image">
-            <p class="col-md-6 col-xs-12"></p>
-            <img class="col-md-6 col-xs-12" src="/images/dummy.png" alt="image">
         </div>
     </div>
     </div>
@@ -151,12 +145,11 @@ sim = """
     <div class="page">
     """ + nav + """
     <div class="container">
-    <h1>Insulation</h1>
     <form id="insulation">
         <div class="row">
+            <h2>Room insulation for:</h2>
             <div class="col-md-3 col-sm-6 col-xs-12">
-                <h2>Wall</h2>
-                <h3>Room</h3>
+                <h3>Walls</h3>
                 <div class="option">
                     <select onchange="document.getElementById('IRwall').value=this.options[this.selectedIndex].value;">
                         <option></option>
@@ -167,7 +160,51 @@ sim = """
                     </select>
                     <input name="IRwall" value="{irwall}" placeholder="add/select a value" id="IRwall" onfocus="this.select()" type="number">
                 </div>
-                <h3>House</h3>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <h3>Windows</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('IRwindow').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IRwindow" value="{irwindow}" placeholder="add/select a value" id="IRwindow" onfocus="this.select()" type="number">
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <h3>Floor</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('IRfloor').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IRfloor" value="{irfloor}" placeholder="add/select a value" id="IRfloor" onfocus="this.select()" type="number">
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <h3>Roof</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('IRroof').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IRroof" value="{irroof}" placeholder="add/select a value" id="IRroof" onfocus="this.select()" type="number">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h2>House insulation for:</h2>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <h3>Walls</h3>
                 <div class="option">
                     <select onchange="document.getElementById('IHwall').value=this.options[this.selectedIndex].value;">
                         <option></option>
@@ -180,19 +217,7 @@ sim = """
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
-                <h2>Window</h2>
-                <h3>Room</h3>
-                <div class="option">
-                    <select onchange="document.getElementById('IRwindow').value=this.options[this.selectedIndex].value;">
-                        <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
-                    </select>
-                    <input name="IRwindow" value="{irwindow}" placeholder="add/select a value" id="IRwindow" onfocus="this.select()" type="number">
-                </div>
-                <h3>House</h3>
+                <h3>Windows</h3>
                 <div class="option">
                     <select onchange="document.getElementById('IHwindow').value=this.options[this.selectedIndex].value;">
                         <option></option>
@@ -205,44 +230,7 @@ sim = """
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
-                <h2>Roof</h2>
-                <h3>Room</h3>
-                <div class="option">
-                    <select onchange="document.getElementById('IRroof').value=this.options[this.selectedIndex].value;">
-                        <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
-                    </select>
-                    <input name="IRroof" value="{irroof}" placeholder="add/select a value" id="IRroof" onfocus="this.select()" type="number">
-                </div>
-                <h3>House</h3>
-                <div class="option">
-                    <select onchange="document.getElementById('IHroof').value=this.options[this.selectedIndex].value;">
-                        <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
-                    </select>
-                    <input name="IHroof" value="{ihroof}" placeholder="add/select a value" id="IHroof" onfocus="this.select()" type="number">
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <h2>Floor</h2>
-                <h3>Room</h3>
-                <div class="option">
-                    <select onchange="document.getElementById('IRfloor').value=this.options[this.selectedIndex].value;">
-                        <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
-                    </select>
-                    <input name="IRfloor" value="{irfloor}" placeholder="add/select a value" id="IRfloor" onfocus="this.select()" type="number">
-                </div>
-                <h3>House</h3>
+                <h3>Floor</h3>
                 <div class="option">
                     <select onchange="document.getElementById('IHfloor').value=this.options[this.selectedIndex].value;">
                         <option></option>
@@ -254,10 +242,24 @@ sim = """
                     <input name="IHfloor" value="{ihfloor}" placeholder="add/select a value" id="IHfloor" onfocus="this.select()" type="number">
                 </div>
             </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <h3>Roof</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('IHroof').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IHroof" value="{ihroof}" placeholder="add/select a value" id="IHroof" onfocus="this.select()" type="number">
+                </div>
+            </div>
         </div>
     </form>
     <input type="submit" value="Simulate" id="sim">
-    <p><tt id="out">hi</tt></p>
+    <br>
+    <p><tt id="out">Select in what insulation you have then hit 'Simulate'. If you are typing the values in manually then you will need to type in the R-values of the insulation.</tt></p>
     </div>
     """ + footer + """
     </div>
@@ -286,9 +288,9 @@ infopage = """
             <a href="www.engineeringtoolbox.com/thermal-conductivity-d_429.html">www.engineeringtoolbox.com/thermal-conductivity-d_429.html</a>
             <p>I got the K-value of common building materials</p>
         </div>
-        <h2>Mathematics</h2>
         <div class="row">
-
+            <h2 class="col-xs-12">Mathematics</h2>
+            <a href="/equations/nEquations.pdf">Equations</a>
         </div>
         <h2>Programming</h2>
         <div class="row">
