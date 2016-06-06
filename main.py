@@ -247,11 +247,11 @@ def savesim(handler):
     iriwall = userhouseq.mainrinternal
     irroof = handler.request.get("IRroof")
     ihroof = handler.request.get("IHroof")
-    irwindow = handler.request.get("IHwindow")
+    irwindow = handler.request.get("IRwindow")
     ihwindow = handler.request.get("IHwindow")
-    irwall = handler.request.get("IHwall")
+    irwall = handler.request.get("IRwall")
     ihwall = handler.request.get("IHwall")
-    irfloor = handler.request.get("IHfloor")
+    irfloor = handler.request.get("IRfloor")
     ihfloor = handler.request.get("IHfloor")
 
 
@@ -286,6 +286,11 @@ class InfoHandler(webapp2.RequestHandler):
 
     def post(self):
         pass
+
+
+class OldMainHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write(html.oldstartpage)
 
 
 class PagesHandler(webapp2.RequestHandler):
@@ -637,63 +642,73 @@ class AnalysisNpPowerHandler(webapp2.RequestHandler):
         pass
 
 
+def make_graph(handler):
+    user = users.get_current_user()
+    nickname = user.nickname()
+
+    housequery = DBHouse.query(DBHouse.username == nickname)
+    userhouse = housequery.get()
+    if userhouse.area is not None:
+        area = userhouse.area.split(" ")
+        names = userhouse.names.split(" ")
+        capacity = userhouse.capacity.split(" ")
+        temps = userhouse.temps.split(" ")
+        conductance = userhouse.conductance.split(" ")
+        winarea = userhouse.winarea.split(" ")
+        winconductance = userhouse.winconductance.split(" ")
+        rofarea = userhouse.rofarea.split(" ")
+        rofconductance = userhouse.rofconductance.split(" ")
+        outtemps=outside_temps.temps.split(" ")
+        outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
+        area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
+        winarea = [[float(cell) for cell in row.split(",")] for row in winarea]
+        winconductance = [[float(cell) for cell in row.split(",")] for row in winconductance]
+        capacity = [[(1/float(cell)) if float(cell) > 0.01 else (1/0.01) for cell in row.split(",")] for row in capacity]
+        temps = [[float(cell) for cell in row.split(",")] for row in temps]
+        conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
+        rofarea = [[float(cell) for cell in row.split(",")] for row in rofarea]
+        rofconductance = [[float(cell) for cell in row.split(",")] for row in rofconductance]
+
+        print temps
+        area = [[cella-cellwa for cella, cellwa in zip(rowa, rowwa)] for rowa, rowwa in zip(area, winarea)]
+        winUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(winarea, winconductance)]
+        walUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
+        rofUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(rofarea, rofconductance)]
+        UA = [[win+wal+rof for wal, win, rof in zip(walrow, winrow, rofrow)] for walrow, winrow, rofrow in zip(walUA, winUA, rofUA)]
+        simtemps, kWh, money = House(UA, capacity).matrix_simulstionnppower(temps, 1, 60*60*24*30*12, outtemps)
+        x1 = range(len(simtemps[0]))
+
+        graph1 = StringIO.StringIO()
+        try:
+            plt.clf()
+            for temps, name in zip(simtemps, names):
+                plt.plot(x1, temps, label=name)
+            plt.legend()
+            plt.title("The change in temperature")
+            plt.xlabel("1/4 hours (900s)")
+            plt.ylabel("Temperature (C)")
+            plt.savefig(graph1, format="svg")
+            plt.clf()
+            handler.response.write(html.analysis.format(graph1=graph1.getvalue(), kWh=kWh, room=names[0], money=money))
+        except:
+            handler.response.write(html.analysis.format(graph1=simtemps, kWh=kWh, room=names[0], money=money))
+    else:
+        handler.redirect("/quick")
+
+
 class AnalysisNpPowerWinHandler(webapp2.RequestHandler):
     def get(self):
-        savesim(self)
-        user = users.get_current_user()
-        nickname = user.nickname()
-
-        housequery = DBHouse.query(DBHouse.username == nickname)
-        userhouse = housequery.get()
-        if userhouse.area is not None:
-            area = userhouse.area.split(" ")
-            names = userhouse.names.split(" ")
-            capacity = userhouse.capacity.split(" ")
-            temps = userhouse.temps.split(" ")
-            conductance = userhouse.conductance.split(" ")
-            winarea = userhouse.winarea.split(" ")
-            winconductance = userhouse.winconductance.split(" ")
-            rofarea = userhouse.rofarea.split(" ")
-            rofconductance = userhouse.rofconductance.split(" ")
-            outtemps=outside_temps.temps.split(" ")
-            outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
-            area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
-            winarea = [[float(cell) for cell in row.split(",")] for row in winarea]
-            winconductance = [[float(cell) for cell in row.split(",")] for row in winconductance]
-            capacity = [[(1/float(cell)) if float(cell) > 0.01 else (1/0.01) for cell in row.split(",")] for row in capacity]
-            temps = [[float(cell) for cell in row.split(",")] for row in temps]
-            conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
-            rofarea = [[float(cell) for cell in row.split(",")] for row in rofarea]
-            rofconductance = [[float(cell) for cell in row.split(",")] for row in rofconductance]
-
-            print temps
-            area = [[cella-cellwa for cella, cellwa in zip(rowa, rowwa)] for rowa, rowwa in zip(area, winarea)]
-            winUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(winarea, winconductance)]
-            walUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
-            rofUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(rofarea, rofconductance)]
-            UA = [[win+wal+rof for wal, win, rof in zip(walrow, winrow, rofrow)] for walrow, winrow, rofrow in zip(walUA, winUA, rofUA)]
-            simtemps, kWh, money = House(UA, capacity).matrix_simulstionnppower(temps, 1, 60*60*24*30*12, outtemps)
-            x1 = range(len(simtemps[0]))
-
-            graph1 = StringIO.StringIO()
-            try:
-                plt.clf()
-                for temps, name in zip(simtemps, names):
-                    plt.plot(x1, temps, label=name)
-                plt.legend()
-                plt.title("The change in temperature")
-                plt.xlabel("1/4 hours (900s)")
-                plt.ylabel("Temperature (C)")
-                plt.savefig(graph1, format="svg")
-                plt.clf()
-                self.response.write(html.analysis.format(graph1=graph1.getvalue(), kWh=kWh, room=names[0], money=money))
-            except:
-                self.response.write(html.analysis.format(graph1=simtemps, kWh=kWh, room=names[0], money=money))
-        else:
-            self.redirect("/quick")
+        make_graph(self)
 
     def post(self):
         pass
+
+
+class Simulate(webapp2.RequestHandler):
+    def get(self):
+        savesim(self)
+        make_graph(self)
+
 
 
 class TestHandler(webapp2.RequestHandler):
@@ -754,6 +769,8 @@ app = webapp2.WSGIApplication([
     ('/house', HouseHandler),
     ('/info', InfoHandler),
     ('/sim', SimHandler),
+    ('/simulate', Simulate),
+    ('/old', OldMainHandler),
     ('/edit', EditHandler),
     ('/dataentry', ManualEntryHandler),
     ('/quick', QuickEntryHandler),
