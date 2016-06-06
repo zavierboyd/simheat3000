@@ -155,7 +155,7 @@ sim = """
                         <option name="roof" value="0.57">roof</option>
                         <option name="wall" value="0.57">wall</option>
                     </select>
-                    <input name="IRwall" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                    <input name="IRwall" value="{irwall}" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
                 </div>
                 <h3>House</h3>
                 <div class="option">
@@ -166,7 +166,7 @@ sim = """
                         <option name="roof" value="0.57">roof</option>
                         <option name="wall" value="0.57">wall</option>
                     </select>
-                    <input name="IHwall" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                    <input name="IHwall" value="{ihwall}" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -180,7 +180,7 @@ sim = """
                         <option name="roof" value="0.57">roof</option>
                         <option name="wall" value="0.57">wall</option>
                     </select>
-                    <input name="IRwindow" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                    <input name="IRwindow" value="{irwindow}" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
                 </div>
                 <h3>House</h3>
                 <div class="option">
@@ -191,7 +191,7 @@ sim = """
                         <option name="roof" value="0.57">roof</option>
                         <option name="wall" value="0.57">wall</option>
                     </select>
-                    <input name="IHwindow" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                    <input name="IHwindow" value="{ihwindow}" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -205,7 +205,7 @@ sim = """
                         <option name="roof" value="0.57">roof</option>
                         <option name="wall" value="0.57">wall</option>
                     </select>
-                    <input name="IRroof" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                    <input name="IRroof" value="{irroof}" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
                 </div>
                 <h3>House</h3>
                 <div class="option">
@@ -216,7 +216,7 @@ sim = """
                         <option name="roof" value="0.57">roof</option>
                         <option name="wall" value="0.57">wall</option>
                     </select>
-                    <input name="IHroof" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                    <input name="IHroof" value="{ihroof}" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -230,7 +230,7 @@ sim = """
                         <option name="roof" value="0.57">roof</option>
                         <option name="wall" value="0.57">wall</option>
                     </select>
-                    <input name="IRfloor" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                    <input name="IRfloor" value="{irfloor}" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
                 </div>
                 <h3>House</h3>
                 <div class="option">
@@ -241,7 +241,7 @@ sim = """
                         <option name="roof" value="0.57">roof</option>
                         <option name="wall" value="0.57">wall</option>
                     </select>
-                    <input name="IHfloor" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                    <input name="IHfloor" value="{ihfloor}" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
                 </div>
             </div>
         </div>
@@ -381,13 +381,9 @@ analysis = """
     """ + head + """
 </head>
 <body>
-    <div class="page">
-    """ + nav + """
     <h1>Calculate energy used</h1>
-    <div>{graph1}</div>
     <div>You use {kWh}kWhs in one year to keep the {room} warm 24/7. Thats ${money} if you are with the genesis classic anytime plan</div>
-    """ + footer + """
-    </div>
+    <div>{graph1}</div>
 </body>
 </html>
 """
@@ -424,7 +420,7 @@ quickenter = """
         <input type="number" min="0" step="any" name="Hwindows" value={fullwinarea}></p>
 
         <h3>Floor Area of Rooms</h3>
-        <p>Size of Room in square meters:
+        <p>Size of the Main Room in square meters:
         <input type="number" min="0" step="any" name="Msize" value={mainsize}></p>
         <p>Size of the Whole House in square meters:
         <input type="number" min="0" step="any" name="Hsize" value={fullsize}></p>
@@ -438,13 +434,13 @@ quickenter = """
         <input type="number" min="0" step="any" name="MRwindows" value={mainrwindows}></p>
         <p>R-value of the roof in the Main room:
         <input type="number" min="0" step="any" name="MRroof" value={mainrroof}></p>
-        <p>R-value of internal walls:
+        <p>R-value of internal walls in the Main room:
         <input type="number" min="0" step="any" name="Rinternal" value={rinternal}></p>
-        <p>R-value of external walls:
+        <p>R-value of external walls in the Whole House:
         <input type="number" min="0" step="any" name="Rexternal" value={rexternal}></p>
-        <p>R-value of windows:
+        <p>R-value of windows in the Whole House:
         <input type="number" min="0" step="any" name="Rwindows" value={rwindows}></p>
-        <p>R-value of the roof:
+        <p>R-value of the roof in the Whole House:
         <input type="number" min="0" step="any" name="Rroof" value={rroof}></p>
         <input type="submit" value="Submit Quick Entry" class="btn">
     </form>

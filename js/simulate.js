@@ -18,6 +18,6 @@ $("document").ready(function() {
             $("#out").text( str );
         }else{
 
-*/     $("#out").load("/winanalysis")
+*/     $("#out").load("/winanalysis", str)
     });
 });

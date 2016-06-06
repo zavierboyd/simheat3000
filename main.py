@@ -64,15 +64,71 @@ class DBQuickHouse(ndb.Model):
     mainexternal = ndb.TextProperty()
     maininternal = ndb.TextProperty()
     fullexternal = ndb.TextProperty()
-    rwindows = ndb.TextProperty()
-    rinternal = ndb.TextProperty()
-    rexternal = ndb.TextProperty()
-    rroof = ndb.TextProperty()
+    fullrwindows = ndb.TextProperty()
+    mainrinternal = ndb.TextProperty()
+    fullrexternal = ndb.TextProperty()
+    fullrroof = ndb.TextProperty()
     mainrexternal = ndb.TextProperty()
     mainrwindows = ndb.TextProperty()
     mainrroof = ndb.TextProperty()
+    mainrfloor = ndb.TextProperty()
+    fullrfloor = ndb.TextProperty()
     mainsize = ndb.TextProperty()
     fullsize = ndb.TextProperty()
+
+
+def setdata(nickname):
+    userhouseq = DBQuickHouse(
+        username=nickname,
+        mainroom="Room",
+        mainwinarea='4.29',
+        fullwinarea='26.66',
+        mainexternal='4',
+        maininternal='14',
+        fullexternal='44',
+        fullrwindows='0.17',
+        mainrinternal='0.6',
+        fullrexternal='0.54',
+        fullrroof='0.5',
+        mainrexternal='0.54',
+        mainrwindows='0.17',
+        mainrroof='0.5',
+        mainrfloor='1',
+        fullrfloor='1',
+        mainsize='20',
+        fullsize='103.548')
+    userhouseq.put()
+    area = """0,{Minwall},{Mexwall} {Minwall},0,{Hexwall} {Mexwall},{Hexwall},0""".format(Minwall=float(userhouseq.maininternal),
+                                                                                              Mexwall=float(userhouseq.mainexternal),
+                                                                                              Hexwall=float(userhouseq.fullexternal)-float(userhouseq.mainexternal))
+    winarea = """0,0,{Mwin} 0,0,{Hwin} {Mwin},{Hwin},0""".format(Mwin=float(userhouseq.mainwinarea),
+                                                                 Hwin=float(userhouseq.fullwinarea)-float(userhouseq.mainwinarea))
+    rofarea = """0,0,{Mroof} 0,0,{Hroof} {Mroof},{Hroof},0""".format(Mroof=float(userhouseq.mainsize),
+                                                                     Hroof=float(userhouseq.fullsize))
+    rofconductance="""0,0,{Muroof} 0,0,{Huroof} {Muroof},{Huroof},0""".format(Muroof=1/(float(userhouseq.mainrroof)),
+                                                                              Huroof=1/(float(userhouseq.fullrroof)))
+    names = """{M} Rest-of-the-House Outside""".format(M=userhouseq.mainroom)
+    winconductance = "0,0,{Muwin} 0,0,{Huwin} {Muwin},0,{Huwin}".format(Muwin=1/(float(userhouseq.mainrwindows)),
+                                                                        Huwin=1/(float(userhouseq.fullrwindows)))
+    conductance = """0,{uin},{Muex} {uin},0,{uex} {Muex},{uex},0""".format(uin=1/(float(userhouseq.mainrinternal)),
+                                                                         uex=1/(float(userhouseq.fullrexternal)),
+                                                                         Muex=1/(float(userhouseq.mainrexternal)))
+    capacity = """{Mcapa} {Hcapa} 100000000000000000000""".format(Mcapa=((float(userhouseq.mainsize))*2.4*0.00121)+((200*1000)*4.2),
+                                                                  Hcapa=((float(userhouseq.fullsize)-float(userhouseq.mainsize))*2.4*0.00121)+((10*(float(userhouseq.fullsize)-float(userhouseq.mainsize))*1000)*4.2))
+    temps = """15 15 15"""
+    userhouse = DBHouse(
+        username=nickname,
+        area=area,
+        capacity=capacity,
+        names=names,
+        temps=temps,
+        conductance=conductance,
+        winconductance=winconductance,
+        winarea=winarea,
+        rofarea=rofarea,
+        rofconductance=rofconductance)
+    userhouse.put()
+    return userhouseq,userhouse
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -91,23 +147,16 @@ class HouseHandler(webapp2.RequestHandler):
         userhouseq = housequeryq.get()
 
         if userhouseq is None:
-            self.response.write(html.housemesure.format(
-                riwall=14,
-                rewall=4,
-                hewall=44,
-                rwindow=4.29,
-                hwindow=26.66,
-                rfloor=20,
-                hfloor=103.548))
-        else:
-            self.response.write(html.housemesure.format(
-                riwall=userhouseq.maininternal,
-                rewall=userhouseq.mainexternal,
-                hewall=userhouseq.fullexternal,
-                rwindow=userhouseq.mainwinarea,
-                hwindow=userhouseq.fullwinarea,
-                rfloor=userhouseq.mainsize,
-                hfloor=userhouseq.fullsize))
+            userhouseq, userhouse = setdata(nickname)
+
+        self.response.write(html.housemesure.format(
+            riwall=userhouseq.maininternal,
+            rewall=userhouseq.mainexternal,
+            hewall=userhouseq.fullexternal,
+            rwindow=userhouseq.mainwinarea,
+            hwindow=userhouseq.fullwinarea,
+            rfloor=userhouseq.mainsize,
+            hfloor=userhouseq.fullsize))
 
     def post(self):
         user = users.get_current_user()
@@ -136,50 +185,21 @@ class HouseHandler(webapp2.RequestHandler):
         capacity = """{Mcapa} {Hcapa} 100000000000000000000""".format(Mcapa=((float(rfloor))*2.4*0.00121)+((200*1000)*4.2),
                                                                       Hcapa=((float(hfloor)-float(rfloor))*2.4*0.00121))
 
-        if userhouse is None:
-            userhouse = DBHouse(username=nickname,
-                                area=area,
-                                capacity=capacity,
-                                names="Room Rest-of-House Outside",
-                                temps='',
-                                conductance='',
-                                winconductance='',
-                                winarea=winarea,
-                                rofarea=rofarea,
-                                rofconductance="")
-        else:
-            userhouse.area = area
-            userhouse.capacity = capacity
-            userhouse.winarea = winarea
-            userhouse.rofarea = rofarea
 
-        if userhouseq is None:
-            userhouseq = DBQuickHouse(
-                username=nickname,
-                mainroom="Room",
-                mainwinarea=rwindow,
-                fullwinarea=hwindow,
-                mainexternal=rewall,
-                maininternal=riwall,
-                fullexternal=hewall,
-                rwindows='',
-                rinternal='',
-                rexternal='',
-                rroof='',
-                mainrexternal='',
-                mainrwindows='',
-                mainrroof='',
-                mainsize=rfloor,
-                fullsize=hfloor)
-        else:
-            userhouseq.username = nickname
-            userhouseq.mainwinarea = rwindow
-            userhouseq.fullwinarea = hwindow
-            userhouseq.mainexternal = rewall
-            userhouseq.maininternal = riwall
-            userhouseq.fullexternal = hewall
-            userhouseq.mainsize = rfloor
-            userhouseq.fullsize = hfloor
+        userhouse.area = area
+        userhouse.capacity = capacity
+        userhouse.winarea = winarea
+        userhouse.rofarea = rofarea
+
+        userhouseq.username = nickname
+        userhouseq.mainwinarea = rwindow
+        userhouseq.fullwinarea = hwindow
+        userhouseq.mainexternal = rewall
+        userhouseq.maininternal = riwall
+        userhouseq.fullexternal = hewall
+        userhouseq.mainsize = rfloor
+        userhouseq.fullsize = hfloor
+
         userhouseq.put()
         userhouse.put()
 
@@ -195,10 +215,69 @@ class HouseHandler(webapp2.RequestHandler):
 
 class SimHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write(html.sim)
+        user = users.get_current_user()
+        nickname = user.nickname()
 
-    def post(self):
-        pass
+        housequeryq = DBQuickHouse.query(DBQuickHouse.username == nickname)
+        userhouseq = housequeryq.get()
+
+        if userhouseq is None:
+            userhouseq, userhouse = setdata(nickname)
+
+        self.response.write(html.sim.format(
+            irwall=userhouseq.mainrexternal,
+            ihwall=userhouseq.fullrexternal,
+            irwindow=userhouseq.mainrwindows,
+            ihwindow=userhouseq.fullrwindows,
+            irroof=userhouseq.mainrroof,
+            ihroof=userhouseq.fullrroof,
+            irfloor=userhouseq.mainrfloor,
+            ihfloor=userhouseq.fullrfloor,))
+
+def savesim(handler):
+    user = users.get_current_user()
+    nickname = user.nickname()
+
+    housequeryq = DBQuickHouse.query(DBQuickHouse.username == nickname)
+    userhouseq = housequeryq.get()
+
+    housequery = DBHouse.query(DBHouse.username == nickname)
+    userhouse = housequery.get()
+
+    iriwall = userhouseq.mainrinternal
+    irroof = handler.request.get("IRroof")
+    ihroof = handler.request.get("IHroof")
+    irwindow = handler.request.get("IHwindow")
+    ihwindow = handler.request.get("IHwindow")
+    irwall = handler.request.get("IHwall")
+    ihwall = handler.request.get("IHwall")
+    irfloor = handler.request.get("IHfloor")
+    ihfloor = handler.request.get("IHfloor")
+
+
+    rofconductance="""0,0,{Muroof} 0,0,{Huroof} {Muroof},{Huroof},0""".format(Muroof=1/(float(irroof)),
+                                                                              Huroof=1/(float(ihroof)))
+    winconductance = "0,0,{Muwin} 0,0,{Huwin} {Muwin},0,{Huwin}".format(Muwin=1/(float(irwindow)),
+                                                                        Huwin=1/(float(ihwindow)))
+    conductance = """0,{uin},{Muex} {uin},0,{uex} {Muex},{uex},0""".format(uin=1/(float(iriwall)),
+                                                                         uex=1/(float(ihwall)),
+                                                                         Muex=1/(float(irwall)))
+
+    userhouse.rofconductance = rofconductance
+    userhouse.winconductance = winconductance
+    userhouse.conductance = conductance
+
+    userhouseq.mainrexternal = irwall
+    userhouseq.fullrexternal = ihwall
+    userhouseq.mainrwindows = irwindow
+    userhouseq.fullrwindows = ihwindow
+    userhouseq.mainrroof = irroof
+    userhouseq.fullrroof = ihroof
+    userhouseq.mainrfloor = irfloor
+    userhouseq.fullrfloor = ihfloor
+
+    userhouseq.put()
+    userhouse.put()
 
 
 class InfoHandler(webapp2.RequestHandler):
@@ -319,38 +398,26 @@ class QuickEntryHandler(webapp2.RequestHandler):
 
         housequeryq = DBQuickHouse.query(DBQuickHouse.username == nickname)
         userhouseq = housequeryq.get()
+
         if userhouseq is None:
-            self.response.write(html.quickenter.format(mainroom="living-room",
-                                                       mainwinarea=4.29,
-                                                       fullwinarea=26.66,
-                                                       mainexternal=4,
-                                                       maininternal=14,
-                                                       fullexternal=44,
-                                                       rwindows=0.17,
-                                                       rinternal=0.6,
-                                                       rexternal=0.54,
-                                                       rroof=0.5,
-                                                       mainrexternal=0.54,
-                                                       mainrwindows=0.17,
-                                                       mainrroof=0.5,
-                                                       mainsize=20,
-                                                       fullsize=103.548))
-        else:
-            self.response.write(html.quickenter.format(mainroom=userhouseq.mainroom,
-                                                       mainwinarea=float(userhouseq.mainwinarea),
-                                                       fullwinarea=float(userhouseq.fullwinarea),
-                                                       mainexternal=float(userhouseq.mainexternal),
-                                                       maininternal=float(userhouseq.maininternal),
-                                                       fullexternal=float(userhouseq.fullexternal),
-                                                       rwindows=float(userhouseq.rwindows),
-                                                       rinternal=float(userhouseq.rinternal),
-                                                       rexternal=float(userhouseq.rexternal),
-                                                       rroof=float(userhouseq.rroof),
-                                                       mainrexternal=float(userhouseq.mainrexternal),
-                                                       mainrwindows=float(userhouseq.mainrwindows),
-                                                       mainrroof=float(userhouseq.mainrroof),
-                                                       mainsize=float(userhouseq.mainsize),
-                                                       fullsize=float(userhouseq.fullsize)))
+            userhouseq, userhouse = setdata(nickname)
+
+
+        self.response.write(html.quickenter.format(mainroom=userhouseq.mainroom,
+                                                   mainwinarea=float(userhouseq.mainwinarea),
+                                                   fullwinarea=float(userhouseq.fullwinarea),
+                                                   mainexternal=float(userhouseq.mainexternal),
+                                                   maininternal=float(userhouseq.maininternal),
+                                                   fullexternal=float(userhouseq.fullexternal),
+                                                   rwindows=float(userhouseq.fullrwindows),
+                                                   rinternal=float(userhouseq.mainrinternal),
+                                                   rexternal=float(userhouseq.fullrexternal),
+                                                   rroof=float(userhouseq.fullrroof),
+                                                   mainrexternal=float(userhouseq.mainrexternal),
+                                                   mainrwindows=float(userhouseq.mainrwindows),
+                                                   mainrroof=float(userhouseq.mainrroof),
+                                                   mainsize=float(userhouseq.mainsize),
+                                                   fullsize=float(userhouseq.fullsize)))
 
 
     def post(self):
@@ -369,10 +436,10 @@ class QuickEntryHandler(webapp2.RequestHandler):
         mainexternal = (self.request.get("Mexternal"))
         maininternal = (self.request.get("Minternal"))
         fullexternal = (self.request.get("Hexternal"))
-        rwindows = (self.request.get("Rwindows"))
-        rinternal = (self.request.get("Rinternal"))
-        rexternal = (self.request.get("Rexternal"))
-        rroof = (self.request.get("Rroof"))
+        fullrwindows = (self.request.get("Rwindows"))
+        mainrinternal = (self.request.get("Rinternal"))
+        fullrexternal = (self.request.get("Rexternal"))
+        fullrroof = (self.request.get("Rroof"))
         mainrexternal = (self.request.get("MRexternal"))
         mainrwindows = (self.request.get("MRwindows"))
         mainrroof = (self.request.get("MRroof"))
@@ -386,73 +453,43 @@ class QuickEntryHandler(webapp2.RequestHandler):
         rofarea = """0,0,{Mroof} 0,0,{Hroof} {Mroof},{Hroof},0""".format(Mroof=float(mainsize),
                                                                          Hroof=float(fullsize))
         rofconductance="""0,0,{Muroof} 0,0,{Huroof} {Muroof},{Huroof},0""".format(Muroof=1/(float(mainrroof)),
-                                                                                  Huroof=1/(float(rroof)))
+                                                                                  Huroof=1/(float(fullrroof)))
         names = """{M} Rest-of-the-House Outside""".format(M=mainroom)
         winconductance = "0,0,{Muwin} 0,0,{Huwin} {Muwin},0,{Huwin}".format(Muwin=1/(float(mainrwindows)),
-                                                                            Huwin=1/(float(rwindows)))
-        conductance = """0,{uin},{Muex} {uin},0,{uex} {Muex},{uex},0""".format(uin=1/(float(rinternal)),
-                                                                             uex=1/(float(rexternal)),
+                                                                            Huwin=1/(float(fullrwindows)))
+        conductance = """0,{uin},{Muex} {uin},0,{uex} {Muex},{uex},0""".format(uin=1/(float(mainrinternal)),
+                                                                             uex=1/(float(fullrexternal)),
                                                                              Muex=1/(float(mainrexternal)))
         capacity = """{Mcapa} {Hcapa} 100000000000000000000""".format(Mcapa=((float(mainsize))*2.4*0.00121)+((200*1000)*4.2),
                                                                       Hcapa=((float(fullsize)-float(mainsize))*2.4*0.00121)+((10*(float(fullsize)-float(mainsize))*1000)*4.2))
         temps = """15 15 15"""
-        if userhouse is None:
-            userhouse = DBHouse(username=nickname,
-                                area=area,
-                                capacity=capacity,
-                                names=names,
-                                temps=temps,
-                                conductance=conductance,
-                                winconductance=winconductance,
-                                winarea=winarea,
-                                rofarea=rofarea,
-                                rofconductance=rofconductance)
-        else:
-            userhouse.area = area
-            userhouse.conductance = conductance
-            userhouse.capacity = capacity
-            userhouse.names = names
-            userhouse.temps = temps
-            userhouse.winconductance = winconductance
-            userhouse.winarea = winarea
-            userhouse.rofarea = rofarea
-            userhouse.rofconductance = rofconductance
 
-        if userhouseq is None:
-            userhouseq = DBQuickHouse(
-                username=nickname,
-                mainroom=mainroom,
-                mainwinarea=mainwinarea,
-                fullwinarea=fullwinarea,
-                mainexternal=mainexternal,
-                maininternal=maininternal,
-                fullexternal=fullexternal,
-                rwindows=rwindows,
-                rinternal=rinternal,
-                rexternal=rexternal,
-                rroof=rroof,
-                mainrexternal=mainrexternal,
-                mainrwindows=mainrwindows,
-                mainrroof=mainrroof,
-                mainsize=mainsize,
-                fullsize=fullsize)
-        else:
-            userhouseq.username = nickname
-            userhouseq.mainroom = mainroom
-            userhouseq.mainwinarea = mainwinarea
-            userhouseq.fullwinarea = fullwinarea
-            userhouseq.mainexternal = mainexternal
-            userhouseq.maininternal = maininternal
-            userhouseq.fullexternal = fullexternal
-            userhouseq.rwindows = rwindows
-            userhouseq.rinternal = rinternal
-            userhouseq.rexternal = rexternal
-            userhouseq.rroof=rroof
-            userhouseq.mainrexternal = mainrexternal
-            userhouseq.mainrwindows=mainrwindows
-            userhouseq.mainrroof=mainrroof
-            userhouseq.mainsize = mainsize
-            userhouseq.fullsize = fullsize
+        userhouse.area = area
+        userhouse.conductance = conductance
+        userhouse.capacity = capacity
+        userhouse.names = names
+        userhouse.temps = temps
+        userhouse.winconductance = winconductance
+        userhouse.winarea = winarea
+        userhouse.rofarea = rofarea
+        userhouse.rofconductance = rofconductance
+
+        userhouseq.username = nickname
+        userhouseq.mainroom = mainroom
+        userhouseq.mainwinarea = mainwinarea
+        userhouseq.fullwinarea = fullwinarea
+        userhouseq.mainexternal = mainexternal
+        userhouseq.maininternal = maininternal
+        userhouseq.fullexternal = fullexternal
+        userhouseq.fullrwindows = fullrwindows
+        userhouseq.mainrinternal = mainrinternal
+        userhouseq.fullrexternal = fullrexternal
+        userhouseq.fullrroof=fullrroof
+        userhouseq.mainrexternal = mainrexternal
+        userhouseq.mainrwindows=mainrwindows
+        userhouseq.mainrroof=mainrroof
+        userhouseq.mainsize = mainsize
+        userhouseq.fullsize = fullsize
         userhouseq.put()
         userhouse.put()
         self.redirect("/winanalysis")
@@ -602,6 +639,7 @@ class AnalysisNpPowerHandler(webapp2.RequestHandler):
 
 class AnalysisNpPowerWinHandler(webapp2.RequestHandler):
     def get(self):
+        savesim(self)
         user = users.get_current_user()
         nickname = user.nickname()
 
