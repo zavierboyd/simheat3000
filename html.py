@@ -1,59 +1,324 @@
 __author__ = 'zavidan'
+nav = """
+    <a href="/"><div id="Logo"></div></a>
+    <nav>
+    <div class="container">
+        <div class="row">
+            <a href="/" class="btn col-md-3 col-sm-6 col-xs-12">Home</a>
+            <a href="/house" class="btn col-md-3 col-sm-6 col-xs-12">House Dimentions</a>
+            <a href="/sim" class="btn col-md-3 col-sm-6 col-xs-12">Simulation</a>
+            <a href="/info" class="btn col-md-3 col-sm-6 col-xs-12">Information Sources</a>
+        </div>
+    </div>
+    </nav>
+"""
+
+head = """
+    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+"""
+
+footer = """
+    <div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 hidden-xs hidden-sm"></div>
+            <p class="col-md-3 col-xs-12">Web design by Zavier Boyd</p>
+            <div class="col-md-9 hidden-xs hidden-sm"></div>
+            <p id="copyright" class="col-md-3 col-xs-12">&copy; Copyright 2016 Simheat3000</p>
+        </div>
+    </div>
+    </div>
+"""
+
 startpage = """
 <html>
 <head>
-    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+    """ + head + """
 </head>
 <body>
-    <a href="/"><div id="Logo"></div></a>
-    <div>
-        <a href="/" class="btn">Home</a>
-        <a href="/edit" class="btn">Draw floor plan</a>
-        <a href="/quick" class="btn">Room simulation</a>
-        <a href="/winanalysis" class="btn">Calculate energy used</a>
-        <a href="/dataentry" class="btn">House simulation</a>
+    <div class="page">
+    """ + nav + """
+    <div class="about">
+    <div class="container">
+        <h1>About</h1>
+        <div class="row">
+            <p class="col-xs-12">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu</p>
+        </div>
     </div>
-    <div>
-        <a href="/pages" class="btn">Information Sources</a>
     </div>
-    <h1>Home</h1>
-    <p>This is a tool to simulate the amount of money and energy you save by insulating parts of your house.</p>
-    <p>To make this tool work you first need to go to the "Room simulation" page and input the data it ask you for. Then hit
-    the submit button and the simulation will analyse your data and simulate your house with your main room being heated
-     to 18C and the rest of your house not being heated. It will give you the amount of energy and money you use to heat
-     that room up for one year.<p/>
-    <h3>Under Development</h3>
-    <p>The Room simulation page is still under development and will become easier to use in the future.</p>
-    <p>Making it so that in the Draw floor plan page you can draw your floor plan and you would get the amount of energy
-    you might use in a year.</p>
-    <p>Making this website mobile compatible.</p>
+    <div class="instruct">
+    <div class="container">
+        <h3>Instructions</h3>
+        <div class="row">
+            <p class="col-md-6 col-xs-12">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu</p>
+            <img class="col-md-6 col-xs-12" src="/images/dummy.png" alt="image">
+            <p class="col-md-6 col-xs-12">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu</p>
+            <img class="col-md-6 col-xs-12" src="/images/dummy.png" alt="image">
+        </div>
+        <div class="row">
+            <p class="col-md-6 col-xs-12">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu</p>
+            <img class="col-md-6 col-xs-12" src="/images/dummy.png" alt="image">
+            <p class="col-md-6 col-xs-12">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu</p>
+            <img class="col-md-6 col-xs-12" src="/images/dummy.png" alt="image">
+        </div>
+    </div>
+    </div>
+    """ + footer + """
+    </div>
 </body>
 </html>
 """
 
+housemesure = """"
+<html>
+<head>
+    """ + head + """
+</head>
+<body>
+    <div class="page">
+    """ + nav + """
+    <div class="container">
+    <h1>House Info</h1>
+
+    <form action="/house" method="post">
+    <h2>Width of Walls:</h2>
+    <div class="row">
+        <div class="col-md-4 col-xs-12">
+            <h3>Room Interior Walls</h3>
+            <input type="number" name="RIwall" value="{riwall}">
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h3>Room Exterior Walls</h3>
+            <input type="number" name="REwall" value="{rewall}">
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h3>House Exterior Walls</h3>
+            <input type="number" name="HEwall" value="{hewall}">
+        </div>
+    </div>
+    <h2>Area of Windows in:</h2>
+    <div class="row">
+        <div class="col-md-4 col-xs-12">
+            <h3>Room</h3>
+            <input type="number" name="Rwindow" value="{rwindow}">
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h3>House</h3>
+            <input type="number" name="Hwindow" value="{hwindow}">
+        </div>
+    </div>
+    <h2>Floor Area of:</h2>
+    <div class="row">
+        <div class="col-md-4 col-xs-12">
+            <h3>Room</h3>
+            <input type="number" name="Rfloor" value="{rfloor}">
+        </div>
+        <div class="col-md-4 col-xs-12">
+            <h3>House</h3>
+            <input type="number" name="Hfloor" value="{hfloor}">
+        </div>
+    </div>
+    <br>
+    <input type="submit">
+    </form>
+    </div>
+    """ + footer + """
+    </div>
+</body>
+</html>
+"""
+
+sim = """
+<html>
+<head>
+    """ + head + """
+    <script type="text/javascript" src="/js/simulate.js"></script>
+</head>
+<body>
+    <div class="page">
+    """ + nav + """
+    <div class="container">
+    <h1>Insulation</h1>
+    <form id="insulation">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <h2>Wall</h2>
+                <h3>Room</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].text; document.getElementById('idValue').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IRwall" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                </div>
+                <h3>House</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].text; document.getElementById('idValue').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IHwall" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <h2>Window</h2>
+                <h3>Room</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].text; document.getElementById('idValue').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IRwindow" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                </div>
+                <h3>House</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].text; document.getElementById('idValue').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IHwindow" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <h2>Roof</h2>
+                <h3>Room</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].text; document.getElementById('idValue').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IRroof" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                </div>
+                <h3>House</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].text; document.getElementById('idValue').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IHroof" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <h2>Floor</h2>
+                <h3>Room</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].text; document.getElementById('idValue').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IRfloor" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                </div>
+                <h3>House</h3>
+                <div class="option">
+                    <select onchange="document.getElementById('displayValue').value=this.options[this.selectedIndex].text; document.getElementById('idValue').value=this.options[this.selectedIndex].value;">
+                        <option></option>
+                        <option name="plywood" value="0.57">plywood</option>
+                        <option name="window" value="0.57">window</option>
+                        <option name="roof" value="0.57">roof</option>
+                        <option name="wall" value="0.57">wall</option>
+                    </select>
+                    <input name="IHfloor" placeholder="add/select a value" id="displayValue" onfocus="this.select()" type="number">
+                </div>
+            </div>
+        </div>
+    </form>
+    <input type="submit" value="Simulate" id="sim">
+    <p><tt id="out">hi</tt></p>
+    </div>
+    """ + footer + """
+    </div>
+</body>
+</html>
+"""
+
+infopage = """
+<html>
+<head>
+    """ + head + """
+</head>
+<body>
+    <div class="page">
+    """ + nav + """
+    <div class="container">
+        <h1>Info</h1>
+        <h2>Research</h2>
+        <div class="row">
+            <p>I looked at the energy calculator <a href="http://alf.branz.co.nz">Branz Annual Loss Factor(ALF)</a></p>
+            <p>Then looked at some research paper but looked at one in particular <a href=""></a></p>
+        </div>
+        <h2>Mathematics</h2>
+        <div class="row">
+
+        </div>
+        <h2>Programming</h2>
+        <div class="row">
+
+        </div>
+    </div>
+    """ + footer + """
+    </div>
+</body>
+</html>
+"""
+## Old ##
+#startpage = """
+#<html>
+#<head>
+#    """ + head + """
+#</head>
+#<body>
+#    <div class="page">
+#    """ + nav + """
+#    <h1>Home</h1>
+#    <p>This is a tool to simulate.js the amount of money and energy you save by insulating parts of your house.</p>
+#    <p>To make this tool work you first need to go to the "Room simulation" page and input the data it ask you for. Then hit
+#    the submit button and the simulation will analyse your data and simulate.js your house with your main room being heated
+#     to 18C and the rest of your house not being heated. It will give you the amount of energy and money you use to heat
+#     that room up for one year.<p/>
+#    <h3>Under Development</h3>
+#    <p>The Room simulation page is still under development and will become easier to use in the future.</p>
+#    <p>Making it so that in the Draw floor plan page you can draw your floor plan and you would get the amount of energy
+#    you might use in a year.</p>
+#    <p>Making this website mobile compatible.</p>
+#    </div>
+#</body>
+#</html>
+#"""
+
 housemade = """
 <html>
 <head>
-    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
+    """ + head + """
     <link rel="stylesheet" type="text/css" href="/css/edit.css">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="/js/house.js"></script>
 </head>
 <body>
-    <a href="/"><div id="Logo"></div></a>
-    <div>
-        <a href="/" class="btn">Home</a>
-        <a href="/edit" class="btn">Draw floor plan</a>
-        <a href="/quick" class="btn">Room simulation</a>
-        <a href="/winanalysis" class="btn">Calculate energy used</a>
-        <a href="/dataentry" class="btn">House simulation</a>
-    </div>
-    <div>
-        <a href="/pages" class="btn">Information Sources</a>
-    </div>
+    <div class="page">
+    """ + nav + """
     <h1>Draw your floor plan</h1>
     <p>The length of one blocks is 0.2 meters.</p>
     <table id="options"></table>
@@ -62,6 +327,8 @@ housemade = """
         <input type="hidden" name="floorplan" value="{house}" id="floorplan">
         <input type="submit" id="submit" value="Save House">
     </form>
+    """ + footer + """
+    </div>
 </body>
 </html>
 """
@@ -69,23 +336,12 @@ housemade = """
 dataentry = """
 <html>
 <head>
-    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+    """ + head + """
     <script type="text/javascript" src="/js/dataentry.js"></script>
 </head>
 <body>
-    <a href="/"><div id="Logo"></div></a>
-    <div>
-        <a href="/" class="btn">Home</a>
-        <a href="/edit" class="btn">Draw floor plan</a>
-        <a href="/quick" class="btn">Room simulation</a>
-        <a href="/winanalysis" class="btn">Calculate energy used</a>
-        <a href="/dataentry" class="btn">House simulation</a>
-    </div>
-    <div>
-        <a href="/pages" class="btn">Information Sources</a>
-    </div>
+    <div class="page">
+    """ + nav + """
     <h1>House Simulation</h1>
     <h3>Under Development!</h3>
     <p>This will be a house simulation page for experts to use.</p>
@@ -113,6 +369,8 @@ dataentry = """
     <input type="hidden" id="pytemps" name="pytemps" value="{pytemps}">
     <input type="hidden" id="pyconductance" name="pyconductance" value="{pyconductance}">
     <input type="hidden" id="pycapacity" name="pycapacity" value="{pycapacity}">
+    """ + footer + """
+    </div>
 </body>
 </html>
 """
@@ -120,24 +378,16 @@ dataentry = """
 analysis = """
 <html>
 <head>
-    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    """ + head + """
 </head>
 <body>
-    <a href="/"><div id="Logo"></div></a>
-    <div>
-        <a href="/" class="btn">Home</a>
-        <a href="/edit" class="btn">Draw floor plan</a>
-        <a href="/quick" class="btn">Room simulation</a>
-        <a href="/winanalysis" class="btn">Calculate energy used</a>
-        <a href="/dataentry" class="btn">House simulation</a>
-    </div>
-    <div>
-        <a href="/pages" class="btn">Information Sources</a>
-    </div>
+    <div class="page">
+    """ + nav + """
     <h1>Calculate energy used</h1>
     <div>{graph1}</div>
     <div>You use {kWh}kWhs in one year to keep the {room} warm 24/7. Thats ${money} if you are with the genesis classic anytime plan</div>
+    """ + footer + """
+    </div>
 </body>
 </html>
 """
@@ -145,21 +395,11 @@ analysis = """
 quickenter = """
 <html>
 <head>
-    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    """ + head + """
 </head>
 <body>
-    <a href="/"><div id="Logo"></div></a>
-    <div>
-        <a href="/" class="btn">Home</a>
-        <a href="/edit" class="btn">Draw floor plan</a>
-        <a href="/quick" class="btn">Room simulation</a>
-        <a href="/winanalysis" class="btn">Calculate energy used</a>
-        <a href="/dataentry" class="btn">House simulation</a>
-    </div>
-    <div>
-        <a href="/pages" class="btn">Information Sources</a>
-    </div>
+    <div class="page">
+    """ + nav + """
     <h1>Room simulation</h1>
     <p>This page simulates the amount of energy you would use to keep this room warm for one year.</p>
     <form action="/quick" method="post">
@@ -206,9 +446,10 @@ quickenter = """
         <input type="number" min="0" step="any" name="Rwindows" value={rwindows}></p>
         <p>R-value of the roof:
         <input type="number" min="0" step="any" name="Rroof" value={rroof}></p>
-
         <input type="submit" value="Submit Quick Entry" class="btn">
     </form>
+    """ + footer + """
+    </div>
 </body>
 </html>
 """
@@ -216,22 +457,11 @@ quickenter = """
 pages = """
 <html>
 <head>
-    <link href='http://fonts.googleapis.com/css?family=Poppins:400,600' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+    """ + head + """
 </head>
 <body>
-    <a href="/"><div id="Logo"></div></a>
-    <div>
-        <a href="/" class="btn">Home</a>
-        <a href="/edit" class="btn">Draw floor plan</a>
-        <a href="/quick" class="btn">Room simulation</a>
-        <a href="/winanalysis" class="btn">Calculate energy used</a>
-        <a href="/dataentry" class="btn">House simulation</a>
-    </div>
-    <div>
-        <a href="/pages" class="btn">Information Sources</a>
-    </div>
+    <div class="page">
+    """ + nav + """
     <h1>Information Sources</h1>
     <a href="en.wikipedia.org/wiki/Heat_capacity">en.wikipedia.org/wiki/Heat_capacity</a>
     <p>I got the heat capacity of some common materials and formulas for my program</p>
@@ -249,6 +479,8 @@ pages = """
     <p>I got Fouriers Law</p>
 
     <a href="/test">Demo and Crest award page</a>
+    """ + footer + """
+    </div>
 </body>
 </html>
 """

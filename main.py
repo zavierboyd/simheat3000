@@ -19,11 +19,20 @@ try:
     import matplotlib.pyplot as plt
 except:
     pass
+import os
 import webapp2
 import cgi
 import urllib
 from google.appengine.ext import ndb
 from google.appengine.api import users
+
+## import Jinja2 later
+#import jinja2
+#env = jinja2.Enviroment(
+#    loader = jinja2.FileSystemLoader(os.path.dirname(__file__) + "/html")
+#)
+
+
 import html
 import outside_temps
 import StringIO
@@ -69,6 +78,132 @@ class DBQuickHouse(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write(html.startpage)
+
+    def post(self):
+        pass
+
+class HouseHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        nickname = user.nickname()
+
+        housequeryq = DBQuickHouse.query(DBQuickHouse.username == nickname)
+        userhouseq = housequeryq.get()
+
+        if userhouseq is None:
+            self.response.write(html.housemesure.format(
+                riwall=14,
+                rewall=4,
+                hewall=44,
+                rwindow=4.29,
+                hwindow=26.66,
+                rfloor=20,
+                hfloor=103.548))
+        else:
+            self.response.write(html.housemesure.format(
+                riwall=userhouseq.maininternal,
+                rewall=userhouseq.mainexternal,
+                hewall=userhouseq.fullexternal,
+                rwindow=userhouseq.mainwinarea,
+                hwindow=userhouseq.fullwinarea,
+                rfloor=userhouseq.mainsize,
+                hfloor=userhouseq.fullsize))
+
+    def post(self):
+        user = users.get_current_user()
+        nickname = user.nickname()
+
+        housequeryq = DBQuickHouse.query(DBQuickHouse.username == nickname)
+        userhouseq = housequeryq.get()
+
+        housequery = DBHouse.query(DBHouse.username == nickname)
+        userhouse = housequery.get()
+
+        riwall = self.request.get("RIwall")
+        rewall = self.request.get("REwall")
+        hewall = self.request.get("HEwall")
+        rwindow = self.request.get("Rwindow")
+        hwindow = self.request.get("Hwindow")
+        rfloor = self.request.get("Rfloor")
+        hfloor = self.request.get("Hfloor")
+        area = """0,{Minwall},{Mexwall} {Minwall},0,{Hexwall} {Mexwall},{Hexwall},0""".format(Minwall=float(riwall),
+                                                                                              Mexwall=float(rewall),
+                                                                                              Hexwall=float(hewall)-float(rewall))
+        winarea = """0,0,{Mwin} 0,0,{Hwin} {Mwin},{Hwin},0""".format(Mwin=float(rwindow),
+                                                                     Hwin=float(hwindow)-float(rwindow))
+        rofarea = """0,0,{Mroof} 0,0,{Hroof} {Mroof},{Hroof},0""".format(Mroof=float(rfloor),
+                                                                         Hroof=float(hfloor))
+        capacity = """{Mcapa} {Hcapa} 100000000000000000000""".format(Mcapa=((float(rfloor))*2.4*0.00121)+((200*1000)*4.2),
+                                                                      Hcapa=((float(hfloor)-float(rfloor))*2.4*0.00121))
+
+        if userhouse is None:
+            userhouse = DBHouse(username=nickname,
+                                area=area,
+                                capacity=capacity,
+                                names="Room Rest-of-House Outside",
+                                temps='',
+                                conductance='',
+                                winconductance='',
+                                winarea=winarea,
+                                rofarea=rofarea,
+                                rofconductance="")
+        else:
+            userhouse.area = area
+            userhouse.capacity = capacity
+            userhouse.winarea = winarea
+            userhouse.rofarea = rofarea
+
+        if userhouseq is None:
+            userhouseq = DBQuickHouse(
+                username=nickname,
+                mainroom="Room",
+                mainwinarea=rwindow,
+                fullwinarea=hwindow,
+                mainexternal=rewall,
+                maininternal=riwall,
+                fullexternal=hewall,
+                rwindows='',
+                rinternal='',
+                rexternal='',
+                rroof='',
+                mainrexternal='',
+                mainrwindows='',
+                mainrroof='',
+                mainsize=rfloor,
+                fullsize=hfloor)
+        else:
+            userhouseq.username = nickname
+            userhouseq.mainwinarea = rwindow
+            userhouseq.fullwinarea = hwindow
+            userhouseq.mainexternal = rewall
+            userhouseq.maininternal = riwall
+            userhouseq.fullexternal = hewall
+            userhouseq.mainsize = rfloor
+            userhouseq.fullsize = hfloor
+        userhouseq.put()
+        userhouse.put()
+
+        self.response.write(html.housemesure.format(
+            riwall=riwall,
+            rewall=rewall,
+            hewall=hewall,
+            rwindow=rwindow,
+            hwindow=hwindow,
+            rfloor=rfloor,
+            hfloor=hfloor))
+
+
+class SimHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write(html.sim)
+
+    def post(self):
+        pass
+
+
+class InfoHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write(html.infopage)
 
     def post(self):
         pass
@@ -577,7 +712,10 @@ class TestHandler(webapp2.RequestHandler):
         self.response.write("""<a href="/">Back to main page</a>""")
 
 app = webapp2.WSGIApplication([
-    #('/', MainHandler),
+    ('/', MainHandler),
+    ('/house', HouseHandler),
+    ('/info', InfoHandler),
+    ('/sim', SimHandler),
     ('/edit', EditHandler),
     ('/dataentry', ManualEntryHandler),
     ('/quick', QuickEntryHandler),
