@@ -234,51 +234,6 @@ class SimHandler(webapp2.RequestHandler):
             irfloor=userhouseq.mainrfloor,
             ihfloor=userhouseq.fullrfloor))
 
-def savesim(handler):
-    user = users.get_current_user()
-    nickname = user.nickname()
-
-    housequeryq = DBQuickHouse.query(DBQuickHouse.username == nickname)
-    userhouseq = housequeryq.get()
-
-    housequery = DBHouse.query(DBHouse.username == nickname)
-    userhouse = housequery.get()
-
-    iriwall = userhouseq.mainrinternal
-    irroof = handler.request.get("IRroof")
-    ihroof = handler.request.get("IHroof")
-    irwindow = handler.request.get("IRwindow")
-    ihwindow = handler.request.get("IHwindow")
-    irwall = handler.request.get("IRwall")
-    ihwall = handler.request.get("IHwall")
-    irfloor = handler.request.get("IRfloor")
-    ihfloor = handler.request.get("IHfloor")
-
-
-    rofconductance="""0,0,{Muroof} 0,0,{Huroof} {Muroof},{Huroof},0""".format(Muroof=1/(float(irroof)),
-                                                                              Huroof=1/(float(ihroof)))
-    winconductance = "0,0,{Muwin} 0,0,{Huwin} {Muwin},0,{Huwin}".format(Muwin=1/(float(irwindow)),
-                                                                        Huwin=1/(float(ihwindow)))
-    conductance = """0,{uin},{Muex} {uin},0,{uex} {Muex},{uex},0""".format(uin=1/(float(iriwall)),
-                                                                         uex=1/(float(ihwall)),
-                                                                         Muex=1/(float(irwall)))
-
-    userhouse.rofconductance = rofconductance
-    userhouse.winconductance = winconductance
-    userhouse.conductance = conductance
-
-    userhouseq.mainrexternal = irwall
-    userhouseq.fullrexternal = ihwall
-    userhouseq.mainrwindows = irwindow
-    userhouseq.fullrwindows = ihwindow
-    userhouseq.mainrroof = irroof
-    userhouseq.fullrroof = ihroof
-    userhouseq.mainrfloor = irfloor
-    userhouseq.fullrfloor = ihfloor
-
-    userhouseq.put()
-    userhouse.put()
-
 
 class InfoHandler(webapp2.RequestHandler):
     def get(self):
@@ -500,148 +455,6 @@ class QuickEntryHandler(webapp2.RequestHandler):
         self.redirect("/winanalysis")
 
 
-class AnalysisHandler(webapp2.RequestHandler):
-    def get(self):
-        user = users.get_current_user()
-        nickname = user.nickname()
-
-        housequery = DBHouse.query(DBHouse.username == nickname)
-        userhouse = housequery.get()
-        if userhouse is not None:
-            area = userhouse.area.split(" ")
-            names = userhouse.names.split(" ")
-            capacity = userhouse.capacity.split(" ")
-            temps = userhouse.temps.split(" ")
-            conductance = userhouse.conductance.split(" ")
-            print area,"area"
-            print capacity,"capacity"
-            outtemps=outside_temps.temps.split(" ")
-            outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
-            area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
-            capacity = [[(1/float(cell)) if float(cell) > 0.01 else (1/0.01) for cell in row.split(",")] for row in capacity]
-            temps = [[float(cell) for cell in row.split(",")] for row in temps]
-            conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
-
-            conductance = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
-            print conductance
-            simtemps = House(conductance, capacity).matrix_simulation(temps, 1, 60*60*24*31, outtemps)
-            x1 = range(len(simtemps[0]))
-
-            graph1 = StringIO.StringIO()
-            try:
-                plt.clf()
-                for temps, name in zip(simtemps, names):
-                    plt.plot(x1, temps, label=name)
-                plt.legend()
-                plt.title("The change in temperature")
-                plt.xlabel("1/4 hours (900s)")
-                plt.ylabel("Temperature (C)")
-                plt.savefig(graph1, format="svg")
-                plt.clf()
-                self.response.write(html.analysis.format(graph1=graph1.getvalue()))
-            except:
-                self.response.write(html.analysisnograph.format(graph1=simtemps))
-        else:
-            self.redirect("/dataentry")
-
-    def post(self):
-        pass
-
-
-class AnalysisNpHandler(webapp2.RequestHandler):
-    def get(self):
-        user = users.get_current_user()
-        nickname = user.nickname()
-
-        housequery = DBHouse.query(DBHouse.username == nickname)
-        userhouse = housequery.get()
-        if userhouse.area is not None:
-            area = userhouse.area.split(" ")
-            names = userhouse.names.split(" ")
-            capacity = userhouse.capacity.split(" ")
-            temps = userhouse.temps.split(" ")
-            conductance = userhouse.conductance.split(" ")
-            print area,"area"
-            print capacity,"capacity"
-            outtemps=outside_temps.temps.split(" ")
-            outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
-            area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
-            capacity = [[(1/float(cell)) if float(cell) > 0.01 else (1/0.01) for cell in row.split(",")] for row in capacity]
-            temps = [[float(cell) for cell in row.split(",")] for row in temps]
-            conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
-
-            conductance = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
-            print conductance
-            simtemps = House(conductance, capacity).matrix_simulstionnp(temps, 1, 60*60*24*31, outtemps)
-            x1 = range(len(simtemps[0]))
-
-            graph1 = StringIO.StringIO()
-            try:
-                plt.clf()
-                for temps, name in zip(simtemps, names):
-                    plt.plot(x1, temps, label=name)
-                plt.legend()
-                plt.title("The change in temperature")
-                plt.xlabel("1/4 hours (900s)")
-                plt.ylabel("Temperature (C)")
-                plt.savefig(graph1, format="svg")
-                plt.clf()
-                self.response.write(html.analysis.format(graph1=graph1.getvalue()))
-            except:
-                self.response.write(html.analysisnograph.format(graph1=simtemps))
-        else:
-            self.redirect("/dataentry")
-
-    def post(self):
-        pass
-
-
-class AnalysisNpPowerHandler(webapp2.RequestHandler):
-    def get(self):
-        user = users.get_current_user()
-        nickname = user.nickname()
-
-        housequery = DBHouse.query(DBHouse.username == nickname)
-        userhouse = housequery.get()
-        if userhouse.area is not None:
-            area = userhouse.area.split(" ")
-            names = userhouse.names.split(" ")
-            capacity = userhouse.capacity.split(" ")
-            temps = userhouse.temps.split(" ")
-            conductance = userhouse.conductance.split(" ")
-            outtemps=outside_temps.temps.split(" ")
-            outtemps = [[float(cell) for cell in row.split(",")] for row in outtemps]
-            area = [[(float(cell)*2.4) for cell in row.split(",")] for row in area]
-            capacity = [[(1/float(cell)) if float(cell) > 0.01 else (1/0.01) for cell in row.split(",")] for row in capacity]
-            temps = [[float(cell) for cell in row.split(",")] for row in temps]
-            conductance = [[float(cell) for cell in row.split(",")] for row in conductance]
-
-            conductance = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
-            print conductance
-            simtemps = House(conductance, capacity).matrix_simulstionnppower(temps, 1, 60*60*24*31, outtemps)
-            x1 = range(len(simtemps[0]))
-
-            graph1 = StringIO.StringIO()
-            try:
-                plt.clf()
-                for temps, name in zip(simtemps, names):
-                    plt.plot(x1, temps, label=name)
-                plt.legend()
-                plt.title("The change in temperature")
-                plt.xlabel("1/4 hours (900s)")
-                plt.ylabel("Temperature (C)")
-                plt.savefig(graph1, format="svg")
-                plt.clf()
-                self.response.write(html.analysis.format(graph1=graph1.getvalue()))
-            except:
-                self.response.write(html.analysisnograph.format(graph1=simtemps))
-        else:
-            self.redirect("/dataentry")
-
-    def post(self):
-        pass
-
-
 def make_graph(handler):
     user = users.get_current_user()
     nickname = user.nickname()
@@ -669,7 +482,7 @@ def make_graph(handler):
         rofarea = [[float(cell) for cell in row.split(",")] for row in rofarea]
         rofconductance = [[float(cell) for cell in row.split(",")] for row in rofconductance]
 
-        print temps
+
         area = [[cella-cellwa for cella, cellwa in zip(rowa, rowwa)] for rowa, rowwa in zip(area, winarea)]
         winUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(winarea, winconductance)]
         walUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(area, conductance)]
@@ -706,7 +519,52 @@ class AnalysisNpPowerWinHandler(webapp2.RequestHandler):
 
 class Simulate(webapp2.RequestHandler):
     def get(self):
-        savesim(self)
+        user = users.get_current_user()
+        nickname = user.nickname()
+
+        housequeryq = DBQuickHouse.query(DBQuickHouse.username == nickname)
+        userhouseq = housequeryq.get()
+
+        housequery = DBHouse.query(DBHouse.username == nickname)
+        userhouse = housequery.get()
+
+        if userhouseq is None:
+            userhouseq, userhouse = setdata(nickname)
+
+        iriwall = userhouseq.mainrinternal
+        irroof = self.request.get("IRroof")
+        ihroof = self.request.get("IHroof")
+        irwindow = self.request.get("IRwindow")
+        ihwindow = self.request.get("IHwindow")
+        irwall = self.request.get("IRwall")
+        ihwall = self.request.get("IHwall")
+        irfloor = self.request.get("IRfloor")
+        ihfloor = self.request.get("IHfloor")
+
+
+        rofconductance="""0,0,{Muroof} 0,0,{Huroof} {Muroof},{Huroof},0""".format(Muroof=1/(float(irroof)),
+                                                                                  Huroof=1/(float(ihroof)))
+        winconductance = "0,0,{Muwin} 0,0,{Huwin} {Muwin},0,{Huwin}".format(Muwin=1/(float(irwindow)),
+                                                                            Huwin=1/(float(ihwindow)))
+        conductance = """0,{uin},{Muex} {uin},0,{uex} {Muex},{uex},0""".format(uin=1/(float(iriwall)),
+                                                                             uex=1/(float(ihwall)),
+                                                                             Muex=1/(float(irwall)))
+
+        userhouse.rofconductance = rofconductance
+        userhouse.winconductance = winconductance
+        userhouse.conductance = conductance
+
+        userhouseq.mainrexternal = irwall
+        userhouseq.fullrexternal = ihwall
+        userhouseq.mainrwindows = irwindow
+        userhouseq.fullrwindows = ihwindow
+        userhouseq.mainrroof = irroof
+        userhouseq.fullrroof = ihroof
+        userhouseq.mainrfloor = irfloor
+        userhouseq.fullrfloor = ihfloor
+
+        userhouseq.put()
+        userhouse.put()
         make_graph(self)
 
 
@@ -775,9 +633,6 @@ app = webapp2.WSGIApplication([
     ('/dataentry', ManualEntryHandler),
     ('/quick', QuickEntryHandler),
     ('/winanalysis', AnalysisNpPowerWinHandler),
-    ('/analysis', AnalysisHandler),
-    ('/analysisnp', AnalysisNpHandler),
-    ('/analysisnppower', AnalysisNpPowerHandler),
     ('/pages', PagesHandler),
     ('/test', TestHandler)
 ], debug=True)

@@ -65,7 +65,7 @@ startpage = """
         <div class="row">
             <p class="col-md-6 col-xs-12">First you need to go to House Dimentions. In House Dimentions you will need to enter information regarding your house and so will need to mesure all the windows and walls. There will be some pre-sets but ou can enter your own calculations.</p>
             <img class="col-md-6 col-xs-12" src="/images/housedimen.png" alt="image">
-            <p class="col-md-6 col-xs-12">After You have done that you then need to go to the Simulation page. There will again be presets in the boxes</p>
+            <p class="col-md-6 col-xs-12">After You have done that you then need to go to the Simulation page. There will again be presets in there so you will need to change these.</p>
             <img class="col-md-6 col-xs-12" src="/images/insulsim.png" alt="image">
         </div>
         <div class="row">
@@ -277,8 +277,14 @@ infopage = """
         <h1>Info</h1>
         <h2>Research</h2>
         <div class="row">
-            <p>I looked at the energy calculator <a href="http://alf.branz.co.nz">Branz Annual Loss Factor(ALF)</a></p>
-            <p>Then looked at some research paper but looked at one in particular <a href=""></a></p>
+            <a href="en.wikipedia.org/wiki/Heat_capacity">en.wikipedia.org/wiki/Heat_capacity</a>
+            <p>I got the heat capacity of some common materials and formulas for my program</p>
+            <a href="https://en.wikipedia.org/wiki/R-value_(insulation)">https://en.wikipedia.org/wiki/R-value_(insulation)</a>
+            <p>I got the R-value of some materials and some formulas for my program</p>
+            <a href="https://en.wikipedia.org/wiki/Thermal_conduction">https://en.wikipedia.org/wiki/Thermal_conduction</a>
+            <p>I got Fouriers Law</p>
+            <a href="www.engineeringtoolbox.com/thermal-conductivity-d_429.html">www.engineeringtoolbox.com/thermal-conductivity-d_429.html</a>
+            <p>I got the K-value of common building materials</p>
         </div>
         <h2>Mathematics</h2>
         <div class="row">
