@@ -232,7 +232,7 @@ class SimHandler(webapp2.RequestHandler):
             irroof=userhouseq.mainrroof,
             ihroof=userhouseq.fullrroof,
             irfloor=userhouseq.mainrfloor,
-            ihfloor=userhouseq.fullrfloor,))
+            ihfloor=userhouseq.fullrfloor))
 
 def savesim(handler):
     user = users.get_current_user()

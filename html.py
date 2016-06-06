@@ -63,10 +63,10 @@ startpage = """
     <div class="container">
         <h3>Instructions</h3>
         <div class="row">
-            <p class="col-md-6 col-xs-12">First you need to go to House Dimentions. In House Dimentions you will need to enter information regarding your house and so will need to mesure all the windows and walls.</p>
-            <img class="col-md-6 col-xs-12" src="/images/dummy.png" alt="image">
-            <p class="col-md-6 col-xs-12"></p>
-            <img class="col-md-6 col-xs-12" src="/images/dummy.png" alt="image">
+            <p class="col-md-6 col-xs-12">First you need to go to House Dimentions. In House Dimentions you will need to enter information regarding your house and so will need to mesure all the windows and walls. There will be some pre-sets but ou can enter your own calculations.</p>
+            <img class="col-md-6 col-xs-12" src="/images/housedimen.png" alt="image">
+            <p class="col-md-6 col-xs-12">After You have done that you then need to go to the Simulation page. There will again be presets in the boxes</p>
+            <img class="col-md-6 col-xs-12" src="/images/insulsim.png" alt="image">
         </div>
         <div class="row">
             <p class="col-md-6 col-xs-12"></p>
