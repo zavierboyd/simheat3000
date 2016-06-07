@@ -43,11 +43,12 @@ startpage = """
     """ + nav + """
     <div class="about">
     <div class="container">
-        <h1>About</h1>
         <div class="row">
             <h1>The new version of the website is under construction</h1>
             <a href="/old">Click Here to go to our old website</a>
-            <p class="col-xs-12">
+            <br>
+            <h1>About</h1>
+            <p>
                 This is a tool to simulate the amount of money and energy you save by insulating parts of your house.
             </p>
             <p>
@@ -63,9 +64,9 @@ startpage = """
     <div class="container">
         <h3>Instructions</h3>
         <div class="row">
-            <p class="col-md-6 col-xs-12">First you need to go to House Dimentions. In House Dimentions you will need to enter information regarding your house and so will need to mesure all the windows and walls. There will be some pre-sets but you need to enter your own data.</p>
+            <p class="col-md-6 col-xs-12">First you need to go to <a href="/house">House Dimentions</a>. In <a href="/house">House Dimentions</a> you will need to enter information regarding your house and so will need to mesure all the windows and walls. There will be some pre-sets but you need to enter your own data.</p>
             <img class="col-md-6 col-xs-12" src="/images/housedimen.png" alt="image">
-            <p class="col-md-6 col-xs-12">After You have done that you then need to go to the Simulation page. There will again be presets in there so you will need to change these. You can select different insulation types putting their R-values into the boxes. After that click 'Simulate' and it will simulate how much energy you use in a year and a temperature graph underneath</p>
+            <p class="col-md-6 col-xs-12">After You have done that you then need to go to the <a href="/sim">Simulation</a> page. There will again be presets in there so you will need to change these. You can select different insulation types putting their R-values into the boxes. After that click 'Simulate' and it will simulate how much energy you use in a year and a temperature graph underneath</p>
             <img class="col-md-6 col-xs-12" src="/images/insulsim.png" alt="image">
         </div>
     </div>
@@ -90,37 +91,37 @@ housemesure = """"
     <form action="/house" method="post">
     <h2>Width of Walls:</h2>
     <div class="row">
-        <div class="col-md-4 col-xs-12">
+        <div class="col-md-4 col-sm-4 col-xs-12">
             <h3>Room Interior Walls</h3>
             <input type="number" name="RIwall" value="{riwall}">
         </div>
-        <div class="col-md-4 col-xs-12">
+        <div class="col-md-4 col-sm-4 col-xs-12">
             <h3>Room Exterior Walls</h3>
             <input type="number" name="REwall" value="{rewall}">
         </div>
-        <div class="col-md-4 col-xs-12">
+        <div class="col-md-4 col-sm-6 col-xs-12">
             <h3>House Exterior Walls</h3>
             <input type="number" name="HEwall" value="{hewall}">
         </div>
     </div>
     <h2>Area of Windows in:</h2>
     <div class="row">
-        <div class="col-md-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12">
             <h3>Room</h3>
             <input type="number" name="Rwindow" value="{rwindow}">
         </div>
-        <div class="col-md-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12">
             <h3>House</h3>
             <input type="number" name="Hwindow" value="{hwindow}">
         </div>
     </div>
     <h2>Floor Area of:</h2>
     <div class="row">
-        <div class="col-md-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12">
             <h3>Room</h3>
             <input type="number" name="Rfloor" value="{rfloor}">
         </div>
-        <div class="col-md-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12">
             <h3>House</h3>
             <input type="number" name="Hfloor" value="{hfloor}">
         </div>
