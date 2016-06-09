@@ -154,12 +154,11 @@ sim = """
                 <div class="option">
                     <select onchange="document.getElementById('IRwall').value=this.options[this.selectedIndex].value;">
                         <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
+                        <option name="wall" value="0.54">Uninsulated Wall - 0.54</option>
+                        <option name="wall" value="1.35">Basic Wool Wall Insulation - 1.35</option>
+                        <option name="wall" value="1.9">Minimum Wall Insulation Zone 2 - 1.9</option>
                     </select>
-                    <input name="IRwall" value="{irwall}" placeholder="add/select a value" id="IRwall" onfocus="this.select()" type="number">
+                    <input name="IRwall" min="0.1" step="0.1" value="{irwall}" placeholder="add/select a value" id="IRwall" onfocus="this.select()" type="number">
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -167,12 +166,11 @@ sim = """
                 <div class="option">
                     <select onchange="document.getElementById('IRwindow').value=this.options[this.selectedIndex].value;">
                         <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
+                        <option name="window" value="0.17">Uninsulated Window - 0.17</option>
+                        <option name="window" value="0.37">Mylar Film 10mm+ Cavity - 0.37</option>
+                        <option name="window" value="0.3">8mm Cavity Double Glazing - 0.3</option>
                     </select>
-                    <input name="IRwindow" value="{irwindow}" placeholder="add/select a value" id="IRwindow" onfocus="this.select()" type="number">
+                    <input name="IRwindow" min="0.1" step="0.1" value="{irwindow}" placeholder="add/select a value" id="IRwindow" onfocus="this.select()" type="number">
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -180,25 +178,23 @@ sim = """
                 <div class="option">
                     <select onchange="document.getElementById('IRfloor').value=this.options[this.selectedIndex].value;">
                         <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
+                        <option name="floor" value="0.3">Without Carpet - 0.3</option>
+                        <option name="floor" value="0.7">With Carpet - 0.7</option>
+                        <option name="floor" value="1.3">Minimum Insulation Zone 2 - 1.3</option>
                     </select>
-                    <input name="IRfloor" value="{irfloor}" placeholder="add/select a value" id="IRfloor" onfocus="this.select()" type="number">
+                    <input name="IRfloor" min="0.1" step="0.1" value="{irfloor}" placeholder="add/select a value" id="IRfloor" onfocus="this.select()" type="number">
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
-                <h3>Roof</h3>
+                <h3>Ceiling</h3>
                 <div class="option">
                     <select onchange="document.getElementById('IRroof').value=this.options[this.selectedIndex].value;">
                         <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
+                        <option name="roof" value="0.5">Uninsulated - 0.5</option>
+                        <option name="roof" value="1.5">50mm Fiberglass Insulation - 1.5</option>
+                        <option name="roof" value="2.9">Minimum Insulation Zone 2 - 2.9</option>
                     </select>
-                    <input name="IRroof" value="{irroof}" placeholder="add/select a value" id="IRroof" onfocus="this.select()" type="number">
+                    <input name="IRroof" min="0.1" step="0.1" value="{irroof}" placeholder="add/select a value" id="IRroof" onfocus="this.select()" type="number">
                 </div>
             </div>
         </div>
@@ -209,12 +205,11 @@ sim = """
                 <div class="option">
                     <select onchange="document.getElementById('IHwall').value=this.options[this.selectedIndex].value;">
                         <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
+                        <option name="wall" value="0.54">Uninsulated - 0.54</option>
+                        <option name="wall" value="1.35">Basic Wool Insulation - 1.35</option>
+                        <option name="wall" value="1.9">Minimum Insulation Zone 2 - 1.9</option>
                     </select>
-                    <input name="IHwall" value="{ihwall}" placeholder="add/select a value" id="IHwall" onfocus="this.select()" type="number">
+                    <input name="IHwall" min="0.1" step="0.1" value="{ihwall}" placeholder="add/select a value" id="IHwall" onfocus="this.select()" type="number">
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -222,12 +217,11 @@ sim = """
                 <div class="option">
                     <select onchange="document.getElementById('IHwindow').value=this.options[this.selectedIndex].value;">
                         <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
+                        <option name="window" value="0.17">Uninsulated Window - 0.17</option>
+                        <option name="window" value="0.37">Mylar Film 10mm+ Cavity - 0.37</option>
+                        <option name="window" value="0.3">8mm Cavity Double Glazing - 0.3</option>
                     </select>
-                    <input name="IHwindow" value="{ihwindow}" placeholder="add/select a value" id="IHwindow" onfocus="this.select()" type="number">
+                    <input name="IHwindow" min="0.1" step="0.1" value="{ihwindow}" placeholder="add/select a value" id="IHwindow" onfocus="this.select()" type="number">
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
@@ -235,25 +229,23 @@ sim = """
                 <div class="option">
                     <select onchange="document.getElementById('IHfloor').value=this.options[this.selectedIndex].value;">
                         <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
+                        <option name="floor" value="0.3">Without Carpet - 0.3</option>
+                        <option name="floor" value="0.7">With Carpet - 0.7</option>
+                        <option name="floor" value="1.3">Minimum Insulation Zone 2 - 1.3</option>
                     </select>
-                    <input name="IHfloor" value="{ihfloor}" placeholder="add/select a value" id="IHfloor" onfocus="this.select()" type="number">
+                    <input name="IHfloor" min="0.1" step="0.1" value="{ihfloor}" placeholder="add/select a value" id="IHfloor" onfocus="this.select()" type="number">
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
-                <h3>Roof</h3>
+                <h3>Ceiling</h3>
                 <div class="option">
                     <select onchange="document.getElementById('IHroof').value=this.options[this.selectedIndex].value;">
                         <option></option>
-                        <option name="plywood" value="0.57">plywood</option>
-                        <option name="window" value="0.57">window</option>
-                        <option name="roof" value="0.57">roof</option>
-                        <option name="wall" value="0.57">wall</option>
+                        <option name="roof" value="0.5">Uninsulated - 0.5</option>
+                        <option name="roof" value="1.5">50mm Fiberglass Insulation - 1.5</option>
+                        <option name="roof" value="2.9">Minimum Insulation Zone 2 - 2.9</option>
                     </select>
-                    <input name="IHroof" value="{ihroof}" placeholder="add/select a value" id="IHroof" onfocus="this.select()" type="number">
+                    <input name="IHroof" min="0.1" step="0.1" value="{ihroof}" placeholder="add/select a value" id="IHroof" onfocus="this.select()" type="number">
                 </div>
             </div>
         </div>
@@ -280,18 +272,19 @@ infopage = """
         <h1>Info</h1>
         <h2>Research</h2>
         <div class="row">
-            <a href="en.wikipedia.org/wiki/Heat_capacity">en.wikipedia.org/wiki/Heat_capacity</a>
+            <a href="//en.wikipedia.org/wiki/Heat_capacity">en.wikipedia.org/wiki/Heat_capacity</a>
             <p>I got the heat capacity of some common materials and formulas for my program</p>
             <a href="https://en.wikipedia.org/wiki/R-value_(insulation)">https://en.wikipedia.org/wiki/R-value_(insulation)</a>
             <p>I got the R-value of some materials and some formulas for my program</p>
             <a href="https://en.wikipedia.org/wiki/Thermal_conduction">https://en.wikipedia.org/wiki/Thermal_conduction</a>
             <p>I got Fouriers Law</p>
-            <a href="www.engineeringtoolbox.com/thermal-conductivity-d_429.html">www.engineeringtoolbox.com/thermal-conductivity-d_429.html</a>
+            <a href="//www.engineeringtoolbox.com/thermal-conductivity-d_429.html">www.engineeringtoolbox.com/thermal-conductivity-d_429.html</a>
             <p>I got the K-value of common building materials</p>
+            <a href="/images/thesis.pdf">Secondary Glazing Paper</a>
         </div>
         <div class="row">
             <h2 class="col-xs-12">Mathematics</h2>
-            <a href="/equations/nEquations.pdf">Equations</a>
+            <a href="/images/equations.pdf">Equations</a>
         </div>
         <h2>Programming</h2>
         <div class="row">
