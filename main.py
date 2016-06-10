@@ -183,8 +183,8 @@ class HouseHandler(webapp2.RequestHandler):
         rofarea = """0,0,{Mroof} 0,0,{Hroof} {Mroof},{Hroof},0""".format(Mroof=float(rfloor),
                                                                          Hroof=float(hfloor))
         capacity = """{Mcapa} {Hcapa} 100000000000000000000""".format(Mcapa=((float(rfloor))*2.4*0.00121)+((200*1000)*4.2),
-                                                                      Hcapa=((float(hfloor)-float(rfloor))*2.4*0.00121))
-
+                                                                      Hcapa=((float(hfloor)-float(rfloor))*2.4*0.00121)+((10*(float(hfloor)-float(rfloor))*1000)*4.2))
+        print winarea, rofarea, capacity, area
 
         userhouse.area = area
         userhouse.capacity = capacity

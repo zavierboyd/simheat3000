@@ -44,9 +44,6 @@ startpage = """
     <div class="about">
     <div class="container">
         <div class="row">
-            <h1>The new version of the website is under construction</h1>
-            <a href="/old">Click Here to go to our old website</a>
-            <br>
             <h1>About</h1>
             <p>
                 This is a tool to simulate the amount of money and energy you save by insulating parts of your house.
@@ -250,9 +247,10 @@ sim = """
             </div>
         </div>
     </form>
+    <input type="hidden" id="save" value="0">
     <input type="submit" value="Simulate" id="sim">
     <br>
-    <p><tt id="out">Select in what insulation you have then hit 'Simulate'. If you are typing the values in manually then you will need to type in the R-values of the insulation.</tt></p>
+    <p><tt id="out">Select your insulation then hit 'Simulate'. If you are typing the values in manually then you will need to type in the R-values of the insulation.</tt></p>
     </div>
     """ + footer + """
     </div>
@@ -399,16 +397,10 @@ dataentry = """
 """
 
 analysis = """
-<html>
-<head>
-    """ + head + """
-</head>
-<body>
-    <h1>Energy Used</h1>
-    <div>You use {kWh}kWhs in one year to keep the {room} warm 24/7. Thats ${money} if you are with the genesis classic anytime plan</div>
-    <div>{graph1}</div>
-</body>
-</html>
+<h1>Energy Used</h1>
+<h2 id="compare"></h2>
+<div>You use <span id="comp">{kWh}</span>kWhs in one year to keep the {room} warm 24/7. Thats ${money} if you are with the genesis classic anytime plan</div>
+<div>{graph1}</div>
 """
 
 quickenter = """
