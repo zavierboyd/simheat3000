@@ -284,10 +284,6 @@ infopage = """
             <h2 class="col-xs-12">Mathematics</h2>
             <a href="/images/equations.pdf">Equations</a>
         </div>
-        <h2>Programming</h2>
-        <div class="row">
-
-        </div>
     </div>
     """ + footer + """
     </div>

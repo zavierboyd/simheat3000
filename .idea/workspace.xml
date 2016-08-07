@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0ed7292-c8b4-4498-bf18-722e8fa0cda3" name="Default" comment="made new pages&#10;got House diimentions working&#10;can load graph">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/html.py" afterPath="$PROJECT_DIR$/html.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/simulate.js" afterPath="$PROJECT_DIR$/js/simulate.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
     </list>
     <ignored path="simheat3000.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,20 +27,31 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6453055">
-              <caret line="190" column="35" selection-start-line="190" selection-start-column="35" selection-end-line="190" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.4627507">
+              <caret line="493" column="23" selection-start-line="493" selection-start-column="23" selection-end-line="493" selection-end-column="23" />
               <folding>
+                <element signature="e#1142#1513#0" expanded="false" />
                 <element signature="e#1551#2209#0" expanded="false" />
+                <element signature="e#2239#5253#0" expanded="false" />
                 <element signature="e#5303#5395#0" expanded="false" />
+                <element signature="e#5445#8563#0" expanded="false" />
+                <element signature="e#5468#6091#0" expanded="false" />
+                <element signature="e#6121#8563#0" expanded="false" />
+                <element signature="e#8612#9300#0" expanded="false" />
+                <element signature="e#8635#9300#0" expanded="false" />
                 <element signature="e#9350#9441#0" expanded="false" />
                 <element signature="e#9494#9555#0" expanded="false" />
                 <element signature="e#9606#9660#0" expanded="false" />
                 <element signature="e#9710#11224#0" expanded="false" />
                 <element signature="e#9733#10525#0" expanded="false" />
                 <element signature="e#10555#11224#0" expanded="false" />
+                <element signature="e#11281#14215#0" expanded="false" />
+                <element signature="e#11304#13023#0" expanded="false" />
+                <element signature="e#13053#14215#0" expanded="false" />
+                <element signature="e#14271#20143#0" expanded="false" />
                 <element signature="e#14294#15948#0" expanded="false" />
+                <element signature="e#15979#20143#0" expanded="false" />
                 <element signature="e#23148#23221#0" expanded="false" />
-                <element signature="e#23268#25345#0" expanded="false" />
                 <element signature="e#25396#28647#0" expanded="false" />
                 <element signature="e#25419#28647#0" expanded="false" />
               </folding>
@@ -63,47 +73,7 @@
         <entry file="file://$PROJECT_DIR$/heat_simulation.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="231" column="1" selection-start-line="231" selection-start-column="1" selection-end-line="231" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="html.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/html.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.4074073">
-              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/main.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.yaml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.yaml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.148149">
-              <caret line="21" column="23" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/html/test.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-23.884615">
-              <caret line="162" column="5" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
+              <caret line="203" column="14" selection-start-line="203" selection-start-column="14" selection-end-line="203" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -137,8 +107,8 @@
         <option value="$PROJECT_DIR$/css/main.css" />
         <option value="$PROJECT_DIR$/app.yaml" />
         <option value="$PROJECT_DIR$/js/simulate.js" />
-        <option value="$PROJECT_DIR$/html.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/html.py" />
       </list>
     </option>
   </component>
@@ -171,6 +141,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -279,11 +250,10 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../NNOXAI" />
     <property name="FullScreen" value="true" />
     <property name="settings.editor.selected.configurable" value="settings.github" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
@@ -454,19 +424,19 @@
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24981412" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292011" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292011" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292011" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3292011" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -503,22 +473,292 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/html.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="23" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="162" column="5" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+            <element signature="e#1142#1513#0" expanded="false" />
             <element signature="e#1551#2209#0" expanded="false" />
+            <element signature="e#2239#5253#0" expanded="false" />
             <element signature="e#5303#5395#0" expanded="false" />
+            <element signature="e#5445#8563#0" expanded="false" />
+            <element signature="e#5468#6091#0" expanded="false" />
+            <element signature="e#6121#8563#0" expanded="false" />
+            <element signature="e#8612#9300#0" expanded="false" />
+            <element signature="e#8635#9300#0" expanded="false" />
             <element signature="e#9350#9441#0" expanded="false" />
             <element signature="e#9494#9555#0" expanded="false" />
             <element signature="e#9606#9660#0" expanded="false" />
             <element signature="e#9710#11224#0" expanded="false" />
             <element signature="e#9733#10525#0" expanded="false" />
             <element signature="e#10555#11224#0" expanded="false" />
+            <element signature="e#11281#14215#0" expanded="false" />
+            <element signature="e#11304#13023#0" expanded="false" />
+            <element signature="e#13053#14215#0" expanded="false" />
+            <element signature="e#14271#20143#0" expanded="false" />
             <element signature="e#14294#15948#0" expanded="false" />
+            <element signature="e#15979#20143#0" expanded="false" />
             <element signature="e#23148#23221#0" expanded="false" />
-            <element signature="e#23268#25345#0" expanded="false" />
+            <element signature="e#25396#28647#0" expanded="false" />
+            <element signature="e#25419#28647#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/simulate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="52" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heat_simulation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="231" column="1" selection-start-line="231" selection-start-column="1" selection-end-line="231" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="23" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="162" column="5" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#1142#1513#0" expanded="false" />
+            <element signature="e#1551#2209#0" expanded="false" />
+            <element signature="e#2239#5253#0" expanded="false" />
+            <element signature="e#5303#5395#0" expanded="false" />
+            <element signature="e#5445#8563#0" expanded="false" />
+            <element signature="e#5468#6091#0" expanded="false" />
+            <element signature="e#6121#8563#0" expanded="false" />
+            <element signature="e#8612#9300#0" expanded="false" />
+            <element signature="e#8635#9300#0" expanded="false" />
+            <element signature="e#9350#9441#0" expanded="false" />
+            <element signature="e#9494#9555#0" expanded="false" />
+            <element signature="e#9606#9660#0" expanded="false" />
+            <element signature="e#9710#11224#0" expanded="false" />
+            <element signature="e#9733#10525#0" expanded="false" />
+            <element signature="e#10555#11224#0" expanded="false" />
+            <element signature="e#11281#14215#0" expanded="false" />
+            <element signature="e#11304#13023#0" expanded="false" />
+            <element signature="e#13053#14215#0" expanded="false" />
+            <element signature="e#14271#20143#0" expanded="false" />
+            <element signature="e#14294#15948#0" expanded="false" />
+            <element signature="e#15979#20143#0" expanded="false" />
+            <element signature="e#23148#23221#0" expanded="false" />
+            <element signature="e#25396#28647#0" expanded="false" />
+            <element signature="e#25419#28647#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/simulate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="11" column="52" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heat_simulation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="231" column="1" selection-start-line="231" selection-start-column="1" selection-end-line="231" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="23" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="162" column="5" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="190" column="35" selection-start-line="190" selection-start-column="35" selection-end-line="190" selection-end-column="35" />
+          <folding>
+            <element signature="e#1142#1513#0" expanded="false" />
+            <element signature="e#1551#2209#0" expanded="false" />
+            <element signature="e#2239#5253#0" expanded="false" />
+            <element signature="e#5303#5395#0" expanded="false" />
+            <element signature="e#5445#8563#0" expanded="false" />
+            <element signature="e#5468#6091#0" expanded="false" />
+            <element signature="e#6121#8563#0" expanded="false" />
+            <element signature="e#8612#9300#0" expanded="false" />
+            <element signature="e#8635#9300#0" expanded="false" />
+            <element signature="e#9350#9441#0" expanded="false" />
+            <element signature="e#9494#9555#0" expanded="false" />
+            <element signature="e#9606#9660#0" expanded="false" />
+            <element signature="e#9710#11224#0" expanded="false" />
+            <element signature="e#9733#10525#0" expanded="false" />
+            <element signature="e#10555#11224#0" expanded="false" />
+            <element signature="e#11281#14215#0" expanded="false" />
+            <element signature="e#11304#13023#0" expanded="false" />
+            <element signature="e#13053#14215#0" expanded="false" />
+            <element signature="e#14271#20143#0" expanded="false" />
+            <element signature="e#14294#15948#0" expanded="false" />
+            <element signature="e#15979#20143#0" expanded="false" />
+            <element signature="e#23148#23221#0" expanded="false" />
+            <element signature="e#25396#28647#0" expanded="false" />
+            <element signature="e#25419#28647#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/simulate.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heat_simulation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="231" column="1" selection-start-line="231" selection-start-column="1" selection-end-line="231" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="23" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="162" column="5" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <folding>
+            <element signature="e#1142#1513#0" expanded="false" />
+            <element signature="e#1551#2209#0" expanded="false" />
+            <element signature="e#2239#5253#0" expanded="false" />
+            <element signature="e#5303#5395#0" expanded="false" />
+            <element signature="e#5445#8563#0" expanded="false" />
+            <element signature="e#5468#6091#0" expanded="false" />
+            <element signature="e#6121#8563#0" expanded="false" />
+            <element signature="e#8612#9300#0" expanded="false" />
+            <element signature="e#8635#9300#0" expanded="false" />
+            <element signature="e#9350#9441#0" expanded="false" />
+            <element signature="e#9494#9555#0" expanded="false" />
+            <element signature="e#9606#9660#0" expanded="false" />
+            <element signature="e#9710#11224#0" expanded="false" />
+            <element signature="e#9733#10525#0" expanded="false" />
+            <element signature="e#10555#11224#0" expanded="false" />
+            <element signature="e#11281#14215#0" expanded="false" />
+            <element signature="e#11304#13023#0" expanded="false" />
+            <element signature="e#13053#14215#0" expanded="false" />
+            <element signature="e#14271#20143#0" expanded="false" />
+            <element signature="e#14294#15948#0" expanded="false" />
+            <element signature="e#15979#20143#0" expanded="false" />
+            <element signature="e#23148#23221#0" expanded="false" />
             <element signature="e#25396#28647#0" expanded="false" />
             <element signature="e#25419#28647#0" expanded="false" />
           </folding>
@@ -529,7 +769,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="30" column="6" selection-start-line="30" selection-start-column="6" selection-end-line="30" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -537,7 +776,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -545,7 +783,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="8" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -629,7 +866,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -637,39 +873,74 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Programming/neuralnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/html/test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-23.884615">
+        <state vertical-scroll-proportion="0.79761904">
           <caret line="162" column="5" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.148149">
+        <state vertical-scroll-proportion="0.5320417">
           <caret line="21" column="23" selection-start-line="21" selection-start-column="14" selection-end-line="21" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/css/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.024355302">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/html.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4074073">
-          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.6819484">
+          <caret line="139" column="46" selection-start-line="139" selection-start-column="46" selection-end-line="139" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4627507">
+          <caret line="493" column="23" selection-start-line="493" selection-start-column="23" selection-end-line="493" selection-end-column="23" />
+          <folding>
+            <element signature="e#1142#1513#0" expanded="false" />
+            <element signature="e#1551#2209#0" expanded="false" />
+            <element signature="e#2239#5253#0" expanded="false" />
+            <element signature="e#5303#5395#0" expanded="false" />
+            <element signature="e#5445#8563#0" expanded="false" />
+            <element signature="e#5468#6091#0" expanded="false" />
+            <element signature="e#6121#8563#0" expanded="false" />
+            <element signature="e#8612#9300#0" expanded="false" />
+            <element signature="e#8635#9300#0" expanded="false" />
+            <element signature="e#9350#9441#0" expanded="false" />
+            <element signature="e#9494#9555#0" expanded="false" />
+            <element signature="e#9606#9660#0" expanded="false" />
+            <element signature="e#9710#11224#0" expanded="false" />
+            <element signature="e#9733#10525#0" expanded="false" />
+            <element signature="e#10555#11224#0" expanded="false" />
+            <element signature="e#11281#14215#0" expanded="false" />
+            <element signature="e#11304#13023#0" expanded="false" />
+            <element signature="e#13053#14215#0" expanded="false" />
+            <element signature="e#14271#20143#0" expanded="false" />
+            <element signature="e#14294#15948#0" expanded="false" />
+            <element signature="e#15979#20143#0" expanded="false" />
+            <element signature="e#23148#23221#0" expanded="false" />
+            <element signature="e#25396#28647#0" expanded="false" />
+            <element signature="e#25419#28647#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -684,30 +955,8 @@
     <entry file="file://$PROJECT_DIR$/heat_simulation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="231" column="1" selection-start-line="231" selection-start-column="1" selection-end-line="231" selection-end-column="1" />
+          <caret line="203" column="14" selection-start-line="203" selection-start-column="14" selection-end-line="203" selection-end-column="14" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6453055">
-          <caret line="190" column="35" selection-start-line="190" selection-start-column="35" selection-end-line="190" selection-end-column="35" />
-          <folding>
-            <element signature="e#1551#2209#0" expanded="false" />
-            <element signature="e#5303#5395#0" expanded="false" />
-            <element signature="e#9350#9441#0" expanded="false" />
-            <element signature="e#9494#9555#0" expanded="false" />
-            <element signature="e#9606#9660#0" expanded="false" />
-            <element signature="e#9710#11224#0" expanded="false" />
-            <element signature="e#9733#10525#0" expanded="false" />
-            <element signature="e#10555#11224#0" expanded="false" />
-            <element signature="e#14294#15948#0" expanded="false" />
-            <element signature="e#23148#23221#0" expanded="false" />
-            <element signature="e#23268#25345#0" expanded="false" />
-            <element signature="e#25396#28647#0" expanded="false" />
-            <element signature="e#25419#28647#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
