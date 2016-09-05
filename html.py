@@ -138,6 +138,7 @@ sim = """
 <head>
     """ + head + """
     <script type="text/javascript" src="/js/simulate.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
     <div class="page">
@@ -395,8 +396,9 @@ dataentry = """
 analysis = """
 <h1>Energy Used</h1>
 <h2 id="compare"></h2>
+<input type="hidden" id="graph" name="graph" value="{graph}">
 <div>You use <span id="comp">{kWh}</span>kWhs in one year to keep the {room} warm 24/7. Thats ${money} if you are with the genesis classic anytime plan</div>
-<div>{graph1}</div>
+<div id="showgraph"></div>
 """
 
 quickenter = """

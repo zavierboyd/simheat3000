@@ -138,6 +138,7 @@ class MainHandler(webapp2.RequestHandler):
     def post(self):
         pass
 
+
 class HouseHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
@@ -489,22 +490,26 @@ def make_graph(handler):
         rofUA = [[cella*cellc for cella, cellc in zip(rowa, rowc)] for rowa, rowc in zip(rofarea, rofconductance)]
         UA = [[win+wal+rof for wal, win, rof in zip(walrow, winrow, rofrow)] for walrow, winrow, rofrow in zip(walUA, winUA, rofUA)]
         simtemps, kWh, money = House(UA, capacity).matrix_simulstionnppower(temps, 1, 60*60*24*30*12, outtemps)
-        x1 = range(len(simtemps[0]))
-
+        x1 = [range(len(simtemps[0]))]
+        chartdata = zip()
         graph1 = StringIO.StringIO()
-        try:
-            plt.clf()
-            for temps, name in zip(simtemps, names):
-                plt.plot(x1, temps, label=name)
-            plt.legend()
-            plt.title("The change in temperature")
-            plt.xlabel("1/4 hours (900s)")
-            plt.ylabel("Temperature (C)")
-            plt.savefig(graph1, format="svg")
-            plt.clf()
-            handler.response.write(html.analysis.format(graph1=graph1.getvalue(), kWh=kWh, room=names[0], money=money))
-        except:
-            handler.response.write(html.analysis.format(graph1=simtemps, kWh=kWh, room=names[0], money=money))
+        # try:
+        #     plt.clf()
+        #     for temps, name in zip(simtemps, names):
+        #         plt.plot(x1, temps, label=name)
+        #     plt.legend()
+        #     plt.title("The change in temperature")
+        #     plt.xlabel("1/4 hours (900s)")
+        #     plt.ylabel("Temperature (C)")
+        #     plt.savefig(graph1, format="svg")
+        #     plt.clf()
+        #     handler.response.write(html.analysis.format(graph=graph1.getvalue(), kWh=kWh, room=names[0], money=money))
+        # except:
+
+        # start conversion to google charts format
+        #listtemps = [[item for item in row] for row in simtemps]
+        #temps = [[i,listtemps[0][i],listtemps[1][i],listtemps[2][i]] for i in range(len(listtemps[0]))]
+        handler.response.write(html.analysis.format(graph=simtemps, kWh=kWh, room=names[0], money=money))
     else:
         handler.redirect("/quick")
 
@@ -566,7 +571,6 @@ class Simulate(webapp2.RequestHandler):
         userhouseq.put()
         userhouse.put()
         make_graph(self)
-
 
 
 class TestHandler(webapp2.RequestHandler):
