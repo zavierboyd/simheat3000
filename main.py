@@ -508,8 +508,8 @@ def make_graph(handler):
 
         # start conversion to google charts format
         #listtemps = [[item for item in row] for row in simtemps]
-        #temps = [[i,listtemps[0][i],listtemps[1][i],listtemps[2][i]] for i in range(len(listtemps[0]))]
-        handler.response.write(html.analysis.format(graph=simtemps, kWh=kWh, room=names[0], money=money))
+        temps = [[i,simtemps[0][i],simtemps[1][i],simtemps[2][i]] for i in range(0,len(simtemps[0]),24)]
+        handler.response.write(html.analysis.format(graph=temps, kWh=kWh, room=names[0], money=money))
     else:
         handler.redirect("/quick")
 
