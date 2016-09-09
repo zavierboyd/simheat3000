@@ -1,4 +1,5 @@
 $("document").ready(function() {
+    google.charts.load('current', {packages: ['corechart', 'line']});
     var clicks = 0
     $("#sim").on( "click", function(e){
         var str = $("form").serialize();
@@ -15,7 +16,6 @@ $("document").ready(function() {
                 var ccost = ocost-ncost
                 $("#compare").text("You have saved " + ccost + "kWh.")
             };
-            google.charts.load('current', {packages: ['corechart', 'line']});
             google.charts.setOnLoadCallback(drawCurveTypes);
         });
     });
